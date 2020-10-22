@@ -1,21 +1,19 @@
 const express = require('express');
-const webpack = require('webpack');
-const wdm = require('webpack-dev-middleware');
 const path = require('path');
+
 const app = express();
+
+// process.env.PORT is how Heroku gives our app
+// an endpoint, so use it if it exists. 
 const localport = process.env.PORT || 3000;
-const webpackConfig = require(path.resolve(__dirname, './webpack.config.js'))
-const compiler = webpack(webpackConfig);
 
-// serve files from the webpack dist
-//app.use(express.static('client/dist'));
+// just serve files from the webpack build for client...
+app.use(express.static('client/dist'));
 
-app.use(wdm(compiler, {}));
-
-
+// and then send any request to the index page (routing is handled by React)
 app.get('*', (req,res) => {
 	res.sendFile(path.resolve(__dirname, './client/dist/index.html'));
 })
 
-
+// start up our server
 app.listen(localport, () => console.log(`Express server up and listening on port ${localport}!\nPress Ctrl+C to stop`));

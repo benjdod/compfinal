@@ -1,6 +1,5 @@
 
 import React from "react"
-import ReactDOM from "react-dom"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 import Index from "./pages/index"
@@ -10,6 +9,7 @@ const App = () => {
     return (
         <Router>
             <Switch>
+                {/*  add your page components here.  */}
                 <Route exact path='/' component={Index}/>
                 <Route exact path='/about' component={About}/>
             </Switch>
@@ -18,10 +18,4 @@ const App = () => {
     
 }
 
-const root = document.getElementById('root');
-
-document.body.onload = () => {
-    ReactDOM.render(App(),root);
-}
-
-alert('alert from client\'s butthole');
+export default App;
