@@ -5,8 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx webpack --mode development",
-    "start": "node server.js"
+    "build": "npx webpack --mode production --config ./webpack.config.js",
+    "heroku-postbuild": "npx webpack --mode production --config ./webpack.config.js",
+    "start": "node server.js",
+    "dev": "node server.dev.js"
   },
   "author": "",
   "license": "ISC",

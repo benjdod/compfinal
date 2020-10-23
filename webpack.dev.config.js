@@ -20,9 +20,16 @@ module.exports = {
 			{
 				test: /\.jsx?$/,
 				exclude: '/node_modules/',
-				use: {
-					loader: 'babel-loader'
-				}
+				use: [
+					{
+						loader: 'babel-loader',
+						options: {
+							"plugins": [
+								"react-refresh/babel",
+							]
+						}
+					},
+				]
 			},
 			{
 				test: /\.css$/,
@@ -42,12 +49,12 @@ module.exports = {
 
 	plugins: [
 		new HWP({
-			template: './client/src/template.html',
+			template: './client/src/tagged-template.html',
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new ReactRefresh({
 			overlay: {
-				sockIntegration: 'whm'
+				sockIntegration: 'whm',
 			}
 		}),
 	]

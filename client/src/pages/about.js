@@ -1,10 +1,13 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
+import globalStyle from "../styles/global.css"
+
 export default () => {
     return (
         <div>
-            <p>About (reacte)</p>
+            <h1>About</h1>
+            <p>Yeah.</p>
             <Link to="/">Home</Link>
         </div>
     )

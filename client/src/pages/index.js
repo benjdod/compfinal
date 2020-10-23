@@ -5,9 +5,10 @@ import FancyButton from "../components/fancybutton"
 export default () => {
     return (
         <div>
-            <p>Index (reacte)</p>
-            <Link to="/about">About</Link>
-            <FancyButton>Click ee!</FancyButton>
+            <h1>Index Page</h1>
+            <Link to="/about" style={{padding: "10px", display: "inline-block"}}>About</Link>
+            <br/>
+            <FancyButton>Scary button</FancyButton>
         </div>
     )
 }
