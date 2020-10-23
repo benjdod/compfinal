@@ -1,5 +1,6 @@
 /node_modules
 npm-debug.log
-/client/dist/
+/client/dist/*
+!/client/dist/.gitkeep
 .DS_Store
 /*.env
