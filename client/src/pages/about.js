@@ -7,7 +7,7 @@ export default () => {
     return (
         <div>
             <h1>About</h1>
-            <p>Yeah.</p>
+            <p className='bleh'>Yeah.</p>
             <Link to="/">Home</Link>
         </div>
     )
