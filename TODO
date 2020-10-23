@@ -1,3 +1,4 @@
 --- Server --- 
 Add a handler for images
+set up minify css extract plugin
 Fix react HMR :(
