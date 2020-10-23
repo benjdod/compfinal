@@ -1,3 +1,5 @@
+# COMP 426 Final Project 
+
 ## Developing
 
 To run, just type `npm run dev` or run the dev server with `node ./server.dev.js`. The server will use port 3000 by default, but if you want to use another port you can define an environment variable called `PORT`.
