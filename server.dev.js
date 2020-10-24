@@ -13,11 +13,15 @@ const compiler = webpack(webpackConfig);
 * from memory. */
 
 // serves all files from the misc folder if we want them
+<<<<<<< HEAD
 app.use('/misc', express.static('misc'));
 
 // you could also use this one if you don't want the whole directory stack
 // in the url. Up to you!
 // app.use('/julias', express.static('misc/julias-html'));
+=======
+app.use('/misc', express.static('misc'))
+>>>>>>> 5717bb94437a32cbce9c553c333af142b821d064
 
 app.use(wdm(compiler, {
 	// set this to false if it seems like something's broken and check the console
