@@ -12,6 +12,9 @@ const compiler = webpack(webpackConfig);
 * uses webpack-dev-middleware to serve the compiled files 
 * from memory. */
 
+// serves all files from the misc folder if we want them
+app.use('/misc', express.static('misc'))
+
 app.use(wdm(compiler, {
 	// set this to false if it seems like something's broken and check the console
 	noInfo: true, 	
