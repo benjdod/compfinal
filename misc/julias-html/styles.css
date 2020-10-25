@@ -115,4 +115,37 @@ hr {
     text-align: center;
 }
 
+/* NEWS CARD STYLES */
+#news-feed {
+    display: flex;
+    flex-wrap: wrap;
+}
+.card-link {
+    width: 20%;
+    height: 375px;
+    margin: 20px;
+    padding: 10px;
+    box-shadow: 2px 2px 8px #888888;
+}
+.card img {
+    width: 95%;
+    height: auto;
+    border-radius: 2%;
+    margin-left: 2.5%;
+}
+.card-title {
+    margin: 5px 5px 5px 5px;
+}
+.card-date {
+    margin: 0px 5px;
+    font-size: 14px;
+}
+.card-publisher {
+    margin: 5px 5px;
+    /* font-weight: 600; */
+    font-size: 14px;
+}
+.card-desc {
+    margin: 15px 5px;
+}
 
