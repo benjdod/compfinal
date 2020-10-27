@@ -22,4 +22,4 @@ The way it's currently set up, there's a pages folder in `client/src` where each
  - Create a file in `client/src/components/[name].js` and export a React component from it
  - Create a css module file in the same directory, using the same name like `components/[name].module.css`
  - Import the module into the component file
- - For non module style, just import them
+ - For non module style, just import them without naming them, e.g. `import './blah/blah.css'`. The global stylesheet is already available across all components, since it's imported in the root `App.js`

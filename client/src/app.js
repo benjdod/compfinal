@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import Index from "./pages/index"
 import About from "./pages/about"
 
-import globalStyle from "./styles/global.css"
+import "./styles/global.css"
 
 const App = () => {    
     return (

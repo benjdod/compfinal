@@ -19,7 +19,7 @@ export default (props) => {
         // as well as global styles. in this case, the first two styles are
         // from the module we're using, and the last is a plain old reference to 
         // the cool-text class in styles/global.css
-        <button className={`${style.reset} ${style.button} cooltext`} style={props.style}>
+        <button className={`${style.reset} ${style.button}`} style={props.style}>
             {props.children}
         </button>
     )

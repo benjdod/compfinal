@@ -20,7 +20,18 @@ module.exports = {
 				}
 			},
 			{
-				test: /\.css$/,
+				test: /\.css$/i,
+				exclude: [
+					'/node_modules/',
+					/\.module\.css$/i,
+				],
+				use: [
+					'style-loader',
+					'css-loader'
+				]
+			},
+			{
+				test: /\.module\.css$/i,
 				exclude: '/node_modules/',
 				use: [
 					'style-loader',
