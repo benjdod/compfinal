@@ -20,6 +20,13 @@ module.exports = {
 				}
 			},
 			{
+				test: /\.(gif|jpe?g|png)$/i,
+				exclude: [
+					'/node_modules/'
+				],
+				use: 'file-loader',
+			},
+			{
 				test: /\.css$/i,
 				exclude: [
 					'/node_modules/',

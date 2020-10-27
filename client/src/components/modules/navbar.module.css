@@ -1,0 +1,28 @@
+.bar {
+    display: flex;
+    width: 100%;
+    /* this instead of using an hr below the navbar*/
+    border-bottom: 1.5px solid lightgray;
+}
+
+.bar a {
+    text-decoration: none;
+}
+
+.item {
+    font-size: 16px;
+    margin: 30px 10px 10px 10px;
+}
+.push {
+    margin-left: auto;
+}
+
+.item:hover {
+    /* font-weight: 700; */
+    color: darkgray;
+    transition: 0.2s ease;
+}
+
+.active {
+    font-weight: 700;
+}
