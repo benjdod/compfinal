@@ -13,8 +13,8 @@ app.get('/', (req,res) => {
 
 app.get('/cookie', (req,res) => {
     res.cookie('authcookie', 'bunnies', {
-        maxAge: 1000 * 60 * 10,
-        httpOnly: true,
+        maxAge: 1000 * 60 * 10,     // expires in 10 minutes
+        httpOnly: true,             // can only be used in HTTP requests
     }).send(`sent auth cookie along with this response. You can check your browser storage to see it.<br>
     Now you can go to <a href="/restricted"><code>/restricted</code></a> to see user content.`);
 })
