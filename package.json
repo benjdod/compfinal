@@ -21,6 +21,7 @@
     "react": "^17.0.0",
     "react-cookie": "^4.0.3",
     "react-dom": "^17.0.0",
+    "react-map-gl": "^5.2.9",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {

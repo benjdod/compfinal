@@ -7,6 +7,7 @@ import About from "./pages/about"
 import Test from "./pages/test"
 import NoPage from "./pages/404"
 import Restricted from "./pages/restricted"
+import MapTest from "./pages/testmap"
 
 import "./styles/global.css"
 
@@ -21,6 +22,7 @@ const App = () => {
                 <Route exact path='/cookie' component={NoPage}/>
                 <Route exact path='/restricted' component={Restricted}/>
                 <Route path='/' component={NoPage}/>
+                <Route exact path='/testmap' component={MapTest}/>
             </Switch>
         </Router>
     )
