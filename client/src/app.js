@@ -6,7 +6,6 @@ import Index from "./pages/index"
 import About from "./pages/about"
 import Test from "./pages/test"
 import NotFound from "./pages/404"
-import Restricted from "./pages/restricted"
 import Maps from "./pages/map"
 
 import "./styles/global.css"
