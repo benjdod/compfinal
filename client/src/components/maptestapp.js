@@ -11,8 +11,8 @@ class Root extends Component {
       super(props);
       this.state = {
         viewport: {
-          latitude: 37.8,
-          longitude: -122.4,
+          latitude: 36,
+          longitude: -79.047554,
           zoom: 14,
           bearing: 0,
           pitch: 0
@@ -34,5 +34,7 @@ class Root extends Component {
     }
   }
   
+  /*
   document.body.style.margin = 0;
   render(<Root />, document.body.appendChild(document.createElement('div')));
+  */
