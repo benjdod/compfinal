@@ -6,15 +6,25 @@ module.exports = (req, res, next) => {
     // if this stops working, first look there to make sure the cookie parser is still
     // doing its job right.
 
-    try {
-        if (req.cookies.authcookie && req.cookies.authcookie === 'bunnies')
-            next();
-        else {
-            res.send('invalid authentication!');
-        }
-    } catch (e) {
-        console.error(e);
-        res.send('bad authentication. Check the console for details');
+    if (req.cookies.user_token) {
+        jwt.verify(req.cookies.user_token, 'bunnies', (err, decoded) => {
+            if (err) {
+                if (err.name === 'TokenExpiredError') {
+                    res.status(401).send('Your authentication token is expired. Please visit <a href="/cookie"><code>/cookie</code></a> again to get a new one.<br>')
+                } else if (err.name === 'JsonWebTokenError') {
+                    res.status(401).send('Your authentication token is invalid. Please visit <a href="/cookie"><code>/cookie</code></a> again to get a new one.<br>'+`<code>${err.message}</code>`);
+                }
+                // console.error(err);
+                return;
+            } else {
+                console.log(decoded)
+                next();
+            }
+        })
+    } else {
+        // if we've made it here, it's an invalid authentication
+        res.status(401).send('Bad authentication!');
     }
-    
+        
+
 }

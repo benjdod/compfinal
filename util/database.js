@@ -9,15 +9,20 @@ const client = new Client({
     }
 });
 
-client.connect();
-
-const genQuery = {
+const queries = {
     insert: (username, firstname, lastname, passhash) => `INSERT INTO users(username, firstname, lastname, passhash) VALUES ('${username}', '${firstname}', '${lastname}', '${passhash}')`,
-    find: (hash) => `select * from users where '${hash}' ~ passhash`,
+    findHash: (hash) => `select * from users where '${hash}' ~ passhash`,
+    findUID: (uid) => `select * from users where id = ${uid}`
 }
 
-client.query(genQuery.find('1738'), (err, res) => {
-    if (err) throw err;
-    console.log(res.rows);
-    client.end();
-});
+client.connect();
+
+exports.getByUID = async (uid) => {
+    try {
+        return (await client.query(queries.findUID(uid))).rows;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+    
+}

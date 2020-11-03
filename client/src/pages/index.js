@@ -7,6 +7,7 @@ export default () => {
         <div>
             <h1>Index Page</h1>
             <Link to="/about" style={{padding: "10px", display: "inline-block"}}>About</Link>
+            <Link to="/cookie">Get cookie maybe?</Link>
             <br/>
             <p>Example newscard: </p>
             <NewsCard
