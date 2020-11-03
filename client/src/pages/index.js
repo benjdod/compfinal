@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import NewsCard from "../components/newscard"
+import Map from "../components/maptestapp"
 
 export default () => {
     return (

@@ -7,6 +7,7 @@ export default () => {
             <h1>About</h1>
             <p className={'cooltext bleh'}>Yeah.</p>
             <Link to="/">Home</Link>
+            <Link to="/testmap">Map</Link>
         </div>
     )
 }
