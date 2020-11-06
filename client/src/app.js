@@ -7,6 +7,7 @@ import About from "./pages/about"
 import Test from "./pages/test"
 import NotFound from "./pages/404"
 import Maps from "./pages/map"
+import jacobTest from "./pages/jacobTest"
 
 import "./styles/global.css"
 
@@ -18,6 +19,7 @@ const App = () => {
                 <Route exact path='/' component={Index}/>
                 <Route exact path='/about' component={About}/>
                 <Route exact path='/news' component={Test}/>
+                <Route exact path='/jacobTest' component={jacobTest}/>
                 <Route exact path='/map' component={Maps}/>
 
                 {/* Cookie needs to be fixed cus right now it's pointed to 404 page */}
