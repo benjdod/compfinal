@@ -22,6 +22,7 @@ const App = () => {
                 <Route exact path='/maps' component={Maps}/>
                 <Route exact path='/register' component={Register}/>
 
+                {/* Cookie needs to be fixed cus right now it's pointed to 404 page */}
                 <Route exact path='/cookie' component={NotFound}/>
 
                 {/* this is the default page 404 page. It needs to stay below 
