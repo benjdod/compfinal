@@ -4,6 +4,7 @@ import {Component} from 'react';
 import {render} from 'react-dom';
 import MapGL from 'react-map-gl';
 
+
 const MAPBOX_TOKEN = 'pk.eyJ1IjoicmFjaGVsdzAwIiwiYSI6ImNrZ29hdXJoODBhNGQyc3F5MG1rOTU4aW8ifQ.1v3yLXjR8-vD5RnaKkOJkw'; // Set your mapbox token here
 
 class Root extends Component {
@@ -13,12 +14,13 @@ class Root extends Component {
         viewport: {
           latitude: 36,
           longitude: -79.047554,
-          zoom: 14,
+          zoom: 3,
           bearing: 0,
           pitch: 0
         }
       };
     }
+
   
     render() {
       return (

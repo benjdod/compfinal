@@ -20,7 +20,8 @@ const App = () => {
                 <Route exact path='/news' component={Test}/>
                 <Route exact path='/map' component={Maps}/>
 
-                <Route exact path='/cookie' component={NoPage}/>
+                {/* Cookie needs to be fixed cus right now it's pointed to 404 page */}
+                <Route exact path='/cookie' component={NotFound}/>
 
                 {/* this is the default page 404 page. It needs to stay below 
                     all other routes since it catches any route that falls
