@@ -1,12 +1,13 @@
 import React from "react"
-import { Link } from "react-router-dom"
+
 import PageFrame from "_components/pageframe"
+import MapBox from "_components/mapbox"
 
 export default () => {
+
     return (
         <PageFrame>
-            <p>404! there's nothing here...</p>
-            <Link to='/'>Go home.</Link>
+            <MapBox width='100vw' height='80vh'/>
         </PageFrame>
     )
 }

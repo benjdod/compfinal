@@ -82,7 +82,6 @@ h3 {
 }
 
 
-
 .text-light {
     font-weight: 200;
 }
@@ -99,7 +98,9 @@ h3 {
     font-weight: 900;
 }
 
-
+.children-as-block > * {
+    display: block;
+}
 
 
 
@@ -281,4 +282,12 @@ hr {
 
   a {
     text-decoration: underline;
+}
+
+
+input {
+    border: 1.25px solid #CCC;
+    border-radius: 5px;
+    margin: 0;
+    padding: 0;
 }
