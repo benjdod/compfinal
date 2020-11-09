@@ -13,10 +13,31 @@ const queries = {
     insertUser: (username, firstname, lastname, passhash) => `INSERT INTO users(username, firstname, lastname, passhash) VALUES ('${username}', '${firstname}', '${lastname}', '${passhash}')`,
     findUserHash: (hash) => `select * from users where '${hash}' ~ passhash`,
     findUserUID: (uid) => `select * from users where id = ${uid}`,
+    findUsername: (username) => `select * from users where username ~ '${username}'`,
     addQuizResult: (uid, latitude, longitude, risk) => `INSERT INTO quizresults (uid, latitude, longitude, risk) VALUES (${uid}, ${latitude}, ${longitude}, ${risk})`
 }
 
 client.connect();
+
+exports.insertUser = async (firstname, lastname, username, passhash) => {
+    return null;
+}
+
+// does the user exist?
+exports.checkUser = (username) => {
+    let out = true;
+    client.query(queries.findUsername(username))
+    .then(response => {
+        if (response.rows.length === 0) {
+            console.log(response.rows);
+            out = false;
+        } 
+    })
+    .catch(err => {
+        console.error(err);
+    })
+    return out;
+}
 
 exports.getByUID = async (uid) => {
     try {

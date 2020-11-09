@@ -15,13 +15,18 @@ const TextInput = (props) => {
 
 export default () => {
 
-    const submit = (e) => {
-        e.preventDefault();
-        setError('no submission possible');
-        return null;
+    // maintain inputs as an object for submission. Each entry will be updated by 
+    // its corresponding input on change.
+    let inputs = {
+        username: '',
+        firstname: '',
+        lastname: '',
+        password: ''
     }
 
     // validations
+
+    const [error, setError] = useState('');
 
     const validateUsername = (username) => {
 
@@ -39,6 +44,7 @@ export default () => {
     }
 
     // FIXME: this is bad...
+    // this match function shouldn't be returning two matches, but whatever
     const validateNameChars = (name) => {
         const reg = name.match(/^([A-Za-z\u00c0-\u00ff]+[ -]?)+$/);
         if (!reg) {
@@ -79,7 +85,26 @@ export default () => {
         setError('');
     }
 
-    const [error, setError] = useState('');
+    const submit = (e) => {
+        e.preventDefault();
+        setError('got it...');
+        console.log(inputs);
+
+        fetch('/auth/register', {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(inputs),
+        }).then(response => {
+            console.log(response);
+        }).catch(err => {
+            console.error(err);
+        })
+
+        return null;
+    }
 
     const errormessage = <p style={{backgroundColor: '#fcc', color: '#f77', display: 'inline-block', padding: '5px', visibility: error ? 'visible' : 'hidden'}}>{(error !== '') ? error : ''}</p>
 
@@ -89,13 +114,13 @@ export default () => {
                 <div style={{display: 'inline-block'}}>
                     <form className='children-as-block' onSubmit={submit}>
                         <label htmlFor='input-first-name'>First name</label>
-                        <TextInput id='input-first-name' maxLength="127" onChange={(e) => {validateFirstName(e.target.value)}}/>
+                        <TextInput id='input-first-name' maxLength="127" onChange={(e) => {inputs.firstname = e.target.value; validateFirstName(inputs.firstname)}}/>
                         <label htmlFor='input-last-name'>Last name</label>
-                        <TextInput id='input-last-name' maxLength="127" onChange={(e) => {validateLastName(e.target.value)}}/>
+                        <TextInput id='input-last-name' maxLength="127" onChange={(e) => {inputs.lastname = e.target.value; validateLastName(inputs.lastname)}}/>
                         <label htmlFor='input-user-name'>User name</label>
-                        <TextInput id='input-user-name' maxLength="127" onChange={(e) => {validateUsername(e.target.value)}}/>
+                        <TextInput id='input-user-name' maxLength="127" onChange={(e) => {inputs.username = e.target.value; validateUsername(inputs.username)}}/>
                         <label htmlFor='input-password'>Password</label>
-                        <input type='password' id='input-password' type='password' minLength="8" maxLength="255"/>
+                        <input type='password' id='input-password' type='password' minLength="8" maxLength="255" onChange={(e) => {inputs.password = e.target.value}}/>
                         <button type='submit'>Submit</button>
                     </form>
                     <div>

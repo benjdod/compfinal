@@ -12,7 +12,6 @@ const localport = process.env.PORT || 3000;
 app.use(express.static('client/dist'));
 
 // and then send any request to the index page (routing is handled by React)
-
 app.get('*', (req,res) => {
 	res.sendFile(path.resolve(__dirname, './client/dist/index.html'));
 })

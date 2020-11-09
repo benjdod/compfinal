@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const wdm = require('webpack-dev-middleware');
 const whm = require('webpack-hot-middleware');
 const cookieparser = require('cookie-parser');
+const bodyparser = require('body-parser');
 const path = require('path');
 
 const auth = require('./util/auth');
@@ -22,10 +23,8 @@ app.use('/misc', express.static('misc'));
 
 // populate req.cookies
 app.use(cookieparser());
-
-// you could also use this one if you don't want the whole directory stack
-// in the url. Up to you!
-// app.use('/julias', express.static('misc/julias-html'));
+// populate req.body
+app.use(express.json())
 
 app.use(wdm(compiler, {
 	// set this to false if it seems like something's broken and check the console
@@ -53,12 +52,33 @@ app.get('/profile', async (req, res) => {
 	}
 });
 
-
+// auth endpoints
 app.get('/auth/login', (req,res,next) => {
 	res.cookie('auth_token', auth.sign(2));
 	next();
 }, reactEndpoint);
 
+// takes a request with the new user info in the body, 
+// and adds them to the users db
+app.post('/auth/register', (req,res,) => {
+	const inputs = req.body;
+	res.send('success');
+})
+
+// test endpoints
+app.get('/test/getuser/:uid', async (req,res) => {
+	const user = await database.getByUID(req.params.uid);
+	console.log(user);
+	res.send(`${user.length ? user : 'no users match the specified uid'}`)
+})
+
+app.get('/test/checkuser/:username', async (req,res) => {
+	const taken = database.checkUser(req.params.username);
+	console.log(taken);
+	res.send(`${req.params.username} is ${taken ? 'taken' : 'available'}`)
+})
+
+// any other request goes to the React SPA to handle
 app.get('*', reactEndpoint);
 
 app.listen(localport, () => console.log(`Express server up and listening on port ${localport}!\nPress Ctrl+C to stop`));
