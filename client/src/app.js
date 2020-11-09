@@ -7,7 +7,13 @@ import About from "./pages/about"
 import Test from "./pages/test"
 import NotFound from "./pages/404"
 import Maps from "./pages/map"
+<<<<<<< HEAD
 import jacobTest from "./pages/jacobTest"
+=======
+import Login from "./pages/login"
+import Info from "./pages/info"
+import Account from "./pages/account"
+>>>>>>> 85d24777bf53328dc2900072a7ef70770011a2cf
 
 import "./styles/global.css"
 
@@ -21,6 +27,9 @@ const App = () => {
                 <Route exact path='/news' component={Test}/>
                 <Route exact path='/jacobTest' component={jacobTest}/>
                 <Route exact path='/map' component={Maps}/>
+                <Route exact path='/login' component={Login}/>
+                <Route exact path='/info' component={Info}/>
+                <Route exact path='/account' component={Account}/>
 
                 {/* Cookie needs to be fixed cus right now it's pointed to 404 page */}
                 <Route exact path='/cookie' component={NotFound}/>

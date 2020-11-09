@@ -1,0 +1,15 @@
+.masonrycontainer {
+    column-count: 3;
+    column-gap: 0;
+  }
+  .masonryitem {
+    break-inside: avoid;
+    padding: 5px;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 2px 2px 8px #888888;
+  }
+  .masonrycontent {
+    padding: 10px;
+    border-radius: 10px;
+  }
