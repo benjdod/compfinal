@@ -1,0 +1,60 @@
+.box {
+    background-color: rgb(255, 255, 255); /* Fallback color */
+    background-color: rgba(255, 255, 255, 0.6);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 40%;
+    padding: 20px 20px 40px 20px;
+    text-align: center;
+}
+.intro {
+    margin: 0 0 40px 0;
+}
+.button {
+    background-color: white;
+    color: black;
+    border-radius: 10%;
+    border-color: grey;
+    padding: 10px;
+}
+.button:hover {
+    background-color: rgb(219, 219, 219);
+    transition: 0.2s ease;
+}
+.bgimage {
+    /* background-image: url("../images/map-background.png"); */
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.forgot {
+    font-size: 12px;
+    margin: 0 0 40px 0;
+}
+.forgot:hover {
+    text-decoration: underline;
+}
+.formbutton {
+    width: auto;
+    height: 40px;
+    font-family: 'Open Sans', sans-serif;
+    vertical-align: center;
+    font-size: 14px;
+}
+input {
+    outline: none;
+    border-radius: 10%;
+    border-color: grey;
+    box-shadow: none;
+    border-style: hidden;
+    height: 30px;
+    width: 200px;
+    padding: 5px 10px 5px 10px;
+    margin: 5px 0 15px 0;
+}
