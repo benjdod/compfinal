@@ -2,7 +2,9 @@ import React from "react"
 import { Link } from "react-router-dom"
 import NewsCard from "../components/newscard"
 import axios from "axios";
+//import newsPageStyle from "../components/modules/newsPage.module.css";
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
+
 
 export class News extends React.Component{
   constructor(props){
@@ -54,7 +56,7 @@ componentDidMount() {
       <li><NewsCard
         image = {article.image.url}
         title = {article.title}
-        date = {article.datePublished}
+        date = {article.datePublished.splice}
         publisher = {article.provider.name}
         description = {article.description}
         link = {article.url}

@@ -12,7 +12,7 @@ export default () => {
             <div className={boxStyle.bgimage}></div>
             <h1>Index Page</h1>
             <Link to="/about" style={{padding: "10px", display: "inline-block"}}>About</Link>
-            <Link to="/jacobTest" style = {{padding: "10px", display: "inline-block"}}>News</Link>
+            <Link to="/newsPage" style = {{padding: "10px", display: "inline-block"}}>News</Link>
             <Link to="/cookie">Get cookie maybe?</Link>
             <br/>
 
