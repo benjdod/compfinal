@@ -7,10 +7,10 @@ import About from "./pages/about"
 import Test from "./pages/test"
 import NotFound from "./pages/404"
 import Maps from "./pages/map"
+import jacobTest from "./pages/jacobTest"
 import Login from "./pages/login"
 import Info from "./pages/info"
 import Account from "./pages/account"
-import newsPage from "./pages/newsPage"
 
 import "./styles/global.css"
 
