@@ -4,7 +4,8 @@ const cookieparser = require('cookie-parser');
 
 const auth = require('./util/auth');
 const database = require('./util/database');
-const password = require('./util/password')
+const password = require('./util/password');
+const { validate } = require('webpack');
 
 const app = express();
 
@@ -27,11 +28,11 @@ app.get('/auth/getcookie', (req,res) => {
 
 	// free cookie for you!
 
-	res.cookie('auth_token', auth.sign(2))
-	.send('sent auth cookie');
+	res.cookie('auth_token', auth.sign(9))
+	.send('free auth cookie for you!');
 });
 
-app.post('/auth/authenticate', (req,res) => {
+app.post('/auth/login', (req,res) => {
 
 	const body = req.body;
 
@@ -50,10 +51,10 @@ app.post('/auth/authenticate', (req,res) => {
 	console.log(password.compare(body.password, user.passhash));
 
 	res.cookie('auth_token', sign(uid))
-		.send('success');
+		.send('successfully sent authentication token to user');
 })
 
-app.post('/auth/user/add', async (req,res) => {
+app.post('/auth/register', async (req,res) => {
 
 	// takes a request with the new user info in the body, 
 	// and adds them to the users db
@@ -70,31 +71,43 @@ app.post('/auth/user/add', async (req,res) => {
 	const ins = await database.insertUser(inputs.username, inputs.firstname, inputs.lastname, hash);
 
 	if (ins) {
-		res.status(200).send('success');
+		res.status(200).send('successfully added user');
 	} else {
 		res.status(500).send('failed to add user');
 	}
 })
 
-app.get('/reflect', auth.middleware, (req,res) => {
+// user-restricted endpoints
+
+app.get('/reflectjwt', auth.middleware, (req,res) => {
 	res.json(req.jwtPayload);
 })
 
 app.get('/user', auth.middleware, async (req,res) => {
+
+	// returns the currently logged in user's account data
+
 	const result = await database.getByUID(req.jwtPayload.u);
 
 	if (!result) {
 		res.status(404).send(null);
 	} else {
-		res.json(result[0]);
+		console.log(result);
+		res.json(result);
 	}
 })
 
 // test endpoints
 app.get('/test/getuser/:uid', async (req,res) => {
 	const user = await database.getByUID(req.params.uid);
-	console.log(user[0]);
-	res.send(`${user.length ? user[0].username : 'no users match the specified uid'}`)
+
+	if (user.length) {
+		res.json(user[0])
+	} else {
+		res.json({
+			message: 'no user found'
+		})
+	}
 })
 
 app.get('/test/checkuser/:username', async (req,res) => {

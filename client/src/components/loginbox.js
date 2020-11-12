@@ -9,6 +9,31 @@ import { Link } from "react-router-dom"
 
 const loginbox = (props) => {
 
+    const inputs = {
+        username: '',
+        password: ''
+    }
+
+    const submit = (e) => {
+        e.preventDefault();
+        console.log(inputs);
+
+        fetch('/auth/login', {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(inputs),
+        }).then(response => {
+            console.log(response);
+        }).catch(err => {
+            console.error(err);
+        })
+
+        return null;
+    }
+
     return (
         <div className={boxStyle.box}>
             <p className={boxStyle.intro}>Welcome to our COVID-19 Tracker, where you can get the most up to date information on the health risk in your area.</p>
@@ -16,11 +41,15 @@ const loginbox = (props) => {
 
             <h1>Log In</h1>
             <form id="login-form">
-                <label id="email-label">Email:</label><br />
-                <input type="text" id="username" /><br />
-                <label id="password-label">Password:</label><br />
-                <input type="password" id="password" /><br />
+                <label id="email-label" htmlFor="username">Email:</label><br />
+                <input type="text" id="username" onChange={(e) => {inputs.username = e.target.value}}/><br />
+                <label id="password-label" htmlFor="password">Password:</label><br />
+                {/* password max length == 64 for key gen reasons */}
+                <input type="password" id="password" maxLength={64} onChange={(e) => {inputs.password = e.target.value}} /><br />
+
+                {/* we might not be able to have forgot password :( */}
                 <p className={boxStyle.forgot}><a href="#">Forgot Password?</a></p>
+
                 <input type="submit" id="login-button" className={boxStyle.button + ' ' + boxStyle.formbutton} value="Login" />
             </form>
             <Link to="/map" className={boxStyle.button}>temp button to map</Link>

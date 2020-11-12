@@ -1,0 +1,44 @@
+Weitz risk equation (as of 3/10/2020):
+	e = 1 - (1 - pI)^n
+	where:
+		n = event size (# of persons)
+		pI = I / (Pop);
+				I = active circulating infections in US
+				Pop = 330 * 10^6 (U.S. population estimate)
+
+note: I must be adjusted from official count data to account for ascertainment bias. Common biases are 5 or 10.
+
+This equation can be be adapted to a locality by replacing the population number and active case count with the locality's numbers
+
+https://twitter.com/joshuasweitz/status/1237556232304508928/photo/1
+https://covid19risk.biosci.gatech.edu
+https://figshare.com/articles/COVID-19_Event_Risk_Assessment_Planner/11965533?file=21967428
+
+Mask Risk Reduction:
+
+Risk reduction to the wearer seems to average around 65% 
+
+CDC Masking Overview:	https://www.cdc.gov/coronavirus/2019-ncov/more/masking-science-sars-cov2.html
+Mask effectiveness:		https://www.medrxiv.org/content/10.1101/2020.10.05.20207241v2.full.pdf (pre-print)
+UC Davis Mask Article:	https://www.ucdavis.edu/coronavirus/news/your-mask-cuts-own-risk-65-percent/
+Lancet Meta Analysis:	https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31142-9/fulltext
+
+Outdoor Risk Reduction:
+
+Numbers are slim but the Japan study has indoor rate of spread 18.7x higher than outside. Indoor risk is higher than outdoor. Outdoor risk seems to increase with event size, since people stand closer to hear each other speak. 
+
+Japan Spread Analysis: 	https://www.medrxiv.org/content/10.1101/2020.02.28.20029272v2.full.pdf (pre-print)
+NYT Outdoor Article:	https://www.nytimes.com/2020/07/03/well/live/coronavirus-spread-outdoors-party.html
+
+Social Distancing:
+
+Check out Lancet. 2.2x reduction with every 1m distance increase
+https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31142-9/fulltext
+
+# TODO: work on this!
+Modified Weitz equation:
+
+e = (1 - (1 - pI)^n) * (1 - m) * 1/O
+
+	m = 0.65 (mask risk reduction to wearer rate)
+	O = 18.7 (indoor risk reduction)

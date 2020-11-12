@@ -4,6 +4,7 @@ package-lock.json
 npm-debug.log
 .DS_Store
 /*.env
+/.vscode/
 
 /client/dist/*
 !/client/dist/.gitkeep
