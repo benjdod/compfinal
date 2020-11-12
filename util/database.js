@@ -1,3 +1,4 @@
+const { response } = require('express');
 const { Client } = require('pg');
 
 const databaseURL = process.env.DATABASE_URL || 'postgres://thrxushcnebbcq:fb83f5c42c08cccd4bf105094978f4df0a1255b98cf99a37f9dd6c64cfe82b5e@ec2-52-2-82-109.compute-1.amazonaws.com:5432/d7fvckm24ppjng';
@@ -13,30 +14,50 @@ const queries = {
     insertUser: (username, firstname, lastname, passhash) => `INSERT INTO users(username, firstname, lastname, passhash) VALUES ('${username}', '${firstname}', '${lastname}', '${passhash}')`,
     findUserHash: (hash) => `select * from users where '${hash}' ~ passhash`,
     findUserUID: (uid) => `select * from users where id = ${uid}`,
-    findUsername: (username) => `select * from users where username ~ '${username}'`,
+    getUser: (username) => `select * from users where username ~ '${username}'`,
     addQuizResult: (uid, latitude, longitude, risk) => `INSERT INTO quizresults (uid, latitude, longitude, risk) VALUES (${uid}, ${latitude}, ${longitude}, ${risk})`
 }
 
 client.connect();
 
-exports.insertUser = async (firstname, lastname, username, passhash) => {
-    return null;
+exports.insertUser = async (username, firstname, lastname, passhash) => {
+    try {
+        return (await client.query(queries.insertUser(username, firstname, lastname, passhash))).rows;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
 }
 
-// does the user exist?
-exports.checkUser = (username) => {
-    let out = true;
-    client.query(queries.findUsername(username))
-    .then(response => {
-        if (response.rows.length === 0) {
-            console.log(response.rows);
-            out = false;
-        } 
-    })
-    .catch(err => {
-        console.error(err);
-    })
-    return out;
+exports.getUser = async (username) => {
+    try {
+        const out = await client.query(queries.getUser(username)).rows;
+        if (out.length == 0) {
+            return null;
+        }
+        return out[0];
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
+// is the username taken?
+exports.checkUser = async (username) => {
+    let response;
+    try {
+        response = await client.query(queries.findUsername(username));
+    } catch (e) {
+        console.error(e);
+    }
+
+    if (response)
+        if (response.rows.length > 0) {
+            return true;
+        } else
+            return false;
+
+    return true;
 }
 
 exports.getByUID = async (uid) => {

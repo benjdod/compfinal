@@ -1,8 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import PageFrame from "_components/pageframe"
-import NewsCard from "../components/newscard"
-import Map from "../components/maptestapp"
 import HomeBox from "../components/homebox"
 
 import boxStyle from "../components/modules/box.module.css"
@@ -12,7 +10,6 @@ export default () => {
         <div>
             <div className={boxStyle.bgimage}></div>
             <h1>Index Page</h1>
-            <Link to="/about" style={{padding: "10px", display: "inline-block"}}>About</Link>
             <Link to="/cookie">Get cookie maybe?</Link>
             <br/>
 

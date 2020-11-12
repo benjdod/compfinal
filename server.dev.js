@@ -3,11 +3,8 @@ const webpack = require('webpack');
 const wdm = require('webpack-dev-middleware');
 const whm = require('webpack-hot-middleware');
 const cookieparser = require('cookie-parser');
-const bodyparser = require('body-parser');
 const path = require('path');
 
-const auth = require('./util/auth');
-const database = require('./util/database');
 
 const app = express();
 const localport = process.env.PORT || 3000;
@@ -37,46 +34,6 @@ app.use(whm(compiler));
 const reactEndpoint = (req,res) => {
 	res.sendFile(path.resolve(__dirname, './client/dist/index.html'));
 }
-
-// api endpoints
-app.get('/profile', async (req, res) => {
-	console.log('cookies: ', req.cookies);
-	if (req.cookies['auth_token']) {
-		auth.verify(req.cookies.auth_token, async (decoded) => {
-			const result = await database.getByUID(decoded.u);
-			console.log(result);
-			res.json(result);
-		})
-	} else {
-		res.send('invalid authentication');
-	}
-});
-
-// auth endpoints
-app.get('/auth/login', (req,res,next) => {
-	res.cookie('auth_token', auth.sign(2));
-	next();
-}, reactEndpoint);
-
-// takes a request with the new user info in the body, 
-// and adds them to the users db
-app.post('/auth/register', (req,res,) => {
-	const inputs = req.body;
-	res.send('success');
-})
-
-// test endpoints
-app.get('/test/getuser/:uid', async (req,res) => {
-	const user = await database.getByUID(req.params.uid);
-	console.log(user);
-	res.send(`${user.length ? user : 'no users match the specified uid'}`)
-})
-
-app.get('/test/checkuser/:username', async (req,res) => {
-	const taken = database.checkUser(req.params.username);
-	console.log(taken);
-	res.send(`${req.params.username} is ${taken ? 'taken' : 'available'}`)
-})
 
 // any other request goes to the React SPA to handle
 app.get('*', reactEndpoint);

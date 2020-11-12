@@ -81,6 +81,15 @@ h3 {
     font-size: 24px;
 }
 
+li {
+    list-style: disc;
+    margin-left: 20px;
+}
+
+li > ul li {
+    list-style: circle;
+}
+
 
 .text-light {
     font-weight: 200;

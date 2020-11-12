@@ -22,8 +22,8 @@ const loginbox = (props) => {
                 <input type="password" id="password" /><br />
                 <p className={boxStyle.forgot}><a href="#">Forgot Password?</a></p>
                 <input type="submit" id="login-button" className={boxStyle.button + ' ' + boxStyle.formbutton} value="Login" />
-              </form>
-              <Link to="/map" className={boxStyle.button}>temp button to map</Link>
+            </form>
+            <Link to="/map" className={boxStyle.button}>temp button to map</Link>
         </div>
     )
     
