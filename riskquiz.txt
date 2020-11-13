@@ -32,13 +32,26 @@ NYT Outdoor Article:	https://www.nytimes.com/2020/07/03/well/live/coronavirus-sp
 
 Social Distancing:
 
-Check out Lancet. 2.2x reduction with every 1m distance increase
+Check out Lancet. average 2.2x reduction with every 1m distance increase
 https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31142-9/fulltext
+https://www.thelancet.com/action/showPdf?pii=S0140-6736%2820%2931142-9
 
 # TODO: work on this!
+
 Modified Weitz equation:
 
-e = (1 - (1 - pI)^n) * (1 - m) * 1/O
-
+e = (1 - (1 - pI)^n) * (1 - m) * 1/O where:
 	m = 0.65 (mask risk reduction to wearer rate)
-	O = 18.7 (indoor risk reduction)
+	O = 18.7 (indoor risk reduction) (this number should go up with with more people @ event)
+
+questions:
+	location?
+	event size?
+	event inside/outside?
+	mask wearing?
+		mask wearing percentage?
+	social distancing required?
+		minimum distance?
+	event duration? (Weitz assumes events of ~ 2.5hr (2-3hrs), maybe we can add a linear function centered around that)
+	physical activity level? (bracketed? even possible to include?)
+

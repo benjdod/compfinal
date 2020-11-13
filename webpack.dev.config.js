@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HWP = require('html-webpack-plugin');
 const ReactRefresh = require('@pmmmwh/react-refresh-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
 	entry: [
@@ -75,7 +74,7 @@ module.exports = {
 
 	plugins: [
 		new HWP({
-			template: './client/src/tagged-template.html',
+			template: './client/src/template.html',
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new ReactRefresh({

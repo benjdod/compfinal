@@ -8,7 +8,9 @@
     License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+
+/* html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
@@ -27,14 +29,14 @@ time, mark, audio, video {
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
-}
+} */
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
 body {
-    line-height: 1;
+    line-height: 1.25;
 }
 ol, ul {
     list-style: none;
@@ -55,41 +57,27 @@ table {
 
 
 
+/****** GLOBAL STYLES ********/
 
-
-
-
-
-
-
-/****** styles ********/
-
-body {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+body, html {
+    /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
     font-size: 16px;
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
 }
 
 h1 {
-    font-size: 48px;
+    font-weight:300;
+    /* font-size: 48px; */
 }
 
-h2 {
-    font-size: 42px;
-}
+/* h2 {
+    font-size: 30px;
+} */
 
 h3 {
     font-size: 24px;
 }
-
-li {
-    list-style: disc;
-    margin-left: 20px;
-}
-
-li > ul li {
-    list-style: circle;
-}
-
 
 .text-light {
     font-weight: 200;
@@ -107,32 +95,15 @@ li > ul li {
     font-weight: 900;
 }
 
-.children-as-block > * {
-    display: block;
-}
-
-
-
-
-
-
-
-
-
-/* GLOBAL STYLES */
-body, html {
-    height: 100%;
-    /*font-family: 'Open Sans', sans-serif;*/
-}
-h1 {
-    font-weight:300;
-}
 p {
     font-weight: 400;
 }
 a {
     text-decoration: none;
     color: black;
+}
+.underline:hover {
+ text-decoration: underline;
 }
 .button {
     background-color: white;
@@ -145,88 +116,22 @@ a {
     background-color: rgb(219, 219, 219);
     transition: 0.2s ease;
 }
+#root {
+    height: 100%;
+}
 
 
 /* SPLASH & LOGIN PAGE STYLES */
-#intro {
-    margin: 0 0 40px 0;
-}
-#forgot {
-    font-size: 12px;
-    margin: 0 0 40px 0;
-}
-#forgot:hover {
-    text-decoration: underline;
-}
 .bg-image {
-    /*background-image: url("img/map-background.png");*/
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
+    background-image: url("../images/map-background-blurred.jpg");
+    /* filter: blur(8px);
+    -webkit-filter: blur(8px); */
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
-.home-box {
-    background-color: rgb(255, 255, 255); /* Fallback color */
-    background-color: rgba(255, 255, 255, 0.6);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    width: 40%;
-    padding: 20px 20px 40px 20px;
-    text-align: center;
-}
-.form-button {
-    width: auto;
-    height: 40px;
-    font-family: 'Open Sans', sans-serif;
-    vertical-align: center;
-    font-size: 14px;
-}
-input {
-    outline: none;
-    border-radius: 10%;
-    border-color: grey;
-    box-shadow: none;
-    border-style: hidden;
-    height: 30px;
-    width: 200px;
-    padding: 5px 10px 5px 10px;
-    margin: 5px 0 15px 0;
-}
 
-/* NAV-BAR STYLES */
-.nav-bar {
-    display: flex;
-    width: 100%;
-}
-.nav-item {
-    font-size: 16px;
-    margin: 30px 10px 10px 10px;
-}
-.push {
-    margin-left: auto;
-}
-.nav-item:hover {
-    /* font-weight: 700; */
-    color: darkgray;
-    transition: 0.2s ease;
-}
-.active {
-    font-weight: 700;
-}
-hr {
-    border-width: 1.5px !important;
-    color: lightgray;
-    background-color: lightgray;
-    border-top: solid lightgray;
-    border-bottom: solid lightgray;
-    border-radius: 10%;
-    margin: 0 0 20px 0;
-}
 
 /*SUB BODY STYLES */
 .sub-body {
@@ -268,35 +173,4 @@ hr {
 }
 .card-desc {
     margin: 15px 5px;
-}
-
-/* INFO PAGE STYLES */
-/* Render items as columns */
-
-  .masonry-container {
-    column-count: 3;
-    column-gap: 0;
-  }
-  .masonry-item {
-    break-inside: avoid;
-    padding: 5px;
-    margin: 10px;
-    padding: 10px;
-    box-shadow: 2px 2px 8px #888888;
-  }
-  .masonry-content {
-    padding: 10px;
-    border-radius: 10px;
-  }
-
-  a {
-    text-decoration: underline;
-}
-
-
-input {
-    border: 1.25px solid #CCC;
-    border-radius: 5px;
-    margin: 0;
-    padding: 0;
 }

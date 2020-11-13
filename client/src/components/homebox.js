@@ -13,7 +13,7 @@ const homebox = () => {
         <div className={boxStyle.box}>
             <h1>COVID-19 Tracker</h1>
             <p className={boxStyle.intro}>Welcome to our COVID-19 Tracker, where you can get the most up to date information on the health risk in your area.</p>
-            <Link to="/login" className={boxStyle.button}>Login</Link>
+            <Link to="/login" class="button" >Login</Link>
         </div>
     )
     

@@ -7,10 +7,10 @@ import About from "./pages/about"
 import Test from "./pages/test"
 import NotFound from "./pages/404"
 import Maps from "./pages/map"
-import jacobTest from "./pages/jacobTest"
 import Login from "./pages/login"
 import Info from "./pages/info"
 import Account from "./pages/account"
+import newsPage from "./pages/newsPage"
 
 import Register from "./pages/register"
 
@@ -23,8 +23,8 @@ const App = () => {
                 {/*  add your page components here.  */}
                 <Route exact path='/' component={Index}/>
                 <Route exact path='/about' component={About}/>
-                <Route exact path='/news' component={Test}/>
-                <Route exact path='/jacobTest' component={jacobTest}/>
+                <Route exact path='/news' component={newsPage}/>
+                <Route exact path='/newsPage' component={newsPage}/>
                 <Route exact path='/map' component={Maps}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/info' component={Info}/>

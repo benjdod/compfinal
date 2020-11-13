@@ -36,9 +36,6 @@ const loginbox = (props) => {
 
     return (
         <div className={boxStyle.box}>
-            <p className={boxStyle.intro}>Welcome to our COVID-19 Tracker, where you can get the most up to date information on the health risk in your area.</p>
-            <Link to="/login" className={boxStyle.button}>Login</Link>
-
             <h1>Log In</h1>
             <form id="login-form">
                 <label id="email-label" htmlFor="username">Email:</label><br />
@@ -49,10 +46,9 @@ const loginbox = (props) => {
 
                 {/* we might not be able to have forgot password :( */}
                 <p className={boxStyle.forgot}><a href="#">Forgot Password?</a></p>
-
-                <input type="submit" id="login-button" className={boxStyle.button + ' ' + boxStyle.formbutton} value="Login" />
-            </form>
-            <Link to="/map" className={boxStyle.button}>temp button to map</Link>
+                <input type="submit" id="login-button" class="button" className={boxStyle.formbutton} value="Login" />
+              </form>
+              <Link to="/map" class="button">temp button to map</Link>
         </div>
     )
     

@@ -5,7 +5,7 @@ import LoginBox from "../components/loginbox"
 
 export default () => {
     return (
-        <div>
+        <div class="bg-image">
             <LoginBox />
             
         </div>
