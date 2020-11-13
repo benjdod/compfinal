@@ -1,11 +1,21 @@
-ul.horizontal-list {
-	min-width: 696px;
-	list-style: none;
-	padding-top: 20px;
-	}
-	ul.horizontal-list li {
-		display: inline;
-	}
+.local{
+	position: absolute;
+	left: 25px;
+	
+
+}
+
+.national{
+	text-align: center;
+	top: 1px;
+}
+
+.global{
+	position: absolute;
+	right: 200px;
+	top: 1px;
+	margin-bottom: 10px;
+}
   
 
   

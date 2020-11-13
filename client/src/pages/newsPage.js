@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import NewsCard from "../components/newscard"
 import axios from "axios";
 import newsPageStyle from "../components/modules/newsPage.module.css";
+import infoboxStyle from "../components/modules/infobox.module.css"
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
 
 
@@ -110,9 +111,15 @@ componentDidMount() {
     
     return (
       <div>
-      <ul class="horizontal list">
-      <h1>Local News</h1>
+      <h1 className={newsPageStyle.local}>Local News</h1>
+      <h1 className={newsPageStyle.national}>National News</h1>
+      <h1 className={newsPageStyle.global}>Global News</h1>
+
+      <div className={infoboxStyle.masonrycontainer}>
+      <ul>
       {this.state.localNews.map(article => 
+        <div className={infoboxStyle.masonryitem}>
+          <div className={infoboxStyle.masonrycontent}>
       <li><NewsCard
         image = {article.image.url}
         title = {article.title}
@@ -120,12 +127,17 @@ componentDidMount() {
         publisher = {article.provider.name}
         description = {article.description}
         link = {article.url}/> 
-        </li>)}
+        </li>
+        </div>
+        </div>)}
       </ul>
+  
 
-        <h1>National News</h1>
-      <ul class="horizontal list">
+       
+      <ul>
         {this.state.usaNews.map(article => 
+        <div className={infoboxStyle.masonryitem}>
+          <div className={infoboxStyle.masonrycontent}>
           <li><NewsCard
           image = {article.image.url}
           title = {article.title}
@@ -133,12 +145,17 @@ componentDidMount() {
           publisher = {article.provider.name}
           description = {article.description}
           link = {article.url}/> 
-          </li>)}
+          </li>
+          </div>
+          </div>)}
       </ul>
 
-      <h1>Global News</h1>
-      <ul class="horizontal list">
+
+     
+      <ul>
       {this.state.worldNews.map(article => 
+        <div className={infoboxStyle.masonryitem}>
+          <div className={infoboxStyle.masonrycontent}>
           <li><NewsCard
           image = {article.image.url}
           title = {article.title}
@@ -146,8 +163,11 @@ componentDidMount() {
           publisher = {article.provider.name}
           description = {article.description}
           link = {article.url}/> 
-          </li>)}
+          </li>
+          </div>
+          </div>)}
           </ul>
+        </div>
     </div>
     )
         }
@@ -171,4 +191,4 @@ componentDidMount() {
         )
       </ul>
       */
-export default News;
+export default News
