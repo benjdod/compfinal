@@ -24,8 +24,12 @@
     background-color: rgb(219, 219, 219);
     transition: 0.2s ease;
 }
+.button a {
+    text-decoration: none;
+    color: black;
+}
 .bgimage {
-    /* background-image: url("../images/map-background.png"); */
+    background-image: url("../../images/map-background.png");
     filter: blur(8px);
     -webkit-filter: blur(8px);
     height: 100%;
