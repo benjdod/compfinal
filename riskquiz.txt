@@ -42,16 +42,23 @@ Modified Weitz equation:
 
 e = (1 - (1 - pI)^n) * (1 - m) * 1/O where:
 	m = 0.65 (mask risk reduction to wearer rate)
-	O = 18.7 (indoor risk reduction) (this number should go up with with more people @ event)
+	O = 18.7 * k (indoor risk reduction) (this number should go up with with more people @ event) 
+					(Jacob: where k is dependent on the number of people present maybe every 10 or twenty people assumes 
+					linear rate need to scale based on number of people somehow look at state limits for indoor gathering take 
+					avg maybe)
 
 questions:
-	location?
-	event size?
+	location? (Jacob: maybe make a predfined list assigning values to states based on case numbers, i think itd be hard to get much more
+				specific then that)
+	event size? (Jacob: get k from this size/(20/10) 20 for outdoors, 10 for indoors maybe just an idea)
 	event inside/outside?
 	mask wearing?
 		mask wearing percentage?
 	social distancing required?
 		minimum distance?
 	event duration? (Weitz assumes events of ~ 2.5hr (2-3hrs), maybe we can add a linear function centered around that)
+				(Jacob: Yea not sure what to do with this )
 	physical activity level? (bracketed? even possible to include?)
-
+		(Jacob: maybe to much info to ask for, people comfortable sharing that? also I dont think phyical activity is what we should focus on
+		  maybe just ask if they are at risk cause of any medical issues and then add a constant to their score if yes maybe base it on
+		  severity of their issue (options: not-at-risk, mildly-at-risk, severly-at risk) something like that)
