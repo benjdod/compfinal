@@ -5,13 +5,18 @@
     border-bottom: 1.5px solid lightgray;
 }
 
+.siteTitle {
+    margin: 15px;
+    padding: 0;
+}
+
 .bar a {
     text-decoration: none;
 }
 
 .item {
     font-size: 16px;
-    margin: 30px 10px 10px 10px;
+    margin: 20px 10px 00px 10px;
 }
 .push {
     margin-left: auto;

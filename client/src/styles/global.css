@@ -57,13 +57,6 @@ table {
 
 
 
-
-
-
-
-
-
-
 /****** GLOBAL STYLES ********/
 
 body, html {
@@ -78,11 +71,9 @@ h1 {
     /* font-size: 48px; */
 }
 
-h2 {
-    margin-top: none;
-    padding-top: none;
-    font-size: 42px;
-}
+/* h2 {
+    font-size: 30px;
+} */
 
 h3 {
     font-size: 24px;
@@ -111,6 +102,9 @@ a {
     text-decoration: none;
     color: black;
 }
+.underline:hover {
+ text-decoration: underline;
+}
 .button {
     background-color: white;
     color: black;
@@ -128,19 +122,6 @@ a {
 
 
 /* SPLASH & LOGIN PAGE STYLES */
-.index-div {
-    height: 100%;
-}
-#intro {
-    margin: 0 0 40px 0;
-}
-#forgot {
-    font-size: 12px;
-    margin: 0 0 40px 0;
-}
-#forgot:hover {
-    text-decoration: underline;
-}
 .bg-image {
     background-image: url("../images/map-background-blurred.jpg");
     /* filter: blur(8px);
@@ -150,66 +131,7 @@ a {
     background-repeat: no-repeat;
     background-size: cover;
 }
-.home-box {
-    background-color: rgb(255, 255, 255); /* Fallback color */
-    background-color: rgba(255, 255, 255, 0.6);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    width: 40%;
-    padding: 20px 20px 40px 20px;
-    text-align: center;
-}
-.form-button {
-    width: auto;
-    height: 40px;
-    font-family: 'Open Sans', sans-serif;
-    vertical-align: center;
-    font-size: 14px;
-}
-input {
-    outline: none;
-    border-radius: 10%;
-    border-color: grey;
-    box-shadow: none;
-    border-style: hidden;
-    height: 30px;
-    width: 200px;
-    padding: 5px 10px 5px 10px;
-    margin: 5px 0 15px 0;
-}
 
-/* NAV-BAR STYLES */
-.nav-bar {
-    display: flex;
-    width: 100%;
-}
-.nav-item {
-    font-size: 16px;
-    margin: 30px 10px 10px 10px;
-}
-.push {
-    margin-left: auto;
-}
-.nav-item:hover {
-    /* font-weight: 700; */
-    color: darkgray;
-    transition: 0.2s ease;
-}
-.active {
-    font-weight: 700;
-}
-hr {
-    border-width: 1.5px !important;
-    color: lightgray;
-    background-color: lightgray;
-    border-top: solid lightgray;
-    border-bottom: solid lightgray;
-    border-radius: 10%;
-    margin: 0 0 20px 0;
-}
 
 /*SUB BODY STYLES */
 .sub-body {
@@ -251,27 +173,4 @@ hr {
 }
 .card-desc {
     margin: 15px 5px;
-}
-
-/* INFO PAGE STYLES */
-/* Render items as columns */
-
-  .masonry-container {
-    column-count: 3;
-    column-gap: 0;
-  }
-  .masonry-item {
-    break-inside: avoid;
-    padding: 5px;
-    margin: 10px;
-    padding: 10px;
-    box-shadow: 2px 2px 8px #888888;
-  }
-  .masonry-content {
-    padding: 10px;
-    border-radius: 10px;
-  }
-
-  a {
-    text-decoration: underline;
 }
