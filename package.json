@@ -14,7 +14,9 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
+    "csprng": "^0.1.2",
     "express": "^4.17.1",
     "newsapi": "^2.4.1",
     "pg": "^8.4.2",
@@ -24,7 +26,8 @@
     "react-map-gl": "^5.2.9",
     "react-map-gl-geocoder": "^2.1.6",
     "react-mapbox-gl-geocoder": "^1.1.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "scrypt-kdf": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

@@ -13,26 +13,6 @@
 .intro {
     margin: 0 0 40px 0;
 }
-.button {
-    background-color: white;
-    color: black;
-    border-radius: 10%;
-    border-color: grey;
-    padding: 10px;
-}
-.button:hover {
-    background-color: rgb(219, 219, 219);
-    transition: 0.2s ease;
-}
-.bgimage {
-    /* background-image: url("../images/map-background.png"); */
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
 .forgot {
     font-size: 12px;
     margin: 0 0 40px 0;

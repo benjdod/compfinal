@@ -110,7 +110,7 @@ export default () => {
                     <ul>
                         <li>Clean AND disinfect frequently touched surfaces daily. This includes tables, doorknobs, light switches, countertops, handles, desks, phones, keyboards, toilets, faucets, and sinks.</li>
                         <li>If surfaces are dirty, clean them. Use detergent or soap and water prior to disinfection.</li>
-                        <li>Then, use a household disinfectant. Most common EPA-registered household disinfectantsexternal icon will work.</li>
+                        <li>Then, use a household disinfectant. Most common EPA-registered household disinfectants will work.</li>
                     </ul>
                 </div>
               </div>

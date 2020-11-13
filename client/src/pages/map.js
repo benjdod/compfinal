@@ -8,7 +8,7 @@ export default () => {
     return (
         <div>
             <NavBar />
-            <MapBox width='100vw' height='100vh'/>
+            <MapBox width='100vw' height='90vh'/>
         </div>
     )
 }

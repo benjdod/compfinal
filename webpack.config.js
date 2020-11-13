@@ -9,6 +9,13 @@ module.exports = {
 		path: path.resolve(__dirname, './client/dist'),
 		publicPath: '/',
 	},
+
+	resolve: {
+		alias: {
+			_components: path.resolve(__dirname, './client/src/components'),
+			_util: path.resolve(__dirname, './util'),
+		}
+	},
 	
 	module: {
 		rules: [

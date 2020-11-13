@@ -1,23 +1,18 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import NewsCard from "../components/newscard"
-import Map from "../components/maptestapp"
+import PageFrame from "_components/pageframe"
 import HomeBox from "../components/homebox"
 
 import boxStyle from "../components/modules/box.module.css"
 
 export default () => {
     return (
-        <div>
-            <div className={boxStyle.bgimage}></div>
-            <h1>Index Page</h1>
-            <Link to="/about" style={{padding: "10px", display: "inline-block"}}>About</Link>
-            <Link to="/newsPage" style = {{padding: "10px", display: "inline-block"}}>News</Link>
-            <Link to="/cookie">Get cookie maybe?</Link>
-            <br/>
+        <div class="bg-image">
+            <Link to="/about" class="underline" style={{padding: "10px", display: "inline-block"}}>About</Link>
+            <Link to="/newsPage" class="underline" style = {{padding: "10px", display: "inline-block"}}>News</Link>
+            <Link to="/cookie" class="underline">Get cookie maybe?</Link>
 
             <HomeBox />
-            
         </div>
     )
 }
