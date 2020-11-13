@@ -36,9 +36,8 @@ Check out Lancet. average 2.2x reduction with every 1m distance increase
 https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31142-9/fulltext
 https://www.thelancet.com/action/showPdf?pii=S0140-6736%2820%2931142-9
 
-# TODO: work on this!
 
-Modified Weitz equation:
+Our potential risk assessment equation (Modified Weitz equation):
 
 e = (1 - (1 - pI)^n) * (1 - m) * 1/O where:
 	m = 0.65 (mask risk reduction to wearer rate)
@@ -55,3 +54,22 @@ questions:
 	event duration? (Weitz assumes events of ~ 2.5hr (2-3hrs), maybe we can add a linear function centered around that)
 	physical activity level? (bracketed? even possible to include?)
 
+
+# TODO: review the above questions, feel free to restructure, add, remove, etc...
+#		all that has to change in response is the structure of the quiz page 
+#		and the encoding for the database. Note that we have an encryption scheme
+#		and can probably store possibly sensitive data like location, etc.
+
+# TODO: review the above equation, see if y'all are cool with it or if you feel any
+#		modifications should be made...
+
+# TODO: check out 'quizzard.js' in pages/ to see if y'all are cool with that way
+# 		of structuring the quiz. Obviously it would look better than it does, but 
+# 		a multi-page wizard form style in essence.
+
+# My thoughts (Ben): I'm thinking that the quiz should maybe be restructured to 
+# be based around the risk of a single event rather than an overarching number, 
+# since that will allow us to give a more relevant and accurate number to users,
+# who will be providing more information about their activities that way. This quiz 
+# data can be saved and possibly searched (with autocompletion :) using fuzzy search algorithm
+# overall, the user data will be more meaningful and useful.

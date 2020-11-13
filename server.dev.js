@@ -5,7 +5,6 @@ const whm = require('webpack-hot-middleware');
 const cookieparser = require('cookie-parser');
 const path = require('path');
 
-
 const app = express();
 const localport = process.env.PORT || 3000;
 const webpackConfig = require(path.resolve(__dirname, './webpack.dev.config.js'))

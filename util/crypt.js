@@ -96,6 +96,8 @@ const readFields = (fields) => {
     return out;
 }
 
+
+// TODO: add social distancing field (0 if no distancing, 1-16 for values);
 /**
  * 
  * @typedef {Object} QuizData 

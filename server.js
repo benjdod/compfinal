@@ -5,7 +5,6 @@ const cookieparser = require('cookie-parser');
 const auth = require('./util/auth');
 const database = require('./util/database');
 const password = require('./util/password');
-const { validate } = require('webpack');
 
 const app = express();
 
