@@ -2,9 +2,10 @@ const express = require('express');
 const path = require('path');
 const cookieparser = require('cookie-parser');
 
-const auth = require('./util/auth');
+const token = require('./util/auth/token');
+const password = require('./util/auth/password');
+
 const database = require('./util/database');
-const password = require('./util/password');
 
 const app = express();
 
@@ -19,15 +20,13 @@ app.use(cookieparser());	// req.cookies
 app.use(express.json())		// req.body
 
 
-/* THESE ARE FOR DEVELOPMENT */
-
 // auth endpoints
 
-app.get('/auth/getcookie', (req,res) => {
+app.get('/auth/getlogincookie', (req,res) => {
 
 	// free cookie for you!
 
-	res.cookie('auth_token', auth.sign(9))
+	res.cookie('auth_token', token.sign(9, 'fakeuserkey'))
 	.send('free auth cookie for you!');
 });
 
@@ -49,7 +48,7 @@ app.post('/auth/login', (req,res) => {
 
 	console.log(password.compare(body.password, user.passhash));
 
-	res.cookie('auth_token', sign(uid))
+	res.cookie('auth_token', token.sign(uid))
 		.send('successfully sent authentication token to user');
 })
 
@@ -78,11 +77,11 @@ app.post('/auth/register', async (req,res) => {
 
 // user-restricted endpoints
 
-app.get('/reflectjwt', auth.middleware, (req,res) => {
+app.get('/reflectjwt', token.authenticate, (req,res) => {
 	res.json(req.jwtPayload);
 })
 
-app.get('/user', auth.middleware, async (req,res) => {
+app.get('/user', token.authenticate, async (req,res) => {
 
 	// returns the currently logged in user's account data
 
@@ -125,13 +124,11 @@ app.get('/test/getuser/:username', async (req,res) => {
 	
 })
 
-/* END DEVELOPMENT */
 
-
-// and then send any request to the index page (routing is handled by React)
+// and then send any other request to React
 app.get('*', (req,res) => {
 	res.sendFile(path.resolve(__dirname, './client/dist/index.html'));
 })
 
-// start up our server
+// finally, start up the server
 app.listen(localport, () => console.log(`Express server up and listening on port ${localport}!\nPress Ctrl+C to stop`));
