@@ -5,13 +5,15 @@ const cookieparser = require('cookie-parser');
 const token = require('./util/auth/token');
 const password = require('./util/auth/password');
 
+const authEndpoints = require('./util/endpoints/auth');
+
 const database = require('./util/database');
 
 const app = express();
 
-// process.env.PORT is how Heroku gives our app
-// an endpoint, so use it if it exists. 
-const localport = process.env.PORT || 3000;
+// Heroku sets the app's port in an environment variable,
+// so use that or 3000
+const port = process.env.PORT || 3000;
 
 // just serve files from the webpack build for client...
 app.use(express.static('client/dist'));
@@ -19,61 +21,7 @@ app.use(express.static('client/dist'));
 app.use(cookieparser());	// req.cookies
 app.use(express.json())		// req.body
 
-
-// auth endpoints
-
-app.get('/auth/getlogincookie', (req,res) => {
-
-	// free cookie for you!
-
-	res.cookie('auth_token', token.sign(9, 'fakeuserkey'))
-	.send('free auth cookie for you!');
-});
-
-app.post('/auth/login', (req,res) => {
-
-	const body = req.body;
-
-	if (!body.username || !body.password) {
-		res.status(400).send(null);
-		return;
-	}
-
-	const user = database.getUser(body.username);
-
-	if (!user) {
-		res.status(400).send(null);
-		return;
-	}
-
-	console.log(password.compare(body.password, user.passhash));
-
-	res.cookie('auth_token', token.sign(uid))
-		.send('successfully sent authentication token to user');
-})
-
-app.post('/auth/register', async (req,res) => {
-
-	// takes a request with the new user info in the body, 
-	// and adds them to the users db
-
-	const inputs = req.body;
-
-	if (!inputs.username || !inputs.firstname || !inputs.lastname || !inputs.password) {
-		res.status(400).send(null)
-		return;
-	}
-
-	const hash = await password.hash(req.body.password);
-
-	const ins = await database.insertUser(inputs.username, inputs.firstname, inputs.lastname, hash);
-
-	if (ins) {
-		res.status(200).send('successfully added user');
-	} else {
-		res.status(500).send('failed to add user');
-	}
-})
+app.use('/auth', authEndpoints)
 
 // user-restricted endpoints
 
@@ -131,4 +79,4 @@ app.get('*', (req,res) => {
 })
 
 // finally, start up the server
-app.listen(localport, () => console.log(`Express server up and listening on port ${localport}!\nPress Ctrl+C to stop`));
+app.listen(port, () => console.log(`Express server up and listening on port ${port}!\nPress Ctrl+C to stop`));

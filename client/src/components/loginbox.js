@@ -1,5 +1,5 @@
 // this must be imported first for obvious reasons
-import React from "react"
+import React, { useState } from "react"
 
 // get our css module for this file (you're
 // probably gonna have one for most files)
@@ -14,6 +14,13 @@ const loginbox = (props) => {
         password: ''
     }
 
+    // one of:
+    //      'initial',
+    //      'rejected',
+    //      'accepted',
+    //      'error'     (for server error)
+    const [loginState, setLoginState] = useState('initial');
+
     const submit = (e) => {
         e.preventDefault();
         console.log(inputs);
@@ -26,9 +33,16 @@ const loginbox = (props) => {
             },
             body: JSON.stringify(inputs),
         }).then(response => {
-            console.log(response);
+            console.log(response.status);
+
+            if (response.status !== 200) {
+                setLoginState('rejected');
+            } else {
+                setLoginState('accepted');
+            }
         }).catch(err => {
             console.error(err);
+            setLoginState('error');
         })
 
         return null;
@@ -38,17 +52,24 @@ const loginbox = (props) => {
         <div className={boxStyle.box}>
             <h1>Log In</h1>
             <form id="login-form">
-                <label id="email-label" htmlFor="username">Email:</label><br />
+                <label id="email-label" htmlFor="username">Username</label><br />
                 <input type="text" id="username" onChange={(e) => {inputs.username = e.target.value}}/><br />
-                <label id="password-label" htmlFor="password">Password:</label><br />
+                <label id="password-label" htmlFor="password">Password</label><br />
                 {/* password max length == 64 for key gen reasons */}
                 <input type="password" id="password" maxLength={64} onChange={(e) => {inputs.password = e.target.value}} /><br />
 
                 {/* we might not be able to have forgot password :( */}
                 <p className={boxStyle.forgot}><a href="#">Forgot Password?</a></p>
-                <input type="submit" id="login-button" class="button" className={boxStyle.formbutton} value="Login" />
-              </form>
-              <Link to="/map" class="button">temp button to map</Link>
+                
+                <input type="submit" id="login-button" className="button" className={boxStyle.formbutton} value="Login" onClick={submit}/>                <br/>
+
+                <p style={{
+                    color: '#ff6969',
+                    backgroundColor: 'rgba(200,100,100,0.1)',
+                    display: 'inline',
+                }}>{loginState === 'rejected' ? 'Incorrect username or password' : loginState === 'accepted' ? 'Logged in' : ''}</p>
+            </form>
+            <Link to="/map" classNme="button">temp button to map</Link>
         </div>
     )
     

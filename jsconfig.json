@@ -1,0 +1,6 @@
+{
+    "paths": {
+        "_util/*": ["util/*"]
+    },
+    "exclude": ["node_modules", "client/dist"]
+}

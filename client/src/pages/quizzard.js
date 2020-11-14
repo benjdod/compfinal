@@ -28,7 +28,7 @@ export default () => {
 
     const content = () => {
         if (step < 1) 
-            return <p>First, some questions</p>
+            return <p>Start quiz</p>
 
         switch (step) {
             case 1:
@@ -36,7 +36,7 @@ export default () => {
             case 2:
                 return <p>Step 2</p>
             default:
-                return <p>final step?</p>
+                return <p>Quiz done</p>
         }
     }
 
