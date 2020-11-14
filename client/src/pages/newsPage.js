@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"
 import NewsCard from "../components/newscard"
 import axios from "axios";
 import newsPageStyle from "../components/modules/newsPage.module.css";
-import infoboxStyle from "../components/modules/infobox.module.css"
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
 
 
@@ -115,11 +114,11 @@ componentDidMount() {
       <h1 className={newsPageStyle.national}>National News</h1>
       <h1 className={newsPageStyle.global}>Global News</h1>
 
-      <div className={infoboxStyle.masonrycontainer}>
+      <div className={newsPageStyle.masonrycontainer}>
       <ul>
       {this.state.localNews.map(article => 
-        <div className={infoboxStyle.masonryitem}>
-          <div className={infoboxStyle.masonrycontent}>
+        <div className={newsPageStyle.masonryitem}>
+          <div className={newsPageStyle.masonrycontent}>
       <li><NewsCard
         image = {article.image.url}
         title = {article.title}
@@ -136,8 +135,8 @@ componentDidMount() {
        
       <ul>
         {this.state.usaNews.map(article => 
-        <div className={infoboxStyle.masonryitem}>
-          <div className={infoboxStyle.masonrycontent}>
+        <div className={newsPageStyle.masonryitem}>
+          <div className={newsPageStyle.masonrycontent}>
           <li><NewsCard
           image = {article.image.url}
           title = {article.title}
@@ -154,8 +153,8 @@ componentDidMount() {
      
       <ul>
       {this.state.worldNews.map(article => 
-        <div className={infoboxStyle.masonryitem}>
-          <div className={infoboxStyle.masonrycontent}>
+        <div className={newsPageStyle.masonryitem}>
+          <div className={newsPageStyle.masonrycontent}>
           <li><NewsCard
           image = {article.image.url}
           title = {article.title}
@@ -167,8 +166,8 @@ componentDidMount() {
           </div>
           </div>)}
           </ul>
-        </div>
-    </div>
+          </div>
+      </div>
     )
         }
 
