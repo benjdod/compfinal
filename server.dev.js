@@ -5,6 +5,7 @@ const whm = require('webpack-hot-middleware');
 const cookieparser = require('cookie-parser');
 const path = require('path');
 
+const authEndpoints = require('./util/endpoints/auth');
 
 const app = express();
 const localport = process.env.PORT || 3000;
@@ -21,7 +22,10 @@ app.use('/misc', express.static('misc'));
 // populate req.cookies
 app.use(cookieparser());
 // populate req.body
-app.use(express.json())
+app.use(express.json());
+
+// populate our endpoints
+app.use('/auth', authEndpoints);
 
 app.use(wdm(compiler, {
 	// set this to false if it seems like something's broken and check the console

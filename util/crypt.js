@@ -62,13 +62,14 @@ const clamp = (num, low, high) => {
         : num;
 }
 
-const generateFields = (eventSize, eventDuration, insideOutside, maskWearing, maskPercentage, risk) => {
+const generateFields = (eventSize, eventDuration, insideOutside, maskWearing, maskPercentage, socialDistancing, risk) => {
     const inputs = {
         eventSize: Math.abs(Math.trunc(clamp(eventSize, 0, 65535))),
         insideOutside: insideOutside,
         maskWearing: maskWearing ? true : false,
         maskPercentage: Math.trunc(clamp(maskPercentage, 0, 1) * 100),
         eventDuration: Math.trunc(clamp(eventDuration, 0, 4095)),
+        socialDistancing: Math.trunc(clamp(socialDistancing, 0, 15)),
         risk: Math.trunc(clamp(risk,0,1) * 100)
     }
 
@@ -78,12 +79,13 @@ const generateFields = (eventSize, eventDuration, insideOutside, maskWearing, ma
     fields += maskWearing ? 't' : 'f'                               // 1 byte   [5]
     fields += inputs.maskPercentage.toString(16).padStart(2, "0")   // 2 bytes  [6-7]
     fields += inputs.eventDuration.toString(16).padStart(3, "0")    // 3 bytes  [8-10]
-    fields += inputs.risk.toString(16).padStart(2, "0")             // 2 bytes  [11-12]
+    fields += inputs.socialDistancing.toString(16).padStart(1,"0")  // 1 bytes  [11]
+    fields += inputs.risk.toString(16).padStart(2, "0")             // 2 bytes  [12-13]
         
     return fields;
 }
 
-const readFields = (fields) => {
+const parseFields = (fields) => {
 
     const out = {
         eventSize: parseInt(fields.slice(0,4),16),
@@ -91,11 +93,14 @@ const readFields = (fields) => {
         maskWearing: fields.charAt(5) === 't' ? true :false,
         maskPercentage: parseInt(fields.slice(6,8), 16) / 100,
         eventDuration: parseInt(fields.slice(8,11),16),
-        risk: parseInt(fields.slice(11,13),16) / 100,
+        socialDistancing: parseInt(fields.slice(11,12),16),
+        risk: parseInt(fields.slice(12,14),16) / 100,
     }
     return out;
 }
 
+
+// TODO: add social distancing field (0 if no distancing, 1-16 for values);
 /**
  * 
  * @typedef {Object} QuizData 
@@ -111,17 +116,20 @@ const readFields = (fields) => {
  * Packages quiz data into a byte array for encryption.
  * 
 * @param {Object} data the data object containing quiz questions
+ * @param {number} data.latitude the user's latitude
+ * @param {number} data.longitude the user's longitude
  * @param {number} data.eventSize the size of the event, clamped to 0 and 65535
  * @param {number} data.eventDuration the length of the event in minutes
  * @param {String} data.insideOutside location of event, either 'inside' or 'outside'
  * @param {boolean} data.maskWearing whether or not masks are worn at the event
  * @param {number} data.maskPercentage the percentage of people wearing masks, clamped to 0 and 1
+ * @param {number} data.socialDistancing the number of meters of social distance required, 0 for no distance and clamped between 0 and 15
  * @param {number} data.risk the risk result, clamped to 0 and 1
  * @returns {Uint8Array} the package as a byte array, the intended form for encryption
  */
 const packageQuizData = (data) => {
 
-    const fields = generateFields(data.eventSize, data.eventDuration, data.insideOutside, data.maskWearing, data.maskPercentage, data.risk)
+    const fields = generateFields(data.eventSize, data.eventDuration, data.insideOutside, data.maskWearing, data.maskPercentage, data.socialDistancing, data.risk)
 
     const f = new Float64Array(2);
     f[0] = data.latitude;
@@ -179,7 +187,7 @@ const unpackageQuizData = (package) => {
     return {   
         latitude: f[0],
         longitude: f[1],
-        ...readFields(fields),
+        ...parseFields(fields),
     }
 }
 

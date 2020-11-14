@@ -2,16 +2,18 @@ const express = require('express');
 const path = require('path');
 const cookieparser = require('cookie-parser');
 
-const auth = require('./util/auth');
+const token = require('./util/auth/token');
+const password = require('./util/auth/password');
+
+const authEndpoints = require('./util/endpoints/auth');
+
 const database = require('./util/database');
-const password = require('./util/password');
-const { validate } = require('webpack');
 
 const app = express();
 
-// process.env.PORT is how Heroku gives our app
-// an endpoint, so use it if it exists. 
-const localport = process.env.PORT || 3000;
+// Heroku sets the app's port in an environment variable,
+// so use that or 3000
+const port = process.env.PORT || 3000;
 
 // just serve files from the webpack build for client...
 app.use(express.static('client/dist'));
@@ -19,71 +21,15 @@ app.use(express.static('client/dist'));
 app.use(cookieparser());	// req.cookies
 app.use(express.json())		// req.body
 
-
-/* THESE ARE FOR DEVELOPMENT */
-
-// auth endpoints
-
-app.get('/auth/getcookie', (req,res) => {
-
-	// free cookie for you!
-
-	res.cookie('auth_token', auth.sign(9))
-	.send('free auth cookie for you!');
-});
-
-app.post('/auth/login', (req,res) => {
-
-	const body = req.body;
-
-	if (!body.username || !body.password) {
-		res.status(400).send(null);
-		return;
-	}
-
-	const user = database.getUser(body.username);
-
-	if (!user) {
-		res.status(400).send(null);
-		return;
-	}
-
-	console.log(password.compare(body.password, user.passhash));
-
-	res.cookie('auth_token', sign(uid))
-		.send('successfully sent authentication token to user');
-})
-
-app.post('/auth/register', async (req,res) => {
-
-	// takes a request with the new user info in the body, 
-	// and adds them to the users db
-
-	const inputs = req.body;
-
-	if (!inputs.username || !inputs.firstname || !inputs.lastname || !inputs.password) {
-		res.status(400).send(null)
-		return;
-	}
-
-	const hash = await password.hash(req.body.password);
-
-	const ins = await database.insertUser(inputs.username, inputs.firstname, inputs.lastname, hash);
-
-	if (ins) {
-		res.status(200).send('successfully added user');
-	} else {
-		res.status(500).send('failed to add user');
-	}
-})
+app.use('/auth', authEndpoints)
 
 // user-restricted endpoints
 
-app.get('/reflectjwt', auth.middleware, (req,res) => {
+app.get('/reflectjwt', token.authenticate, (req,res) => {
 	res.json(req.jwtPayload);
 })
 
-app.get('/user', auth.middleware, async (req,res) => {
+app.get('/user', token.authenticate, async (req,res) => {
 
 	// returns the currently logged in user's account data
 
@@ -126,13 +72,11 @@ app.get('/test/getuser/:username', async (req,res) => {
 	
 })
 
-/* END DEVELOPMENT */
 
-
-// and then send any request to the index page (routing is handled by React)
+// and then send any other request to React
 app.get('*', (req,res) => {
 	res.sendFile(path.resolve(__dirname, './client/dist/index.html'));
 })
 
-// start up our server
-app.listen(localport, () => console.log(`Express server up and listening on port ${localport}!\nPress Ctrl+C to stop`));
+// finally, start up the server
+app.listen(port, () => console.log(`Express server up and listening on port ${port}!\nPress Ctrl+C to stop`));

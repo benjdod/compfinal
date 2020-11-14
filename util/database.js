@@ -1,4 +1,3 @@
-const { response } = require('express');
 const { Client } = require('pg');
 
 const databaseURL = process.env.DATABASE_URL || 'postgres://thrxushcnebbcq:fb83f5c42c08cccd4bf105094978f4df0a1255b98cf99a37f9dd6c64cfe82b5e@ec2-52-2-82-109.compute-1.amazonaws.com:5432/d7fvckm24ppjng';
@@ -29,13 +28,24 @@ exports.insertUser = async (username, firstname, lastname, passhash) => {
     }
 }
 
+exports.updateUser = async (uid, username, firstname, lastname, passhash) => {
+    try {
+        return await client.query(`update users set username = '${username}', firstname = '${firstname}', lastname = '${lastname}', passhash = '${passhash}' where id = ${uid};`);
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
 exports.getUser = async (username) => {
     try {
-        const out = await client.query(queries.getUser(username)).rows;
-        if (out.length == 0) {
+        const out = await client.query(`select * from users where username ~ '${username}' limit 1`);
+        console.log(out);
+        if (out.rows.length == 0) {
             return null;
         }
-        return out[0];
+        console.log('db got user: ', out.rows[0]);
+        return out.rows[0];
     } catch (e) {
         console.error(e);
         return null;
@@ -46,7 +56,7 @@ exports.getUser = async (username) => {
 exports.checkUser = async (username) => {
     let response;
     try {
-        response = await client.query(queries.findUsername(username));
+        response = await client.query(`select username from users where username ~ '${username}' limit 1`);
     } catch (e) {
         console.error(e);
     }
