@@ -39,12 +39,12 @@ https://www.thelancet.com/action/showPdf?pii=S0140-6736%2820%2931142-9
 
 Our potential risk assessment equation (Modified Weitz equation):
 
-e = (1 - (1 - pI)^n) * (1 - m) * 1/O where:
+e = (1 - (1 - pI)^n) * (1 - m) * 1/O * ((1/2.2) * D)
+	
+	where:
 	m = 0.65 (mask risk reduction to wearer rate)
-	O = 18.7 * k (indoor risk reduction) (this number should go up with with more people @ event) 
-					(Jacob: where k is dependent on the number of people present maybe every 10 or twenty people assumes 
-					linear rate need to scale based on number of people somehow look at state limits for indoor gathering take 
-					avg maybe)
+	O = 18.7 (indoor risk reduction) (this number should go up with with more people @ event)
+	D = social distance
 
 questions:
 	location? (Jacob: maybe make a predfined list assigning values to states based on case numbers, i think itd be hard to get much more
@@ -57,30 +57,4 @@ questions:
 		minimum distance?
 	event duration? (Weitz assumes events of ~ 2.5hr (2-3hrs), maybe we can add a linear function centered around that)
 				(Jacob: Yea not sure what to do with this )
-	physical activity level? (bracketed? even possible to include?)
-<<<<<<< HEAD
-		(Jacob: maybe to much info to ask for, people comfortable sharing that? also I dont think phyical activity is what we should focus on
-		  maybe just ask if they are at risk cause of any medical issues and then add a constant to their score if yes maybe base it on
-		  severity of their issue (options: not-at-risk, mildly-at-risk, severly-at risk) something like that)
-=======
-
-
-# TODO: review the above questions, feel free to restructure, add, remove, etc...
-#		all that has to change in response is the structure of the quiz page 
-#		and the encoding for the database. Note that we have an encryption scheme
-#		and can probably store possibly sensitive data like location, etc.
-
-# TODO: review the above equation, see if y'all are cool with it or if you feel any
-#		modifications should be made...
-
-# TODO: check out 'quizzard.js' in pages/ to see if y'all are cool with that way
-# 		of structuring the quiz. Obviously it would look better than it does, but 
-# 		a multi-page wizard form style in essence.
-
-# My thoughts (Ben): I'm thinking that the quiz should maybe be restructured to 
-# be based around the risk of a single event rather than an overarching number, 
-# since that will allow us to give a more relevant and accurate number to users,
-# who will be providing more information about their activities that way. This quiz 
-# data can be saved and possibly searched (with autocompletion :) using fuzzy search algorithm
-# overall, the user data will be more meaningful and useful.
->>>>>>> a71fd4cb569a63afdbb2619e9ee94e396bc95808
+		

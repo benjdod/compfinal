@@ -26,4 +26,23 @@
     font-family: 'Open Sans', sans-serif;
     vertical-align: center;
     font-size: 14px;
+    background-color: white;
 }
+.formbutton:hover {
+    cursor: pointer;
+    background-color: rgb(219, 219, 219);
+    transition: 0.2s ease;
+}
+
+
+@media only screen and (max-width: 1200px) {
+    .box {
+        width: 50%;
+    }
+  }
+
+@media only screen and (max-width: 700px) {
+    .box {
+        width: 70%;
+    }
+  }

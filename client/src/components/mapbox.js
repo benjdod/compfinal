@@ -43,6 +43,30 @@ export default (props) => {
         [handleViewportChange]
       );
 
+      console.log(viewport.latitude);
+      console.log(viewport.longitude);
+      
+      let globalcovid = '';
+
+      //fetches covid data and county fips data
+
+      let covidURL = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-counties.csv";
+      let longlatURL = "https://geo.fcc.gov/api/census/area?lat=" + viewport.latitude.toString() + "&lon=" + viewport.longitude.toString() + "&format=json";
+
+      const coviddata = fetch(covidURL)
+      .then(response => response.text())
+      .then(function (covid) {
+
+        return console.log(covid);
+      })
+      .catch(err => console.error(err));
+      
+      const countydata = fetch(longlatURL)
+      .then(response => response.json())
+      .then(county => console.log(county))
+      .catch(err => console.error(err));
+
+
     return (
         <div>
             <MapGL

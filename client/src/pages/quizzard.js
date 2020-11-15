@@ -22,7 +22,6 @@ export default () => {
     
     const [step, setStep] = useState(0);
 
-
     // now we can use the state variable, 'step' to switch the 
     // page content based on its value...
 
@@ -32,12 +31,23 @@ export default () => {
 
         switch (step) {
             case 1:
-                return <p>Step 1</p>
+                return <p>Loction</p>
             case 2:
                 return <p>Step 2</p>
             default:
                 return <p>Quiz done</p>
         }
+    }
+
+    const inputs = {
+        latitude: 0,        // float
+        longitude: 0,       // float
+        eventSize: 0,       // int: number of attendees
+        eventDuration: 0,   // int: duration in minutes
+        eventOutside: false,
+        maskWearing: false,
+        maskPercentage: 0,  // float: mask percentage from 0 to 1
+        socialDistancing: 0,    // int: meters of social distancing, 0 for no distancing
     }
 
     return (

@@ -1,8 +1,15 @@
 const jwt = require('jsonwebtoken');
 
-const sign = (uid, userKey) => {
+const signUser = (uid, userKey) => {
     const out = jwt.sign({u:uid, k:userKey}, 'bunnies', {
-        expiresIn: 30,
+        expiresIn: 60*60,
+    });
+    return out;
+}
+
+const sign = (payload, key, expiresIn) => {
+    const out = jwt.sign(payload, key, {
+        expiresIn: expiresIn,
     });
     return out;
 }
@@ -28,16 +35,9 @@ const code = (str) => {
  * @param {String} decoded the error message
  */
 
-/**
- * verifies an authentication token.
- * 
- * @param {String} token the JWT to verify
- * @param {onSuccessCallback} onsuccess called after successful verification
- * @param {onRejectCallback} onreject called after unsuccessful verfication
- */
-const verify = (token, onsuccess, onreject) => {
+const verify = (token, key, onsuccess, onreject) => {
 
-    jwt.verify(token, 'bunnies', (err, decoded) => {
+    jwt.verify(token, key, (err, decoded) => {
         if (err) {
             console.error(err);
             switch (err.name) {
@@ -63,15 +63,27 @@ const verify = (token, onsuccess, onreject) => {
 }
 
 /**
+ * verifies a user authentication token.
+ * 
+ * @param {String} token the JWT to verify
+ * @param {onSuccessCallback} onsuccess called after successful verification
+ * @param {onRejectCallback} onreject called after unsuccessful verfication
+ */
+const verifyUser = (token, onsuccess, onreject) => {
+
+    verify(token, 'bunnies', onsuccess, onreject);
+}
+
+/**
  * Token authentication middleware for restricted server endpoints.
  * Sends a message on invalid authentication, otherwise continues the response chain.
  * @param {Object} req Express request object
  * @param {Object} res Express response object
  * @param {function} next next request handler
  */
-const authenticate = (req,res,next) => {
+const authenticateUser = (req,res,next) => {
     if (req.cookies['auth_token']) {
-        verify(req.cookies.auth_token, (decoded) => {
+        verifyUser(req.cookies.auth_token, (decoded) => {
             req.jwtPayload = JSON.parse(JSON.stringify(decoded));
             next();
         }, (err) => {
@@ -86,5 +98,7 @@ const authenticate = (req,res,next) => {
 module.exports = {
     sign: sign,
     verify: verify,
-    authenticate: authenticate,
+    signUser: signUser,
+    verifyUser: verifyUser,
+    authenticateUser: authenticateUser,
 }

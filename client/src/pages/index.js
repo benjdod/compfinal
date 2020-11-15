@@ -9,9 +9,7 @@ import boxStyle from "../components/modules/box.module.css"
 export default () => {
     return (
         <div class="bg-image">
-            <Link to="/list" class="underline" style = {{padding: "10px", display: "inline-block"}}>Horizontal</Link>
-            <Link to="/cookie" class="underline">Get cookie maybe?</Link>
-
+            <Link to="/newsPage" class="underline" style = {{padding: "10px", display: "inline-block"}}>News</Link>
             <HomeBox />
             <Footer />
         </div>
