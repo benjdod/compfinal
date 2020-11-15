@@ -72,6 +72,14 @@ const loginbox = (props) => {
         <div className={boxStyle.box}>
             <h1>Log In</h1>
             <form id="login-form">
+                {/* styles for this message based on login state */}
+                <p style={{
+                    color: '#ff6969',
+                    backgroundColor: 'rgba(200,100,100,0.1)',
+                    display: 'inline',
+                }}>{loginState === 'rejected' ? 'Incorrect username or password' : loginState === 'accepted' ? 'Logged in' : ''}</p>
+                <br />
+                <br />
                 <label id="email-label" htmlFor="username">Username</label><br />
                 <input type="text" id="username" onChange={(e) => {inputs.username = e.target.value}}/><br />
                 <label id="password-label" htmlFor="password">Password</label><br />
@@ -79,19 +87,11 @@ const loginbox = (props) => {
                 <input type="password" id="password" maxLength={64} onChange={(e) => {inputs.password = e.target.value}} /><br />
 
                 {/* we might not be able to have forgot password :( */}
-                <p className={boxStyle.forgot}><a href="#">Forgot Password?</a></p>
+                {/* <p className={boxStyle.forgot}><a href="#">Forgot Password?</a></p> */}
                 
-                <input type="submit" id="login-button" className="button" className={boxStyle.formbutton} value="Login" onClick={submit}/>                <br/>
+                <input type="submit" id="login-button" className="button" className={boxStyle.formbutton} value="Login" onClick={submit}/>                
 
-                {/* styles for this message based on login state */}
-                <p style={{
-                    color: '#ff6969',
-                    backgroundColor: 'rgba(200,100,100,0.1)',
-                    display: 'inline',
-                }}>{(loginState === 'rejected') 
-                    ? (message)
-                        ? message
-                    : 'Incorrect username or password' : loginState === 'accepted' ? 'Logged in' : ''}</p>
+                
             </form>
             <Link to="/map" classNme="button">temp button to map</Link>
         </div>

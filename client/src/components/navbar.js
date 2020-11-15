@@ -13,7 +13,7 @@ export default () => {
     return (
         <nav className={`${navStyle.bar}`}>
             <Link to="/"><h2 className={navStyle.siteTitle}>COVID-19 Tracker</h2></Link>
-            <NavLink className={`${navStyle.item} ${navStyle.push}`} to="/map">MAPS</NavLink>
+            <NavLink className={`${navStyle.item} ${navStyle.push}`} to="/map">QUIZ</NavLink>
             <NavLink className={`${navStyle.item}`} to="/news">NEWS</NavLink>
             <NavLink className={`${navStyle.item}`} to="/guidelines">GUIDELINES</NavLink>
             <NavLink className={`${navStyle.item}`} to="/about">ABOUT</NavLink>
