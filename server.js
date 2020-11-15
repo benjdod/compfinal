@@ -5,6 +5,7 @@ const cookieparser = require('cookie-parser');
 const authEndpoints = require('./util/endpoints/auth');
 const userEndpoints = require('./util/endpoints/user');
 const adminEndpoints = require('./util/endpoints/admin');
+const apiEndpoints = require('./util/endpoints/api');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.json())		// req.body
 app.use('/auth', authEndpoints);
 app.use('/user', userEndpoints);
 app.use('/admin', adminEndpoints);
+app.use('/api', apiEndpoints)
 
 // and then send any other request to React
 app.get('*', (req,res) => {

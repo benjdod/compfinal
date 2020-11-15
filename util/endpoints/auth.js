@@ -75,19 +75,21 @@ router.post('/register', async (req,res) => {
 
     const masterKey = generateUserKey();
     const passKey = derivePasswordKey(inputs.password);
-    const encMaster = encryptString(masterKey, passKey);
+    const encMaster = encrypt(masterKey, passKey);
 
-    const ins = await database.insertUser(inputs.username, inputs.firstname, inputs.lastname, hash, encMaster);
+    database.insertUser(inputs.username, inputs.firstname, inputs.lastname, hash, encMaster)
+        .then(() => database.getUser(inputs.username))
+        .then(user => {
+            const unencryptedMaster = decryptToString(user.key, passKey)
+            console.log('signing with key: ', unencryptedMaster);
+            res.cookie('auth_token', token.signUser(user.id, decryptToString(user.key, passKey))).send('successfully added user')
+        })
+        .catch(e => {
+            console.error(e);
+            res.status(500).send('failed to add user');
 
-    if (ins) {
-        database.getUser(inputs.username)
-            .then(user => {
-                res.cookie('auth_token', token.signUser(user.id, decryptToString(user.key, passKey))).send('successfully added user')
-            })
-            //.catch() send to login page
-    } else {
-        res.status(500).send('failed to add user');
-    }
+        })
+
 })
 
 // sandbox auth routes
