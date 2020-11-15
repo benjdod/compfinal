@@ -8,7 +8,7 @@ import Test from "./pages/test"
 import NotFound from "./pages/404"
 import Maps from "./pages/map"
 import Login from "./pages/login"
-import Info from "./pages/info"
+import Info from "./pages/guidelines"
 import Account from "./pages/account"
 import newsPage from "./pages/newsPage"
 
@@ -27,7 +27,7 @@ const App = () => {
                 <Route exact path='/newsPage' component={newsPage}/>
                 <Route exact path='/map' component={Maps}/>
                 <Route exact path='/login' component={Login}/>
-                <Route exact path='/info' component={Info}/>
+                <Route exact path='/guidelines' component={Info}/>
                 <Route exact path='/account' component={Account}/>
                 <Route exact path='/register' component={Register}/>
 
