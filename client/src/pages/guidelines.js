@@ -16,7 +16,7 @@ export default () => {
             <p className={infoboxStyle.cdcSource}>This information comes directly from the Centers for Disease Control and Prevention Website. For more information, go to            <Link to="https://www.cdc.gov/" class="underline">CDC.gov</Link></p>
 
         <div className={infoboxStyle.masonrycontainer}>
-            <div className={infoboxStyle.masonryitem}>
+            <div className={`${infoboxStyle.masonryitem} ${infoboxStyle.itemOne}`}>
               <div className={infoboxStyle.masonrycontent}>
                 <h3>Know how it spreads</h3>
                   <p>&#8226; There is currently no vaccine to prevent coronavirus disease 2019 (COVID-19).</p>
@@ -30,7 +30,7 @@ export default () => {
                     </ul>
               </div>
             </div>
-            <div className={infoboxStyle.masonryitem}>
+            <div className={`${infoboxStyle.masonryitem} ${infoboxStyle.itemTwo}`}>
               <div className={infoboxStyle.masonrycontent}>
                
                 <h3>Wash your hands often</h3>
@@ -51,7 +51,7 @@ export default () => {
                 <p>&#8226; <strong>Avoid touching your eyes, nose, and mouth</strong> with unwashed hands.</p>
               </div>
             </div>
-            <div className={infoboxStyle.masonryitem}>
+            <div className={`${infoboxStyle.masonryitem} ${infoboxStyle.itemThree}`}>
               <div className={infoboxStyle.masonrycontent}>
                
                 <h3>Avoid close contact</h3>
@@ -67,7 +67,7 @@ export default () => {
                     </ul>
               </div>
             </div>
-            <div className={infoboxStyle.masonryitem}>
+            <div className={`${infoboxStyle.masonryitem} ${infoboxStyle.itemFour}`}>
                 <div className={infoboxStyle.masonrycontent}>
                  
                   <h3>Cover your mouth and nose with a mask when around others</h3>
@@ -82,7 +82,7 @@ export default () => {
                   <p>&#8226; Continue to keep about 6 feet between yourself and others. The mask is not a substitute for social distancing.</p>
                 </div>
               </div>
-              <div className={infoboxStyle.masonryitem}>
+              <div className={`${infoboxStyle.masonryitem} ${infoboxStyle.itemFive}`}>
                 <div className={infoboxStyle.masonrycontent}>
             
                   <h3>Cover coughs and sneezes</h3>
@@ -92,7 +92,7 @@ export default () => {
                   <p>&#8226; Immediately <strong>wash your hands</strong> with soap and water for at least 20 seconds. If soap and water are not readily available, clean your hands with a hand sanitizer that contains at least 60% alcohol.</p>
                 </div>
               </div>
-              <div className={infoboxStyle.masonryitem}>
+              <div className={`${infoboxStyle.masonryitem} ${infoboxStyle.itemSix}`}>
                 <div className={infoboxStyle.masonrycontent}>
                   
                   <h3>Clean and disinfect</h3>
@@ -101,7 +101,7 @@ export default () => {
                   <p>&#8226; <strong>Then, use a household disinfectant.</strong> Most common EPA-registered household disinfectants will work.</p>
                 </div>
               </div>
-              <div className={infoboxStyle.masonryitem}>
+              <div className={`${infoboxStyle.masonryitem} ${infoboxStyle.itemSeven}`}>
                 <div className={infoboxStyle.masonrycontent}>
                  
                   <h3>Monitor Your Health Daily</h3>

@@ -13,6 +13,7 @@ export default () => {
             <Link to="/cookie" class="underline">Get cookie maybe?</Link>
 
             <HomeBox />
+            <Footer />
         </div>
     )
 }
