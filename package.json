@@ -1,7 +1,7 @@
 {
   "name": "comp426final",
   "version": "1.0.0",
-  "description": "",
+  "description": "To run, just type `npm run dev` or run the dev server with `node ./server.dev.js`. The server will use port 3000 by default, but if you want to use another port you can define an environment variable called `PORT`.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -52,5 +52,13 @@
   "engines": {
     "node": ">=12.0.0",
     "npm": ">=6.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjdod/compfinal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/benjdod/compfinal/issues"
+  },
+  "homepage": "https://github.com/benjdod/compfinal#readme"
 }
