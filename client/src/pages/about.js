@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import NavBar from "../components/navbar"
 import Footer from "../components/footer"
+import aboutStyle from "../components/modules/about.module.css"
 
 export default () => {
 
@@ -32,6 +33,8 @@ export default () => {
 
     return (
         <div>
+            {/* use pageWrap div if the page doesn't scroll, delete if it does */}
+            <div class="pageWrap">
             <NavBar />
                 <h3>Methods</h3>
                 <p>We based our risk caluclation method off of Joshua Weitz's similar equation.{makeInline(0,1)} We also factored in relevant using relevant metrics and recent studies. </p>
@@ -42,7 +45,9 @@ export default () => {
 
                 <h3>Your Data</h3>
                 <p>We store your data doubly encrypted, and we can't see it directly. When you log in, your computer is given a unique key which can decrypt your quizzes, but we can't generate that key ourselves.</p>
+            </div>
             <Footer />
+
         </div>
     )
 }
