@@ -32,13 +32,15 @@ export default () => {
 
     return (
         <div style={{wordWrap: 'break-word', wordBreak: 'break-all'}}>
+            {/* use pageWrap div if the page doesn't scroll, delete if it does */}
+            <div class="pageWrap">
             <NavBar />
             <h3>Account:</h3>
             <p>The content of your user token:</p>
             <pre>{data}</pre>
             <p>Your quizzes:</p>
             <pre style={{wordBreak: 'break-all'}}>{JSON.stringify(quizzes, null, 4)}</pre>
-
+            </div>
             <Footer />
         </div>
     )
