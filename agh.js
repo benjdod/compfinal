@@ -45,6 +45,16 @@ const h = () => {
     console.log(filled);
 }
 
+const f = () => {
+    const masterKey = generateUserKey();
+    const encMaster = encrypt(masterKey, derivePasswordKey('password'));
+    console.log(masterKey);
+    console.log(encMaster);
+    console.log(decryptToString(encMaster, derivePasswordKey('password')));
+}
+
+f();
+
 const loadUser = async () => {
     const pw = 'password'
     const hashed = await password.hash(pw);
@@ -129,4 +139,3 @@ const viewQuizzes = () => {
 
 //loadUser();
 //loadQuizzes();
-viewQuizzes()

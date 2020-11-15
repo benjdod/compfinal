@@ -1,7 +1,7 @@
 const token = require('../auth/token');
 const password = require('../auth/password');
 const database = require('../database');
-const { derivePasswordKey, decryptToString } = require('../crypt');
+const { derivePasswordKey, encrypt, decryptToString, generateUserKey } = require('../crypt');
 const { listRoutes } = require('./index');
 
 const express = require('express');
@@ -66,17 +66,25 @@ router.post('/register', async (req,res) => {
 
     const inputs = req.body;
 
-    if (!inputs.username || !inputs.firstname || !inputs.lastname || !inputs.password) {
+    if (!inputs.username || !inputs.firstName || !inputs.lastName || !inputs.password) {
         res.status(400).send(null)
         return;
     }
 
     const hash = await password.hash(req.body.password);
 
-    const ins = await database.insertUser(inputs.username, inputs.firstname, inputs.lastname, hash);
+    const masterKey = generateUserKey();
+    const passKey = derivePasswordKey(inputs.password);
+    const encMaster = encryptString(masterKey, passKey);
+
+    const ins = await database.insertUser(inputs.username, inputs.firstname, inputs.lastname, hash, encMaster);
 
     if (ins) {
-        res.status(200).send('successfully added user');
+        database.getUser(inputs.username)
+            .then(user => {
+                res.cookie('auth_token', token.signUser(user.id, decryptToString(user.key, passKey))).send('successfully added user')
+            })
+            //.catch() send to login page
     } else {
         res.status(500).send('failed to add user');
     }

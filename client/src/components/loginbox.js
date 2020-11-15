@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom"
 // probably gonna have one for most files)
 import boxStyle from "./modules/box.module.css"
 import { Link } from "react-router-dom"
+import Validate from "../../../util/formvalidation"
 
 const loginbox = (props) => {
 
@@ -21,11 +22,20 @@ const loginbox = (props) => {
     //      'error'     (for server error)
     const [loginState, setLoginState] = useState('initial');
 
+    // error message for badly formed input
+    const [message, setMessage] = useState('');
+
     const history = useHistory();
 
     const submit = (e) => {
         e.preventDefault();
-        console.log(inputs);
+
+        const validate = Validate.login(inputs);
+
+        if (validate) {
+            setLoginState('rejected')
+            setMessage(validate);
+        }
 
         fetch('/auth/login', {
             method: 'POST',
@@ -78,7 +88,10 @@ const loginbox = (props) => {
                     color: '#ff6969',
                     backgroundColor: 'rgba(200,100,100,0.1)',
                     display: 'inline',
-                }}>{loginState === 'rejected' ? 'Incorrect username or password' : loginState === 'accepted' ? 'Logged in' : ''}</p>
+                }}>{(loginState === 'rejected') 
+                    ? (message)
+                        ? message
+                    : 'Incorrect username or password' : loginState === 'accepted' ? 'Logged in' : ''}</p>
             </form>
             <Link to="/map" classNme="button">temp button to map</Link>
         </div>

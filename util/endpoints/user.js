@@ -17,7 +17,7 @@ router.get('/reflectjwt', (req,res) => {
 router.get('/quizzes', async (req,res) => {
     try {
         const masterKey = req.jwtPayload.k;
-        const quizzes = await getQuizzes(1, masterKey);
+        const quizzes = await getQuizzes(req.jwtPayload.u, masterKey);
         res.json(quizzes);
     } catch (e) {
         console.error(e);

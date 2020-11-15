@@ -1,6 +1,5 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import NavLink from "./navlink"
 import footerStyle from "./modules/footer.module.css"
 
 export default () => {
