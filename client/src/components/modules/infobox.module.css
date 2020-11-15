@@ -13,3 +13,11 @@
     padding: 10px;
     border-radius: 10px;
   }
+  .cdcSource {
+    padding: 0 0 5px 10px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .cdcSource a {
+    font-weight: 600;
+  }

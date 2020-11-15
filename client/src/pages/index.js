@@ -2,13 +2,13 @@ import React from "react"
 import { Link } from "react-router-dom"
 import PageFrame from "_components/pageframe"
 import HomeBox from "../components/homebox"
+import Footer from "../components/footer"
 
 import boxStyle from "../components/modules/box.module.css"
 
 export default () => {
     return (
         <div class="bg-image">
-            <Link to="/about" class="underline" style={{padding: "10px", display: "inline-block"}}>About</Link>
             <Link to="/newsPage" class="underline" style = {{padding: "10px", display: "inline-block"}}>News</Link>
             <Link to="/cookie" class="underline">Get cookie maybe?</Link>
 
