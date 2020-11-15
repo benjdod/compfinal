@@ -124,10 +124,11 @@ h3 {
 li {
     display: list-item;
     text-align: -webkit-match-parent;
-    margin: 0 0 5px 50px;
+    margin: 0 0 8px 40px;
 }
-ol, ul {
-    list-style: none;
+ul {
+    /* list-style-type: disc;  */
+    list-style-position: inside; 
 }
 strong {
     font-weight: bold;
