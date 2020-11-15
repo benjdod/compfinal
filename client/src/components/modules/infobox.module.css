@@ -45,6 +45,23 @@
     background-color:#D6DDE7;
   }
 
+  .icon {
+    height: 43.14px;
+    width: 52.14px;
+
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    margin-right: 15px;
+  }
+  .iconDiv {
+    display: flex;
+  }
+  .guidelines4 {
+    margin-top: 30px;
+  }
+
   @media only screen and (max-width: 1200px) {
     .masonrycontainer {
       column-count: 2;
