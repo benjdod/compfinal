@@ -3,6 +3,7 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import React, { useState, useRef, useCallback } from "react";
 import MapGL from 'react-map-gl';
 import Geocoder from "react-map-gl-geocoder";
+//import covidData from "util\endpoints\api.js";
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoicmFjaGVsdzAwIiwiYSI6ImNrZ29hdXJoODBhNGQyc3F5MG1rOTU4aW8ifQ.1v3yLXjR8-vD5RnaKkOJkw'; // Set your mapbox token here
 
@@ -20,7 +21,7 @@ export default (props) => {
         longitude: -79.047554,
         zoom: 7,
         bearing: 0,
-        pitch: 0
+        pitch: 0,
     });
 
     //changes to the new viewport
@@ -56,6 +57,8 @@ export default (props) => {
       const coviddata = fetch(covidURL)
       .then(response => response.text())
       .then(function (covid) {
+        
+        //return viewport.covidinfo.push(covid);
 
         return console.log(covid);
       })
@@ -63,9 +66,16 @@ export default (props) => {
       
       const countydata = fetch(longlatURL)
       .then(response => response.json())
-      .then(county => console.log(county))
+      .then(function (county) {
+        //viewport.countyfip = county.results[0].county_fips;
+        return county.results[0].county_fips;
+      })
       .catch(err => console.error(err));
 
+
+
+      //COUNTY FIPS IS UNDER COUNTYDATA PROMISE RESULT
+      console.log(countydata);
 
     return (
         <div>
