@@ -47,31 +47,14 @@ e = (1 - (1 - pI)^n) * (1 - m) * 1/O * ((1/2.2) * D)
 	D = social distance
 
 questions:
-	location?
-	event size?
+	location? (Jacob: maybe make a predfined list assigning values to states based on case numbers, i think itd be hard to get much more
+				specific then that)
+	event size? (Jacob: get k from this size/(20/10) 20 for outdoors, 10 for indoors maybe just an idea)
 	event inside/outside?
 	mask wearing?
 		mask wearing percentage?
 	social distancing required?
 		minimum distance?
 	event duration? (Weitz assumes events of ~ 2.5hr (2-3hrs), maybe we can add a linear function centered around that)
-	physical activity level? (bracketed? even possible to include?)
-
-# TODO: review the above questions, feel free to restructure, add, remove, etc...
-#		all that has to change in response is the structure of the quiz page 
-#		and the encoding for the database. Note that we have an encryption scheme
-#		and can probably store possibly sensitive data like location, etc.
-
-# TODO: review the above equation, see if y'all are cool with it or if you feel any
-#		modifications should be made...
-
-# TODO: check out 'quizzard.js' in pages/ to see if y'all are cool with that way
-# 		of structuring the quiz. Obviously it would look better than it does, but 
-# 		a multi-page wizard form style in essence.
-
-# My thoughts (Ben): I'm thinking that the quiz should maybe be restructured to 
-# be based around the risk of a single event rather than an overarching number, 
-# since that will allow us to give a more relevant and accurate number to users,
-# who will be providing more information about their activities that way. This quiz 
-# data can be saved and possibly searched (with autocompletion :) using fuzzy search algorithm
-# overall, the user data will be more meaningful and useful.
+				(Jacob: Yea not sure what to do with this )
+		

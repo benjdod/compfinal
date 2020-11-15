@@ -27,14 +27,3 @@
     vertical-align: center;
     font-size: 14px;
 }
-input {
-    outline: none;
-    border-radius: 10%;
-    border-color: grey;
-    box-shadow: none;
-    border-style: hidden;
-    height: 30px;
-    width: 200px;
-    padding: 5px 10px 5px 10px;
-    margin: 5px 0 15px 0;
-}

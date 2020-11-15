@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 
 import NavBar from "../components/navbar"
+import Footer from "../components/footer"
 
 export default () => {
 
@@ -37,6 +38,8 @@ export default () => {
             <pre>{data}</pre>
             <p>Your quizzes:</p>
             <pre style={{wordBreak: 'break-all'}}>{JSON.stringify(quizzes, null, 4)}</pre>
+
+            <Footer />
         </div>
     )
 }

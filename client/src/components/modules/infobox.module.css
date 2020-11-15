@@ -1,15 +1,59 @@
 .masonrycontainer {
     column-count: 3;
     column-gap: 0;
+    margin-bottom: 60px;
   }
   .masonryitem {
     break-inside: avoid;
     padding: 5px;
     margin: 10px;
-    padding: 10px;
+    padding: 0 10px 10px 10px;
     box-shadow: 2px 2px 8px #888888;
   }
   .masonrycontent {
     padding: 10px;
     border-radius: 10px;
+  }
+  .cdcSource {
+    padding: 0 0 5px 10px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .cdcSource a {
+    font-weight: 600;
+  }
+  .itemOne {
+    background-color: #E6D6B8;
+  }
+  .itemTwo {
+    background-color: #B8E6B8;
+  }
+  .itemThree {
+    background-color: #D6DDE7;
+  }
+  .itemFour {
+    background-color:#F0F2DE;
+  }
+  .itemFive {
+    background-color: #F2E0DC;
+  }
+  .itemSix {
+    background-color:#B8E6B8;
+  }
+  .itemSeven {
+    background-color:#D6DDE7;
+  }
+
+  @media only screen and (max-width: 1200px) {
+    .masonrycontainer {
+      column-count: 2;
+      column-gap: 0;
+    }
+  }
+
+  @media only screen and (max-width: 700px) {
+    .masonrycontainer {
+      column-count: 1;
+      column-gap: 0;
+    }
   }

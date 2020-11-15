@@ -15,7 +15,8 @@ export default () => {
             <Link to="/"><h2 className={navStyle.siteTitle}>COVID-19 Tracker</h2></Link>
             <NavLink className={`${navStyle.item} ${navStyle.push}`} to="/map">MAPS</NavLink>
             <NavLink className={`${navStyle.item}`} to="/news">NEWS</NavLink>
-            <NavLink className={`${navStyle.item}`} to="/info">INFO</NavLink>
+            <NavLink className={`${navStyle.item}`} to="/guidelines">GUIDELINES</NavLink>
+            <NavLink className={`${navStyle.item}`} to="/about">ABOUT</NavLink>
             <NavLink className={`${navStyle.item}`} to="/account">ACCOUNT</NavLink>
         </nav>
     )

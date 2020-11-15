@@ -10,7 +10,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
 
-/* html, body, div, span, applet, object, iframe,
+html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
@@ -29,7 +29,7 @@ time, mark, audio, video {
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
-} */
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
@@ -61,23 +61,44 @@ table {
 
 body, html {
     /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
+    line-height: 1.25;
     margin: 0;
     font-size: 16px;
     height: 100%;
+    width: 100%;
+    min-height: 100%;
+    /* position: absolute; */
     font-family: 'Open Sans', sans-serif;
 }
 
 h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
     font-weight:300;
-    /* font-size: 48px; */
 }
 
-/* h2 {
-    font-size: 30px;
-} */
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
 
 h3 {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
     font-size: 24px;
+    font-weight: 500;
 }
 
 .text-light {
@@ -96,7 +117,24 @@ h3 {
     font-weight: 900;
 }
 
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    margin: 0 0 5px 50px;
+}
+ol, ul {
+    list-style: none;
+}
+strong {
+    font-weight: bold;
+}
+
 p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
     font-weight: 400;
 }
 a {
@@ -119,6 +157,18 @@ a {
 }
 #root {
     height: 100%;
+}
+
+input {
+    outline: none;
+    border-radius: 10%;
+    border-color: grey;
+    box-shadow: none;
+    border-style: hidden;
+    height: 30px;
+    width: 200px;
+    padding: 5px 10px 5px 10px;
+    margin: 5px 0 15px 0;
 }
 
 
