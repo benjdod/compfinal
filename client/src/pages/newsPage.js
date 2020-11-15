@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import NewsCard from "../components/newscard"
 import axios from "axios";
 import newsPageStyle from "../components/modules/newsPage.module.css";
+import PageFrame from "../components/pageframe.js"
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
 
 
@@ -109,6 +110,7 @@ componentDidMount() {
 
     
     return (
+      
       <div>
       <h1 className={newsPageStyle.local}>Local News</h1>
       <h1 className={newsPageStyle.national}>National News</h1>
