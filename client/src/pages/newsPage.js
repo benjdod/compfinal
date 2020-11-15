@@ -4,6 +4,7 @@ import NewsCard from "../components/newscard"
 import axios from "axios";
 import newsPageStyle from "../components/modules/newsPage.module.css";
 import PageFrame from "../components/pageframe.js"
+import listStyle from "../components/modules/hList.css"
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
 
 
@@ -110,13 +111,12 @@ componentDidMount() {
 
     
     return (
-      
       <div>
+        <PageFrame>
       <h1 className={newsPageStyle.local}>Local News</h1>
       <h1 className={newsPageStyle.national}>National News</h1>
       <h1 className={newsPageStyle.global}>Global News</h1>
-
-      <div className={newsPageStyle.masonrycontainer}>
+      <div className={listStyle.gallery}
       <ul>
       {this.state.localNews.map(article => 
         <div className={newsPageStyle.masonryitem}>
@@ -169,6 +169,7 @@ componentDidMount() {
           </div>)}
           </ul>
           </div>
+      </PageFrame>
       </div>
     )
         }

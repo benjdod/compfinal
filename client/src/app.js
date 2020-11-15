@@ -11,7 +11,7 @@ import Login from "./pages/login"
 import Info from "./pages/guidelines"
 import Account from "./pages/account"
 import newsPage from "./pages/newsPage"
-
+import hPage from "./pages/horizontalList.js"
 import Register from "./pages/register"
 
 import "./styles/global.css"
@@ -30,6 +30,7 @@ const App = () => {
                 <Route exact path='/guidelines' component={Info}/>
                 <Route exact path='/account' component={Account}/>
                 <Route exact path='/register' component={Register}/>
+                <Route exact path='/list' component={hPage}/>
 
                 {/* Cookie needs to be fixed cus right now it's pointed to 404 page */}
                 <Route exact path='/cookie' component={NotFound}/>
