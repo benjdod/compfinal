@@ -30,6 +30,7 @@ app.use(express.json());
 app.use('/auth', authEndpoints);
 app.use('/user', userEndpoints);
 app.use('/admin', adminEndpoints);
+app.use('/api', require('./util/endpoints/api'))
 
 app.use(wdm(compiler, {
 	// set this to false if it seems like something's broken and check the console

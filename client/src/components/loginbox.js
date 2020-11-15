@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom"
 // probably gonna have one for most files)
 import boxStyle from "./modules/box.module.css"
 import { Link } from "react-router-dom"
+import Validate from "../../../util/formvalidation"
 
 const loginbox = (props) => {
 
@@ -21,11 +22,20 @@ const loginbox = (props) => {
     //      'error'     (for server error)
     const [loginState, setLoginState] = useState('initial');
 
+    // error message for badly formed input
+    const [message, setMessage] = useState('');
+
     const history = useHistory();
 
     const submit = (e) => {
         e.preventDefault();
-        console.log(inputs);
+
+        const validate = Validate.login(inputs);
+
+        if (validate) {
+            setLoginState('rejected')
+            setMessage(validate);
+        }
 
         fetch('/auth/login', {
             method: 'POST',

@@ -30,7 +30,6 @@ const firstName = (name) => {
 
     if (nameChars(name)) {
         return 'First name is not formatted correctly!'
-        
     } 
 
     return null;
@@ -41,7 +40,7 @@ const lastName = (name) => {
         return 'Last name cannot be empty!'
     }
 
-    if (name(name)) {
+    if (nameChars(name)) {
         return 'Last name is not formatted correctly!'
         
     } 
@@ -52,6 +51,10 @@ const lastName = (name) => {
 const password = (password) => {
 
     // limit length for security and key generation 
+
+    if (password.length === 0) {
+        return 'Please enter a password'
+    }
     
     if (password.length < 8) {
         return 'Password must be at least 8 characters long';
@@ -64,10 +67,20 @@ const password = (password) => {
     return null;
 }
 
+const register = (inputs) => {
+    return username(inputs.username) || firstName(inputs.firstName) || lastName(inputs.lastName) || password(inputs.password);
+}
+
+const login = (inputs) => {
+    return username(inputs.username) || password(inputs.password);
+}
+
 module.exports = {
     username: username,
     name: nameChars,
     firstName: firstName,
     lastName: lastName,
-    password: password
+    password: password,
+    register: register,
+    login: login,
 }

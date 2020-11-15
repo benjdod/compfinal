@@ -11,7 +11,6 @@ export default () => {
         <div class="bg-image">
             <div class="pageWrap">
             <Link to="/newsPage" class="underline" style = {{padding: "10px", display: "inline-block"}}>News</Link>
-            <Link to="/cookie" class="underline">Get cookie maybe?</Link>
             </div>
             <HomeBox />
             <Footer />

@@ -1,7 +1,7 @@
 const token = require('../auth/token');
 const password = require('../auth/password');
 const database = require('../database');
-const { derivePasswordKey, decryptToString } = require('../crypt');
+const { derivePasswordKey, encrypt, decryptToString, generateUserKey } = require('../crypt');
 const { listRoutes } = require('./index');
 
 const express = require('express');
@@ -66,20 +66,30 @@ router.post('/register', async (req,res) => {
 
     const inputs = req.body;
 
-    if (!inputs.username || !inputs.firstname || !inputs.lastname || !inputs.password) {
+    if (!inputs.username || !inputs.firstName || !inputs.lastName || !inputs.password) {
         res.status(400).send(null)
         return;
     }
 
     const hash = await password.hash(req.body.password);
 
-    const ins = await database.insertUser(inputs.username, inputs.firstname, inputs.lastname, hash);
+    const masterKey = generateUserKey();
+    const passKey = derivePasswordKey(inputs.password);
+    const encMaster = encrypt(masterKey, passKey);
 
-    if (ins) {
-        res.status(200).send('successfully added user');
-    } else {
-        res.status(500).send('failed to add user');
-    }
+    database.insertUser(inputs.username, inputs.firstname, inputs.lastname, hash, encMaster)
+        .then(() => database.getUser(inputs.username))
+        .then(user => {
+            const unencryptedMaster = decryptToString(user.key, passKey)
+            console.log('signing with key: ', unencryptedMaster);
+            res.cookie('auth_token', token.signUser(user.id, decryptToString(user.key, passKey))).send('successfully added user')
+        })
+        .catch(e => {
+            console.error(e);
+            res.status(500).send('failed to add user');
+
+        })
+
 })
 
 // sandbox auth routes
