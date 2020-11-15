@@ -39,9 +39,12 @@ https://www.thelancet.com/action/showPdf?pii=S0140-6736%2820%2931142-9
 
 Our potential risk assessment equation (Modified Weitz equation):
 
-e = (1 - (1 - pI)^n) * (1 - m) * 1/O where:
+e = (1 - (1 - pI)^n) * (1 - m) * 1/O * ((1/2.2) * D)
+	
+	where:
 	m = 0.65 (mask risk reduction to wearer rate)
 	O = 18.7 (indoor risk reduction) (this number should go up with with more people @ event)
+	D = social distance
 
 questions:
 	location?
@@ -53,7 +56,6 @@ questions:
 		minimum distance?
 	event duration? (Weitz assumes events of ~ 2.5hr (2-3hrs), maybe we can add a linear function centered around that)
 	physical activity level? (bracketed? even possible to include?)
-
 
 # TODO: review the above questions, feel free to restructure, add, remove, etc...
 #		all that has to change in response is the structure of the quiz page 

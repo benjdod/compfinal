@@ -6,6 +6,8 @@ const cookieparser = require('cookie-parser');
 const path = require('path');
 
 const authEndpoints = require('./util/endpoints/auth');
+const userEndpoints = require('./util/endpoints/user');
+const adminEndpoints = require('./util/endpoints/admin');
 
 const app = express();
 const localport = process.env.PORT || 3000;
@@ -26,6 +28,8 @@ app.use(express.json());
 
 // populate our endpoints
 app.use('/auth', authEndpoints);
+app.use('/user', userEndpoints);
+app.use('/admin', adminEndpoints);
 
 app.use(wdm(compiler, {
 	// set this to false if it seems like something's broken and check the console

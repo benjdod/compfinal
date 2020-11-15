@@ -1,11 +1,11 @@
 // this must be imported first for obvious reasons
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
 
 // get our css module for this file (you're
 // probably gonna have one for most files)
 import boxStyle from "./modules/box.module.css"
 import { Link } from "react-router-dom"
-
 
 const loginbox = (props) => {
 
@@ -21,6 +21,8 @@ const loginbox = (props) => {
     //      'error'     (for server error)
     const [loginState, setLoginState] = useState('initial');
 
+    const history = useHistory();
+
     const submit = (e) => {
         e.preventDefault();
         console.log(inputs);
@@ -32,13 +34,21 @@ const loginbox = (props) => {
                 'Content-type': 'application/json'
             },
             body: JSON.stringify(inputs),
-        }).then(response => {
+        })
+        /*
+        .then(res => {
+            console.log('transforming authentication response to json');
+            return res.json()
+        })
+        */
+        .then(response => {
             console.log(response.status);
 
             if (response.status !== 200) {
                 setLoginState('rejected');
             } else {
                 setLoginState('accepted');
+                history.push('/account');
             }
         }).catch(err => {
             console.error(err);
@@ -63,6 +73,7 @@ const loginbox = (props) => {
                 
                 <input type="submit" id="login-button" className="button" className={boxStyle.formbutton} value="Login" onClick={submit}/>                <br/>
 
+                {/* styles for this message based on login state */}
                 <p style={{
                     color: '#ff6969',
                     backgroundColor: 'rgba(200,100,100,0.1)',
