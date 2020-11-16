@@ -11,7 +11,8 @@ import Maps from "./pages/map"
 import Login from "./pages/login"
 import Info from "./pages/guidelines"
 import Account from "./pages/account"
-import News from "./pages/news"
+import newsPage from "./pages/newsPage"
+
 import Quiz from "./pages/quizzard"
 
 import Footer from "./pages/footergang"
@@ -34,7 +35,7 @@ export default () => {
                 {/*  add your page components here.  */}
                 <Route exact path='/' component={Index}/>
                 <Route exact path='/about' component={About}/>
-                <Route exact path='/news' component={News}/>
+                <Route exact path='/news' component={newsPage}/>
                 <Route exact path='/map' component={Maps}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/guidelines' component={Info}/>
