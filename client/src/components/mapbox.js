@@ -31,12 +31,17 @@ export default (props) => {
         []
     );
 
+    const setLatLong = props.setLatLong;
+
     //slide animation
     const handleGeocoderViewportChange = useCallback(
         (newViewport) => {
           const geocoderDefaultOverrides = { transitionDuration: 1000 };
 
           console.log(newViewport);
+
+          if (setLatLong)
+            setLatLong(viewport.latitude, viewport.longitude);
     
           return handleViewportChange({
             ...newViewport,
