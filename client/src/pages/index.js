@@ -10,19 +10,9 @@ export default () => {
     return (
         <div class="bg-image">
             <div class="pageWrap">
-            <Link to="/newsPage" class="underline" style = {{padding: "10px", display: "inline-block"}}>News</Link>
             </div>
             <HomeBox />
             <Footer />
         </div>
     )
 }
-
-/* <p>Example newscard: </p>
-<NewsCard
-    title="Cat Saved From Tree" 
-    date="October 10, 2020" 
-    publisher="Daily Tar Heel" 
-    description="They got the cat out of the tree!"
-    link="https://www.radio.com/fm1019/blogs/james-steele/man-gets-stuck-tree-saving-cat"
-/> */
