@@ -86,67 +86,8 @@ componentDidMount() {
 
 
   render() {
-
-    let ncArticles = this.state.localNews;
-    let usaArticles = this.state.usaNews;
-    const parser = new DOMParser();
-  
-    ncArticles.forEach(article =>{
-      let descrip = this.formatDescripiton(article.description, 20);
-      article.description = descrip + '...';
-    }
-      )
-   usaArticles.forEach(article => {
-      let descrip = this.formatDescripiton(article.description, 20);
-      article.description = descrip + '...';
-    })
-
-    this.state.worldNews.forEach(article => {
-      let descrip = this.formatDescripiton(article.description, 20);
-      article.description = descrip + '...';
-    })
-    
     return (
-      <PageFrame>
-      <ul class="horizontal list">
-      <h1>Local News</h1>
-      {this.state.localNews.map(article => 
-      <li><NewsCard
-        image = {article.image.url}
-        title = {article.title}
-        date = {article.datePublished.splice}
-        publisher = {article.provider.name}
-        description = {article.description}
-        link = {article.url}/> 
-        </li>)}
-      </ul>
-
-        <h1>National News</h1>
-      <ul class="horizontal list">
-        {this.state.usaNews.map(article => 
-          <li><NewsCard
-          image = {article.image.url}
-          title = {article.title}
-          date = {article.datePublished.splice}
-          publisher = {article.provider.name}
-          description = {article.description}
-          link = {article.url}/> 
-          </li>)}
-      </ul>
-
-      <h1>Global News</h1>
-      <ul class="horizontal list">
-      {this.state.worldNews.map(article => 
-          <li><NewsCard
-          image = {article.image.url}
-          title = {article.title}
-          date = {article.datePublished.splice}
-          publisher = {article.provider.name}
-          description = {article.description}
-          link = {article.url}/> 
-          </li>)}
-          </ul>
-    </PageFrame>
+      <p>here</p>
     )
         }
 

@@ -1,10 +1,10 @@
 import React from "react"
-import { Link } from "react-router-dom"
 import NewsCard from "../components/newscard"
 import axios from "axios";
 import newsPageStyle from "../components/modules/newsPage.module.css";
 import PageFrame from "../components/pageframe.js"
-import listStyle from "../components/modules/hList.css"
+import listStyle from "../components/modules/hList.module.css"
+import Footer from "../components/footer"
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
 
 
@@ -107,17 +107,90 @@ componentDidMount() {
       let descrip = this.formatDescripiton(article.description, 20);
       article.description = descrip + '...';
     })
-    
-
-    
     return (
       <div>
+        <Footer />
         <PageFrame>
-      <h1 className={newsPageStyle.local}>Local News</h1>
-      <h1 className={newsPageStyle.national}>National News</h1>
-      <h1 className={newsPageStyle.global}>Global News</h1>
-      <div className={listStyle.gallery}
-      <ul>
+      <h1 className={newsPageStyle.title}>Local News</h1>  
+      <div className={listStyle.gallery}>
+        <div className={listStyle.gallery_scroller}>
+          {this.state.localNews.map(article => 
+          <div className={listStyle.gallery_scroller_div}>
+          <NewsCard
+          image = {article.image.url}
+          title = {article.title}
+          date = {article.datePublished.splice}
+          publisher = {article.provider.name}
+          description = {article.description}
+          link = {article.url}/>
+          </div>
+          )}
+          </div>
+          </div>
+          
+    <h1 className={newsPageStyle.title}>National</h1>  
+      <div className={listStyle.gallery}>
+        <div className={listStyle.gallery_scroller}>
+          {this.state.usaNews.map(article => 
+          <div className={listStyle.gallery_scroller_div}>
+          <NewsCard
+          image = {article.image.url}
+          title = {article.title}
+          date = {article.datePublished.splice}
+          publisher = {article.provider.name}
+          description = {article.description}
+          link = {article.url}/>
+          </div>
+          )}
+          </div>
+          </div>
+
+<h1 className={newsPageStyle.title}>Global</h1>  
+      <div className={listStyle.gallery}>
+        <div className={listStyle.gallery_scroller}>
+          {this.state.worldNews.map(article => 
+          <div className={listStyle.gallery_scroller_div}>
+          <NewsCard
+          image = {article.image.url}
+          title = {article.title}
+          date = {article.datePublished.splice}
+          publisher = {article.provider.name}
+          description = {article.description}
+          link = {article.url}/>
+          </div>
+          )}
+          </div>
+          </div>
+        </PageFrame>
+        </div>
+
+    )
+        }
+
+  formatDescripiton(description, n){ 
+    return description.split(" ").splice(0, n).join(" ");
+  }
+}
+
+/*
+ <ul>
+        {this.state.usaNews.forEach(article => 
+          <li><NewsCard
+          image = {article.image.url}
+          title = {article.title}
+          date = {article.datePublished.splice}
+          publisher = {article.provider.name}
+          description = {article.description}
+          link = {article.url}/> 
+          </li>)}
+        )
+      </ul>
+
+
+
+
+
+           <ul>
       {this.state.localNews.map(article => 
         <div className={newsPageStyle.masonryitem}>
           <div className={newsPageStyle.masonrycontent}>
@@ -172,25 +245,5 @@ componentDidMount() {
       </PageFrame>
       </div>
     )
-        }
-
-  formatDescripiton(description, n){ 
-    return description.split(" ").splice(0, n).join(" ");
-  }
-}
-
-/*
- <ul>
-        {this.state.usaNews.forEach(article => 
-          <li><NewsCard
-          image = {article.image.url}
-          title = {article.title}
-          date = {article.datePublished.splice}
-          publisher = {article.provider.name}
-          description = {article.description}
-          link = {article.url}/> 
-          </li>)}
-        )
-      </ul>
       */
 export default News

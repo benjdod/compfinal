@@ -31,7 +31,7 @@ export default () => {
                 {/*  add your page components here.  */}
                 <Route exact path='/' component={Index}/>
                 <Route exact path='/about' component={About}/>
-                <Route exact path='/news' component={News}/>
+                <Route exact path='/news' component={newsPage}/>
                 <Route exact path='/map' component={Maps}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/guidelines' component={Info}/>

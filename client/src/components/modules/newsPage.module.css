@@ -36,10 +36,11 @@
     border-radius: 10px;
   }
 
-  li{
-	  float: left;
-
+  .title{
+    padding: 10px;
+    font-weight: bold;
   }
+
 
 
  
