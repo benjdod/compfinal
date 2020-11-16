@@ -1,0 +1,31 @@
+.container form * {
+    display: block;
+    margin: 10px 0px;
+}
+
+.container {
+    text-align: center;
+}
+
+.container input, .container select {
+    display: inline;
+    background-color: #eee;
+    border-width: 0px;
+    padding-left: 20px;
+}
+
+.container select {
+    padding: 5px;
+    font-size: 1em;
+    font-weight: 700;
+}
+
+.button {
+    border: none;
+    background: #eee;
+    font-size: inherit;
+}
+
+.buttonblock {
+    display: inline;
+}
