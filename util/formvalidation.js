@@ -22,7 +22,7 @@ const nameChars = (name) => {
         return false;
 }
 
-const firstName = (name) => {
+const firstname = (name) => {
 
     if (name == '') {
         return 'First name cannot be empty!'
@@ -35,7 +35,7 @@ const firstName = (name) => {
     return null;
 }
 
-const lastName = (name) => {
+const lastname = (name) => {
     if (name == '') {
         return 'Last name cannot be empty!'
     }
@@ -68,7 +68,7 @@ const password = (password) => {
 }
 
 const register = (inputs) => {
-    return username(inputs.username) || firstName(inputs.firstName) || lastName(inputs.lastName) || password(inputs.password);
+    return username(inputs.username) || firstname(inputs.firstname) || lastname(inputs.lastname) || password(inputs.password);
 }
 
 const login = (inputs) => {
@@ -78,8 +78,8 @@ const login = (inputs) => {
 module.exports = {
     username: username,
     name: nameChars,
-    firstName: firstName,
-    lastName: lastName,
+    firstname: firstname,
+    lastname: lastname,
     password: password,
     register: register,
     login: login,

@@ -99,6 +99,5 @@ const loginbox = (props) => {
     
 }
 
-
 // export default our component
 export default loginbox;

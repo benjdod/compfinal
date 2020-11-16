@@ -1,5 +1,6 @@
 const { Client } = require('pg');
-const { packageQuizData, encrypt, unpackageQuizData, decrypt } = require('./crypt');
+const { encrypt, decrypt } = require('./crypt');
+const { packageQuizData, unpackageQuizData } = require('./quizdata')
 const crypt = require('./crypt');
 
 const databaseURL = process.env.DATABASE_URL || 'postgres://thrxushcnebbcq:fb83f5c42c08cccd4bf105094978f4df0a1255b98cf99a37f9dd6c64cfe82b5e@ec2-52-2-82-109.compute-1.amazonaws.com:5432/d7fvckm24ppjng';

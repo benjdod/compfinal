@@ -21,7 +21,7 @@ app.use(express.json())		// req.body
 
 app.use('/auth', authEndpoints);
 app.use('/user', userEndpoints);
-app.use('/admin', adminEndpoints);
+//app.use('/admin', adminEndpoints);
 app.use('/api', apiEndpoints)
 
 // and then send any other request to React

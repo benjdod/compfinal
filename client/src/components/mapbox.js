@@ -31,10 +31,17 @@ export default (props) => {
         []
     );
 
+    const setLatLong = props.setLatLong;
+
     //slide animation
     const handleGeocoderViewportChange = useCallback(
         (newViewport) => {
           const geocoderDefaultOverrides = { transitionDuration: 1000 };
+
+          console.log(newViewport);
+
+          if (setLatLong)
+            setLatLong(viewport.latitude, viewport.longitude);
     
           return handleViewportChange({
             ...newViewport,
@@ -44,6 +51,7 @@ export default (props) => {
         [handleViewportChange]
       );
 
+      /*
       console.log(viewport.latitude);
       console.log(viewport.longitude);
       
@@ -60,7 +68,7 @@ export default (props) => {
         
         //return viewport.covidinfo.push(covid);
 
-        return console.log(covid);
+        //return console.log(covid);
       })
       .catch(err => console.error(err));
       
@@ -72,10 +80,9 @@ export default (props) => {
       })
       .catch(err => console.error(err));
 
-
-
       //COUNTY FIPS IS UNDER COUNTYDATA PROMISE RESULT
       console.log(countydata);
+      */
 
     return (
         <div>
@@ -93,6 +100,10 @@ export default (props) => {
                 onViewportChange={handleGeocoderViewportChange}
                 mapboxApiAccessToken={MAPBOX_TOKEN}
                 position="top-left"
+                proximity={{
+                  latitude: viewport.latitude,
+                  longitude: viewport.longitude
+                }}
             />
             </MapGL>
         </div>

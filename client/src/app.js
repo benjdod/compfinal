@@ -11,7 +11,11 @@ import Maps from "./pages/map"
 import Login from "./pages/login"
 import Info from "./pages/guidelines"
 import Account from "./pages/account"
-import newsPage from "./pages/newsPage"
+import News from "./pages/news"
+import Quiz from "./pages/quizzard"
+
+import Footer from "./pages/footergang"
+
 import Register from "./pages/register"
 
 import "./styles/global.css"
@@ -36,6 +40,8 @@ export default () => {
                 <Route exact path='/guidelines' component={Info}/>
                 <Route exact path='/account' component={Account}/>
                 <Route exact path='/register' component={Register}/>
+                <Route exact path='/quiz' component={Quiz}/>
+                <Route exact path='/footer' component={Footer}/>
 
                 {/* this is the default page 404 page. It needs to stay below 
                     all other routes since it catches any route that falls

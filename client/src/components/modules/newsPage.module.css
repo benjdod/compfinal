@@ -36,10 +36,16 @@
     border-radius: 10px;
   }
 
-  .title{
-    padding: 10px;
-    font-weight: bold;
+
+  /*
+  this was polluting the global style, so I'd put this whole 
+  component inside a div with a module className (e.g. localStyle.container) and
+  respecify this rule, like .container li.
+  li{
+	  float: left;
+
   }
+  */
 
 
 

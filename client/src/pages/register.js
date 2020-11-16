@@ -21,8 +21,8 @@ export default () => {
     // its corresponding input on change.
     let inputs = {
         username: '',
-        firstName: '',
-        lastName: '',
+        firstname: '',
+        lastname: '',
         password: ''
     }
 
@@ -69,9 +69,9 @@ export default () => {
                 <div style={{display: 'inline-block'}}>
                     <form className='children-as-block' onSubmit={submit}>
                         <label htmlFor='input-first-name'>First name</label>
-                        <TextInput id='input-first-name' maxLength="127" onChange={(e) => {inputs.firstName = e.target.value;}}/>
+                        <TextInput id='input-first-name' maxLength="127" onChange={(e) => {inputs.firstname = e.target.value;}}/>
                         <label htmlFor='input-last-name'>Last name</label>
-                        <TextInput id='input-last-name' maxLength="127" onChange={(e) => {inputs.lastName = e.target.value; }}/>
+                        <TextInput id='input-last-name' maxLength="127" onChange={(e) => {inputs.lastname = e.target.value; }}/>
                         <label htmlFor='input-user-name'>User name</label>
                         <TextInput id='input-user-name' maxLength="127" onChange={(e) => {inputs.username = e.target.value; }}/>
                         <label htmlFor='input-password'>Password</label>

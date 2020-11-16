@@ -9,15 +9,6 @@ const router = express.Router();
 
 router.get('/', listRoutes(router));
 
-// get a cookie that doesn't work!
-router.get('/getcookie', (req,res) => {
-
-    // free cookie for you!
-
-    res.cookie('auth_token', token.sign(9, 'fakeuserkey'))
-    .send('free auth cookie for you!');
-});
-
 router.post('/login', async (req,res) => {
     const body = req.body;
 
@@ -66,7 +57,7 @@ router.post('/register', async (req,res) => {
 
     const inputs = req.body;
 
-    if (!inputs.username || !inputs.firstName || !inputs.lastName || !inputs.password) {
+    if (!inputs.username || !inputs.firstname || !inputs.lastname || !inputs.password) {
         res.status(400).send(null)
         return;
     }
