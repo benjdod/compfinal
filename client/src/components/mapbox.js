@@ -24,6 +24,17 @@ export default (props) => {
         pitch: 0,
     });
 
+    if (props.startOnPosition)
+      navigator.geolocation.getCurrentPosition((position) => {
+        setViewport({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          zoom: 12,
+          bearing: 0,
+          pitch: 0,
+        })
+      })
+
     //changes to the new viewport
     const mapRef = useRef();
     const handleViewportChange = useCallback(

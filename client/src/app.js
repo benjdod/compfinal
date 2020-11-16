@@ -12,6 +12,7 @@ import Login from "./pages/login"
 import Info from "./pages/guidelines"
 import Account from "./pages/account"
 import News from "./pages/news"
+import newsPage from "./pages/newsPage"
 import Quiz from "./pages/quizzard"
 
 import Footer from "./pages/footergang"

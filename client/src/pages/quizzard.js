@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useHistory, Redirect } from "react-router-dom"
 
 import PageFrame from "../components/pageframe"
+import MapBox from "../components/mapbox"
 
 import localStyle from "./modules/quizzard.module.css"
 
@@ -91,7 +92,10 @@ class Quiz extends React.Component {
         const locationStep = (
             <div>
                 <p>Where are you?</p>
-                <pre>/* Mapbox in here, with call to location web api to automatically fill in the field */</pre>
+                <MapBox width="100%" height="50vh" setLatLong={(lat,long) => {
+                    this.state.latitude = lat;
+                    this.state.longitude = long;
+                }}/>
                 {buttons}
             </div>
         )

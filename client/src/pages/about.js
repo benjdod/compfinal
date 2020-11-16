@@ -12,12 +12,17 @@ export default () => {
         'https://twitter.com/joshuasweitz/status/1237556232304508928/'
     ]
 
+    const refElts = []
+
     const makeInline = (...args) => {
 
         return (
             <sup>
                 {
                     args.map(idx => {
+
+                        refElts.push(<p>{references[idx]}</p>)
+
                         return (
                             <div style={{display: 'inline'}}>
                                 <a href={references[idx]} target="_blank">[{idx + 1}]</a>
@@ -46,6 +51,10 @@ export default () => {
 
             <h3>Your Data</h3>
             <p>We store your data doubly encrypted, and we can't see it directly. When you log in, your computer is given a unique key which can decrypt your quizzes, but we can't generate that key ourselves.</p>
+            {/* STYLE fancy references, maybe italics? smushed together at bottom of page under content. */}
+            <div>
+                {refElts}
+            </div>
         </PageFrame>
     )
 }
