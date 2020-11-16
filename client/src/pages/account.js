@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 
+import PageFrame from "../components/pageframe"
 import NavBar from "../components/navbar"
 import Footer from "../components/footer"
 
@@ -31,15 +32,15 @@ export default () => {
     }, [])
 
     return (
-        <div style={{wordWrap: 'break-word', wordBreak: 'break-all'}}>
-            <NavBar />
+        <PageFrame>
             <h3>Account:</h3>
             <p>The content of your user token:</p>
-            <pre>{data}</pre>
+
+            <pre style={{wordBreak: 'break-all'}}>{data}</pre>
             <p>Your quizzes:</p>
             <pre style={{wordBreak: 'break-all'}}>{JSON.stringify(quizzes, null, 4)}</pre>
 
             <Footer />
-        </div>
+        </PageFrame>
     )
 }

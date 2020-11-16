@@ -15,7 +15,7 @@ const homebox = () => {
             <p className={boxStyle.intro}>Welcome to our COVID-19 Tracker, where you can get the most up to date information on the health risk in your area.</p>
             
             <div>
-                <Link to="/register" class="button d-inline-block" >Sign Up</Link>
+                <Link to="/register" class="button d-inline-block" >Sign Up</Link><br/>
                 <Link to="/login" class="button d-inline-block" >Log In</Link>
             </div>
             

@@ -66,7 +66,7 @@ router.post('/register', async (req,res) => {
 
     const inputs = req.body;
 
-    if (!inputs.username || !inputs.firstName || !inputs.lastName || !inputs.password) {
+    if (!inputs.username || !inputs.firstname || !inputs.lastname || !inputs.password) {
         res.status(400).send(null)
         return;
     }

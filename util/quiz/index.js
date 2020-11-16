@@ -1,17 +1,24 @@
-exports.calculateRisk = (data) => {
+
+/**
+ * 
+ * @param {object} data quiz inputs
+ * @param {number} useVersion the quiz version to use
+ * @returns {object} the reflected data with added 'risk' and 'quizVersion' fields
+ */
+exports.calculateRisk = (data, useVersion) => {
 
     const firstVersion = 0; // DO NOT TOUCH THIS!!!!!
 
     const latestVersion = 0;
 
-    const version = (!data.quizVersion)
+    const version = (useVersion === undefined)
         ? latestVersion
-        : (data.quizVersion < firstVersion)
+        : (useVersion < firstVersion)
             ? firstVersion
-            : (data.quizVersion > latestVersion)
+            : (useVersion > latestVersion)
                 ? latestVersion
-                : data.quizVersion
-
+                : useVersion
+            
     const boxUp = (risk, version) => {
         
         const out = JSON.parse(JSON.stringify(data));
@@ -39,7 +46,7 @@ exports.calculateRisk = (data) => {
             /*
             Our potential risk assessment equation (Modified Weitz equation):
 
-            e = (1 - (1 - pI)^n) * (1 - m) * 1/O * ((1/2.2) * D)
+            e = (1 - (1 - pI)^n) * (1 - m) * 1/O * ((1/2.2) ^ D) * H/120
 	
                 where:
                 n = event size (# of persons)
@@ -48,7 +55,8 @@ exports.calculateRisk = (data) => {
                     Pop = population of locality
                 m = 0.65 (mask risk reduction to wearer rate)
                 O = 18.7 (indoor risk reduction) (this number should go up with with more people @ event)
-                D = social distance
+                D = social distance in meters
+                H = event duration (minutes)
              */
 
             // TODO: add mask reduction from other people usage
@@ -59,13 +67,17 @@ exports.calculateRisk = (data) => {
             const m = 0.65;
             const D = data.socialDistancing;
             const O = 18.7;
+            const H = data.eventDuration
 
             const weitzFactor = 1 - Math.pow(1 - pI, n);
             const maskWearerFactor = 1 - m;
             const outdoorFactor = 1/O;
-            const distancingFactor = (1/2.2) * D;
+            const distancingFactor = Math.pow(1/2.2, D);
+            const timeFactor = H/120;
 
-            const risk = weitzFactor * maskWearerFactor * outdoorFactor * distancingFactor;
+            console.log(`risk factors (v${useVersion}):`, weitzFactor, maskWearerFactor, outdoorFactor, distancingFactor, timeFactor)
+
+            const risk = weitzFactor * maskWearerFactor * outdoorFactor * distancingFactor * timeFactor;
             return risk;
         }
 

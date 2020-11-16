@@ -12,6 +12,7 @@ import Login from "./pages/login"
 import Info from "./pages/guidelines"
 import Account from "./pages/account"
 import News from "./pages/news"
+import Quiz from "./pages/quizzard"
 
 import Register from "./pages/register"
 
@@ -37,6 +38,7 @@ export default () => {
                 <Route exact path='/guidelines' component={Info}/>
                 <Route exact path='/account' component={Account}/>
                 <Route exact path='/register' component={Register}/>
+                <Route exact path='/quiz' component={Quiz}/>
 
                 {/* this is the default page 404 page. It needs to stay below 
                     all other routes since it catches any route that falls

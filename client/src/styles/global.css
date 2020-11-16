@@ -38,9 +38,9 @@ footer, header, hgroup, menu, nav, section {
 body {
     line-height: 1.25;
 }
-ol, ul {
+/*ol, ul {
     list-style: none;
-}
+}*/
 blockquote, q {
     quotes: none;
 }
@@ -117,19 +117,34 @@ h3 {
     font-weight: 900;
 }
 
+.text-italic {
+    font-style: italic;
+}
+
 .d-inline-block {
     display: inline-block;
 }
 
+ul {
+    display: block;
+    list-style: disc inside;
+    padding-left: 30px;
+}
+
 li {
     display: list-item;
-    text-align: -webkit-match-parent;
-    margin: 0 0 8px 40px;
+    /*text-align: -webkit-match-parent;*/
+    margin: 0 0 8px 30px;
 }
-ul {
-    /* list-style-type: disc;  */
-    list-style-position: inside; 
+
+ul ul {
+    list-style-type: circle;
 }
+
+ul ul ul {
+    list-style-type: square;
+}
+
 strong {
     font-weight: bold;
 }
@@ -141,6 +156,9 @@ p {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     font-weight: 400;
+}
+pre,code  {
+    font-family: monospace;
 }
 a {
     text-decoration: none;
@@ -155,6 +173,7 @@ a {
     border-radius: 10%;
     border-color: grey;
     padding: 10px;
+    border: none;
 }
 .button:hover {
     background-color: rgb(219, 219, 219);

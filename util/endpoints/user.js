@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { authenticateUser } = require('../auth/token');
 const { listRoutes } = require('./index');
-const { getQuizzes } = require('../database');
+const { getQuizzes, insertQuiz } = require('../database');
 
 // authenticate all routes
 // this also populates req.jwtPayload
@@ -23,6 +23,21 @@ router.get('/quizzes', async (req,res) => {
         console.error(e);
         res.status(500).send(`server error: ${e}`);
     }
+})
+
+router.post('/addquiz', async (req, res) => {
+    const uid = req.jwtPayload.u;
+    const masterKey = req.jwtPayload.k;
+    const data = req.body;
+
+    insertQuiz(uid, masterKey, data)
+        .then(() => {
+            res.send('success');
+        })
+        .catch(e => {
+            console.error(e);
+            res.status(500).send('could not add quiz result');
+        })
 })
 
 module.exports = router;

@@ -1,4 +1,12 @@
 import React, { useState } from "react"
+import { useHistory, Redirect } from "react-router-dom"
+
+import PageFrame from "../components/pageframe"
+
+import localStyle from "./modules/quizzard.module.css"
+
+const { validateInputs } = require('../../../util/quizdata')
+const { calculateRisk } = require('../../../util/quiz');
 
 const min = (a,b) => {
     return a < b ? a : b;
@@ -9,7 +17,27 @@ const max = (a,b) => {
 }
 
 // this is the quiz form, divided up into multiple parts
-export default () => {
+class Quiz extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            step: 0,
+
+            /*** quiz data ***/
+            latitude: 27.9938,        // float
+            longitude: -81.82347,       // float
+            eventSize: 3,       // int: number of attendees
+            eventDuration: 60,   // int: duration in minutes
+            eventOutside: false,
+            maskWearing: true,
+            maskPercentage: 0.9,  // float: mask percentage from 0 to 1
+            userMaskWearing: true,
+            socialDistancing: 1,    // int: meters of social distancing, 0 for no distancing
+        }
+    }
+    
 
     // normally, React renders a component once per 
     // insertion into the DOM, so we can't change any values 
@@ -20,41 +48,154 @@ export default () => {
     // component if it's changed.
     // see also: https://reactjs.org/docs/hooks-state.html
     
-    const [step, setStep] = useState(0);
-
     // now we can use the state variable, 'step' to switch the 
     // page content based on its value...
 
-    const content = () => {
-        if (step < 1) 
-            return <p>Start quiz</p>
+    render() {
 
-        switch (step) {
-            case 1:
-                return <p>Loction</p>
-            case 2:
-                return <p>Step 2</p>
-            default:
-                return <p>Quiz done</p>
+        const submit = () => {
+            const {step, ...inputs} = this.state;
+            const calc = calculateRisk(inputs, 0);
+            console.log(calc);
+            /*fetch('/user/addquiz', {
+                method: 'post',
+                body: JSON.stringify(out)
+            })
+            .then(res => {
+                console.log(res);
+                // go to account...
+                <Redirect to="/account"/>
+            })
+            .catch(e => console.error(e))
+            */
         }
+
+        const nextButton = <button className={`button ${localStyle.button}`} onClick={() => {this.setState({step: this.state.step + 1}); console.log(this.state);}}>Next</button>
+        const backButton = <button className={`button ${localStyle.button}`} onClick={() => {this.setState({step: max(0, this.state.step - 1)}); console.log(this.state);}}>Back</button>
+        const submitButton = <button className={`button ${localStyle.button}`} onClick={submit}>Submit</button>
+
+        const buttons = (
+            <div className={localStyle.buttonblock}>
+                {backButton}
+                {nextButton}
+            </div>
+        )
+
+        const startStep = (
+            <div>
+                <h3 className="text-italic">First, a few questions...</h3>
+                {nextButton}
+            </div>
+        )
+
+        const locationStep = (
+            <div>
+                <p>Where are you?</p>
+                <pre>/* Mapbox in here, with call to location web api to automatically fill in the field */</pre>
+                {buttons}
+            </div>
+        )
+
+        const eventStep = (
+            <div>
+                <form>
+                    <label htmlFor="input-event-size">How many people will be attending?</label>
+                    <input type="number" id="input-event-size" min="0" max="50000" defaultValue={this.state.eventSize} onChange={(e) => {                       this.setState({eventDuration: e.target.value });
+                        this.setState({eventSize: parseInt(e.target.value) });
+                    }}></input>
+                    <label htmlFor="input-event-duration">How long will you be there? (in minutes)</label>
+                    <input type="number" id="input-event-duration" min="0" max="4095" defaultValue={this.state.eventDuration} onChange={(e) => {
+                        this.setState({eventDuration: parseInt(e.target.value) });
+                    }}
+                    style={{paddingRight: '20px', textAlign: 'right'}}></input><span style={{marginLeft: '-20px'}}>minutes</span>
+                    <label htmlFor="input-event-location">Will the event be held...</label>
+                    <select id="input-event-location" onChange={(e) => {
+                            this.setState({eventOutside: e.target.value === 'outside' });
+                    }}
+                    defaultValue={this.state.eventOutside ? 'outside' : 'inside'}>
+                        <option value="inside">Inside</option>
+                        <option value="outside">Outside</option>
+                    </select>
+                </form>
+                {buttons}
+            </div>
+        )
+
+        const maskStep = (
+            <div>
+                <form>
+                    <label htmlFor="input-others-mask">Will attendees be wearing masks?</label>
+                    <select id="input-others-mask" onChange={(e) => {
+                            this.setState({maskWearing: e.target.value === 'yes' });
+
+                        }} defaultValue={this.state.maskWearing ? 'yes' : 'no'}>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+
+                    <label htmlFor="input-mask-percentage">What percentage of attendees will be wearing masks</label>
+                    <input type="number" id="input-mask-percentage" min="0" max="100" defaultValue={`${Math.round(this.state.maskPercentage * 100)}`} onChange={(e) => {
+                        this.setState({maskPercentage: parseInt(e.target.value) / 100 });
+                    }}></input>
+
+                    <label htmlFor="input-user-mask">Will you be wearing a mask?</label>
+                    <select id="input-user-mask" onChange={(e) => {
+                        this.setState({userMaskWearing: e.target.value === 'yes' });
+                    }} defaultValue={this.state.userMaskWearing ? 'yes' : 'no'}>
+                        <option value="yes" defaultValue>Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </form>
+                {buttons}
+            </div>
+        )
+
+        const socialDistancingStep = (
+            <div>
+                <form>
+                
+                    <label htmlFor="input-social-distance-meters">How many meters will attendees be distancing? (0 for no distancing)</label>
+                    <input type="number" id="input-social-distance-meters" min="0" max="15" defaultValue={this.state.socialDistancing} onChange={(e) => {
+                        this.setState({socialDistancing: parseInt(e.target.value)});
+                    }}></input>
+                </form>
+                <div className={localStyle.buttonblock}>
+                    {backButton}
+                    {submitButton}
+                </div>
+            </div>
+        )
+
+        const endStep = (
+            <div>
+                <p>Quiz ended</p>
+                {submitButton}
+            </div>
+        )
+
+        const content = () => {
+            if (this.state.step < 1) 
+                return startStep
+
+            switch (this.state.step) {
+                case 1: return locationStep
+                case 2: return eventStep
+                case 3: return maskStep
+                case 4: return socialDistancingStep
+                default: return endStep
+            }
+        }
+
+        return (
+            <PageFrame>
+                <div className={`${localStyle.container}`}>
+                    {content()}
+                </div>
+            </PageFrame>
+        )
     }
 
-    const inputs = {
-        latitude: 0,        // float
-        longitude: 0,       // float
-        eventSize: 0,       // int: number of attendees
-        eventDuration: 0,   // int: duration in minutes
-        eventOutside: false,
-        maskWearing: false,
-        maskPercentage: 0,  // float: mask percentage from 0 to 1
-        socialDistancing: 0,    // int: meters of social distancing, 0 for no distancing
-    }
 
-    return (
-        <div>
-            {content()}
-            <button onClick={() => {setStep(step+1)}}>Next</button>
-            <button onClick={() => {setStep(max(step-1,0))}}>Back</button>
-        </div>
-    )
 }
+
+export default Quiz
