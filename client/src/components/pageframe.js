@@ -10,7 +10,7 @@ export default (props) => {
     return (
         <div>
             <NavBar/>
-            <div className={`${localStyle.container}`}>
+            <div className={`${localStyle.container} pageWrap`}>
                 {props.children}
             </div>
             <Footer/>

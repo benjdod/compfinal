@@ -39,8 +39,6 @@ export default () => {
             <pre style={{wordBreak: 'break-all'}}>{data}</pre>
             <p>Your quizzes:</p>
             <pre style={{wordBreak: 'break-all'}}>{JSON.stringify(quizzes, null, 4)}</pre>
-
-            <Footer />
         </PageFrame>
     )
 }

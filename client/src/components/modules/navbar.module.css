@@ -31,3 +31,12 @@
 .active {
     font-weight: 700;
 }
+
+@media only screen and (max-width: 700px) {
+    .bar {
+        display: block;
+    }
+    .push {
+        margin-left: 15px;
+    }
+  }
