@@ -20,7 +20,7 @@ const cache = {
 */
 
 const cache = new LoaderCache();
-cache.add('nytcovidcounties', 60*60*8, async () => {
+cache.add('nytcovidcounties', 60*60*8, [], async () => {
     try {
         const data = await axios.get('https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-counties.csv')
         const out = data.data.split('\n').map((row,idx) => {
@@ -38,7 +38,7 @@ cache.add('nytcovidcounties', 60*60*8, async () => {
     }
 })
 
-cache.add('nytcovidstates', 60*60*8, async () => {
+cache.add('nytcovidstates', 60*60*8, [], async () => {
     try {
         const data = await axios.get('https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv')
         const out = data.data.split('\n').map((row,idx) => {
@@ -54,7 +54,7 @@ cache.add('nytcovidstates', 60*60*8, async () => {
     }
 })
 
-cache.add('censuspops', 60*60*24, async () => {
+cache.add('censuspops', 60*60*24, [], async () => {
     try {
         const key = '157cc218dfb158478f18c0ce168a6ff40a09d950';
         const query = `https://api.census.gov/data/2019/pep/population?get=POP,NAME&for=county:*&in=state:*&key=${key}`
@@ -89,38 +89,6 @@ cache.add('censuspops', 60*60*24, async () => {
         return null;
     }
 })
-
-cache.add('fipscases', 60*60*6, async () => {
-    try {
-        await cache.get('nytcovidcounties');
-        await cache.get('censuspops');
-    } catch (e) {
-        console.error(e);
-        return null;
-    }
-
-    const out = [];
-
-    cache.get('nytcovidcounties').forEach(row => {
-
-        if (row === null) return;
-
-        const caseRow = cache.countyPops.data.find(c => row[3] === c[3]);
-
-        if (!caseRow) return;
-
-        out.push([
-            parseInt(row[3]),   // fips
-
-        ])
-
-    })
-    
-    const cleaned = out.filter(row => row !== null).sort((a,b) => {a[3] - b[3]})
-
-    return cleaned;
-})
-
 
 router.get('/countydata', (req,res) => {
     cache.get('nytcovidcounties')
@@ -169,7 +137,7 @@ router.get('/querylatlon', async (req,res) => {
     ) || false;
 
     if (bad) {
-        res.status(400).send(`bad request: must include valid 'lat' and 'lon' fields in url parameters (e.g. lat=43.8347&lon=-22.434)`);
+        res.status(400).send(`bad request: must include valid 'lat' and 'lon' fields in url parameters (e.g. ?lat=34.585&lon=-79.012)`);
         return;
     }
 
@@ -185,6 +153,7 @@ router.get('/querylatlon', async (req,res) => {
         const cases = parseInt((await cache.get('nytcovidcounties')).find(row => row[3] === targetFips)[4]);
 
         res.json({
+            fips: targetFips,
             pop: population,
             cases: cases,
         })
