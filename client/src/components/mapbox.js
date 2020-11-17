@@ -24,7 +24,7 @@ export default (props) => {
         pitch: 0,
     });
 
-    if (props.startOnPosition)
+    if (props.startOnLocation)
       navigator.geolocation.getCurrentPosition((position) => {
         setViewport({
           latitude: position.coords.latitude,
