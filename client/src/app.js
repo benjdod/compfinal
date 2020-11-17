@@ -11,12 +11,9 @@ import Maps from "./pages/map"
 import Login from "./pages/login"
 import Info from "./pages/guidelines"
 import Account from "./pages/account"
-import News from "./pages/news"
 import newsPage from "./pages/newsPage"
 import Quiz from "./pages/quizzard"
-
 import Footer from "./pages/footergang"
-
 import Register from "./pages/register"
 
 import "./styles/global.css"
