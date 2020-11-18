@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react"
 
 import PageFrame from "../components/pageframe"
-import NavBar from "../components/navbar"
-import Footer from "../components/footer"
+import QuizCrumb from "../components/quizcrumb"
 
 export default () => {
 
     const [data, setData] = useState('');
 
-    const [quizzes, setQuizzes] = useState({});
-
+    const [quizzes, setQuizzes] = useState([]);
     
     useEffect(() => {
         fetch('/user/reflectjwt', {
@@ -25,7 +23,10 @@ export default () => {
             method: 'get',
             credentials: 'include'
         }).then(res => res.json())
-        .then(res => setQuizzes(res))
+        .then(res => {
+            const quizCrumbs = res.map(quiz => <QuizCrumb data={quiz}/>);
+            setQuizzes(quizCrumbs);
+        })
         .catch(err => {
             console.error(err);
         })
@@ -37,8 +38,7 @@ export default () => {
             <p>The content of your user token:</p>
 
             <pre style={{wordBreak: 'break-all'}}>{data}</pre>
-            <p>Your quizzes:</p>
-            <pre style={{wordBreak: 'break-all'}}>{JSON.stringify(quizzes, null, 4)}</pre>
+            {quizzes}
         </PageFrame>
     )
 }

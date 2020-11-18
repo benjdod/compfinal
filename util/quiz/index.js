@@ -1,8 +1,9 @@
 
 /**
- * 
+ * Calculates the risk of given data inputs. Transforms lat and lon to fips, and
+ * adds risk and quizVersion fields
  * @param {object} data quiz inputs
- * @param {number} useVersion the quiz version to use
+ * @param {number} useVersion the quiz version to use. If not provided, defaults to latest
  * @returns {object} the reflected data with added 'risk' and 'quizVersion' fields
  */
 exports.calculateRisk = (data, useVersion) => {
@@ -33,8 +34,8 @@ exports.calculateRisk = (data, useVersion) => {
         /**
          * risk assessor: version 0 (hardcoded population values)
          * @param {Object} data
-         * @param {number} data.latitude the user's latitude
-         * @param {number} data.longitude the user's longitude
+         * @param {number} data.cases the cases in the given locality
+         * @param {number} data.population the population of the given locality
          * @param {number} data.eventSize the size of the event, clamped to 0 and 65535
          * @param {number} data.eventDuration the length of the event in minutes
          * @param {boolean} data.eventOutside whether or not the event is outside
@@ -60,8 +61,8 @@ exports.calculateRisk = (data, useVersion) => {
              */
 
             // TODO: add mask reduction from other people usage
-            const infections = 54;
-            const population = 200000;
+            const infections = data.cases;
+            const population = data.population;
             const pI = infections / population;
             const n = data.eventSize;
             const m = 0.65;
@@ -75,7 +76,7 @@ exports.calculateRisk = (data, useVersion) => {
             const distancingFactor = Math.pow(1/2.2, D);
             const timeFactor = H/120;
 
-            console.log(`risk factors (v${useVersion}):`, weitzFactor, maskWearerFactor, outdoorFactor, distancingFactor, timeFactor)
+            console.log(`risk factors (v${version}):`, weitzFactor, maskWearerFactor, outdoorFactor, distancingFactor, timeFactor)
 
             const risk = weitzFactor * maskWearerFactor * outdoorFactor * distancingFactor * timeFactor;
             return risk;

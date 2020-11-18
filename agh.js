@@ -69,7 +69,10 @@ const seedQuizzes = async () => {
 
     const masterKey = decrypt(user.key, derivePasswordKey('password'));
 
-    dataArray.forEach(datum => insertQuiz(1, masterKey, datum))
+    dataArray.forEach(async (datum, idx) => {
+        await insertQuiz(1, masterKey, datum)
+        console.log('seeded quiz ', idx);
+    })
 }
 
 seedQuizzes();

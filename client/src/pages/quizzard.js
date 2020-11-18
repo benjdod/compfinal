@@ -26,7 +26,7 @@ class Quiz extends React.Component {
         this.state = {
             step: 0,
 
-            /*** quiz data ***/
+            /*** risk assessment data ***/
             latitude: 27.9938,        // float
             longitude: -81.82347,       // float
             eventSize: 3,       // int: number of attendees
@@ -56,8 +56,13 @@ class Quiz extends React.Component {
 
         const submit = () => {
             const {step, ...inputs} = this.state;
-            const calc = calculateRisk(inputs, 0);
-            console.log(calc);
+            fetch('/api/calculaterisk', {
+                method: 'post',
+                body: JSON.stringify(inputs),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(res => res.json()).then(res => console.log(res))
             /*fetch('/user/addquiz', {
                 method: 'post',
                 body: JSON.stringify(out)

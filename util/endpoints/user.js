@@ -4,6 +4,8 @@ const { authenticateUser } = require('../auth/token');
 const { listRoutes } = require('./index');
 const { getQuizzes, insertQuiz, getByUID } = require('../database');
 
+const cache = require('../sourcecache');
+
 // authenticate all routes
 // this also populates req.jwtPayload
 router.use(authenticateUser);
@@ -41,7 +43,19 @@ router.get('/quizzes', async (req,res) => {
     try {
         const masterKey = req.jwtPayload.k;
         const quizzes = await getQuizzes(req.jwtPayload.u, masterKey);
-        res.json(quizzes);
+        const fipsLUT = await cache.get('censuspops');
+        console.log(fipsLUT[1][0]);
+        const out = quizzes.map(quiz => {
+            // FIXME: define one place for the changeover from string fips to number fips
+            const f = fipsLUT.find(row => row[0] === quiz.fips.toString().padStart(5,"0"))
+            console.log(f);
+            return {
+                ...quiz,
+                county: f[2],
+                state: f[3],
+            }
+        })
+        res.json(out);
     } catch (e) {
         console.error(e);
         res.status(500).send(`server error: ${e}`);
