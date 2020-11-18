@@ -26,6 +26,27 @@
     font-size: inherit;
 }
 
+.next {
+    background-color: rgb(121, 185, 121);
+}
+
+.next:hover {
+    background-color: rgb(170, 235, 170);
+}
+
+.back {
+    background-color: #ddd;
+}
+
+.back:hover {
+    background-color: #eee;
+}
+
 .buttonblock {
-    display: inline;
+    display: inline-block;
+    padding: 10px;
+}
+
+.buttonblock button {
+    margin: 0px 10px;
 }

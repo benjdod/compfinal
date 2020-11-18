@@ -18,9 +18,9 @@ export default () => {
             <NavBar />
 
 
-            <h1 class="page-title">CDC Guidelines</h1>
+            <h1 className="page-title">CDC Guidelines</h1>
 
-            <p className={infoboxStyle.cdcSource}>This information comes directly from the Centers for Disease Control and Prevention Website. For more information, go to <a target="_blank" href="https://www.cdc.gov/" class="underline">CDC.gov</a></p>
+            <p className={infoboxStyle.cdcSource}>This information comes directly from the Centers for Disease Control and Prevention Website. For more information, go to <a target="_blank" href="https://www.cdc.gov/" className="underline">CDC.gov</a></p>
 
         <div className={infoboxStyle.masonrycontainer}>
             <div className={`${infoboxStyle.masonryitem} ${infoboxStyle.itemOne}`}>

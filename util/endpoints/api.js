@@ -20,6 +20,7 @@ const cache = {
 */
 
 const cache = new LoaderCache();
+
 cache.add('nytcovidcounties', 60*60*8, [], async () => {
     try {
         const data = await axios.get('https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-counties.csv')
@@ -89,6 +90,7 @@ cache.add('censuspops', 60*60*24, [], async () => {
         return null;
     }
 })
+
 
 router.get('/countydata', (req,res) => {
     cache.get('nytcovidcounties')

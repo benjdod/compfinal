@@ -21,7 +21,7 @@ export default () => {
                 {
                     args.map(idx => {
 
-                        refElts.push(<p>{references[idx]}</p>)
+                        refElts.push(<p><a href={references[idx]} target="_blank">{references[idx]}</a></p>)
 
                         return (
                             <div style={{display: 'inline'}}>

@@ -71,9 +71,9 @@ class Quiz extends React.Component {
             */
         }
 
-        const nextButton = <button className={`button ${localStyle.button}`} onClick={() => {this.setState({step: this.state.step + 1}); console.log(this.state);}}>Next</button>
-        const backButton = <button className={`button ${localStyle.button}`} onClick={() => {this.setState({step: max(0, this.state.step - 1)}); console.log(this.state);}}>Back</button>
-        const submitButton = <button className={`button ${localStyle.button}`} onClick={submit}>Submit</button>
+        const nextButton = <button className={`button ${localStyle.button} ${localStyle.next}`} onClick={() => {this.setState({step: this.state.step + 1}); console.log(this.state);}}>Next</button>
+        const backButton = <button className={`button ${localStyle.button} ${localStyle.back}`} onClick={() => {this.setState({step: max(0, this.state.step - 1)}); console.log(this.state);}}>Back</button>
+        const submitButton = <button className={`button ${localStyle.button} ${localStyle.submit}`} onClick={submit}>Submit</button>
 
         const buttons = (
             <div className={localStyle.buttonblock}>
@@ -92,7 +92,7 @@ class Quiz extends React.Component {
         const locationStep = (
             <div>
                 <p>Where are you?</p>
-                <MapBox width="100%" height="50vh" setLatLong={(lat,long) => {
+                <MapBox width="100%" height="50vh" startOnLocation setLatLong={(lat,long) => {
                     this.state.latitude = lat;
                     this.state.longitude = long;
                 }}/>
@@ -198,7 +198,6 @@ class Quiz extends React.Component {
             </PageFrame>
         )
     }
-
 
 }
 

@@ -9,12 +9,14 @@ import About from "./pages/about"
 import NotFound from "./pages/404"
 import Maps from "./pages/map"
 import Login from "./pages/login"
-import Info from "./pages/guidelines"
+import Guidelines from "./pages/guidelines"
 import Account from "./pages/account"
-import newsPage from "./pages/newsPage"
+import News from "./pages/news"
 import Quiz from "./pages/quizzard"
-import Footer from "./pages/footergang"
 import Register from "./pages/register"
+
+import Footer from "./pages/tests/footergang"
+import BounceOut from "./pages/tests/bounceout"
 
 import "./styles/global.css"
 
@@ -24,7 +26,17 @@ export default () => {
 
     // this wil have to be run on every page change
     // probably the best approach will be useLocation hook in react-router-dom
-    const [ loggedIn, setLoggedIn ] = useState(false);
+
+    const restrictBounceTo = '/login';
+
+    /**
+     * Redirects a client depending on whether or not they can be validated as a user
+     * @param {React.Component} component the React component to render if the user isn't redirected
+     * @return {React.Component | null} the component is returned unchanged if the client is validated
+     */
+    const restrictRoute = (component) => {
+
+    }
 
     return (
         <Router>
@@ -32,14 +44,15 @@ export default () => {
                 {/*  add your page components here.  */}
                 <Route exact path='/' component={Index}/>
                 <Route exact path='/about' component={About}/>
-                <Route exact path='/news' component={newsPage}/>
+                <Route exact path='/news' component={News}/>
                 <Route exact path='/map' component={Maps}/>
                 <Route exact path='/login' component={Login}/>
-                <Route exact path='/guidelines' component={Info}/>
+                <Route exact path='/guidelines' component={Guidelines}/>
                 <Route exact path='/account' component={Account}/>
                 <Route exact path='/register' component={Register}/>
                 <Route exact path='/quiz' component={Quiz}/>
-                <Route exact path='/footer' component={Footer}/>
+                <Route exact path='/test/footer' component={Footer}/>
+                <Route exact path='/test/bounce' component={BounceOut}/>
 
                 {/* this is the default page 404 page. It needs to stay below 
                     all other routes since it catches any route that falls

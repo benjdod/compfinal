@@ -37,6 +37,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.2",
     "axios": "^0.21.0",
     "babel-loader": "^8.1.0",
+    "consola": "^2.15.0",
     "css-loader": "^5.0.0",
     "file-loader": "^6.1.1",
     "html-webpack-plugin": "^4.5.0",

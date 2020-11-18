@@ -10,6 +10,15 @@ router.use(authenticateUser);
 
 router.get('/', listRoutes(router));
 
+/**
+ * 
+ */
+router.get('/ping', (req,res) => {
+    // if we get here, the response didn't fail at authenticateUser, 
+    // so we just need to send a dummy message
+    res.send('success');
+})
+
 router.get('/reflectjwt', (req,res) => {
     res.json(req.jwtPayload);
 })
