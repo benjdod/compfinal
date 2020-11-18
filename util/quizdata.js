@@ -8,8 +8,7 @@ const clamp = (num, low, high) => {
 
 const validateInputs = (inputs) => {
     if (
-        inputs.latitude === undefined ||
-        inputs.longitude === undefined ||
+        inputs.fips === undefined ||
         inputs.eventSize === undefined ||
         inputs.eventDuration === undefined ||
         inputs.maskWearing === undefined ||
@@ -66,7 +65,7 @@ const validateData = (data) => {
     return null;
 }
 
-const generateFields = (eventSize, eventDuration, eventOutside, maskWearing, maskPercentage, userMaskWearing, socialDistancing, risk, quizVersion) => {
+const generateFields = (fips, eventSize, eventDuration, eventOutside, maskWearing, maskPercentage, userMaskWearing, socialDistancing, risk, quizVersion) => {
     const inputs = {
         eventSize: Math.abs(Math.trunc(clamp(eventSize, 0, 65535))),
         eventOutside: eventOutside ? true : false,
@@ -77,6 +76,7 @@ const generateFields = (eventSize, eventDuration, eventOutside, maskWearing, mas
         socialDistancing: Math.trunc(clamp(socialDistancing, 0, 15)),
         risk: Math.trunc(clamp(risk,0,1) * 100),
         quizVersion: Math.trunc(clamp(quizVersion,0,35)),
+        fips: Math.trunc(clamp(fips, 0, 1679615)),  // trunc to 4 bytes of base36
     }
 
     let fields = ''
@@ -89,6 +89,7 @@ const generateFields = (eventSize, eventDuration, eventOutside, maskWearing, mas
     fields += inputs.socialDistancing.toString(16).padStart(1,"0")  // 1 bytes  [12]
     fields += inputs.risk.toString(16).padStart(2, "0")             // 2 bytes  [13-14]
     fields += inputs.quizVersion.toString(36).padStart(1,"0")       // 1 bytes  [15]
+    fields += inputs.fips.toString(36).padStart(4,"0")              // 4 bytes [16-19]
         
     return fields;
 }
@@ -105,6 +106,7 @@ const parseFields = (fields) => {
         socialDistancing: parseInt(fields.slice(12,13),16),
         risk: parseInt(fields.slice(13,15),16) / 100,
         quizVersion: parseInt(fields.charAt(15), 36),
+        fips: parseInt(fields.slice(16,20), 36),
     }
     return out;
 }
@@ -113,8 +115,7 @@ const parseFields = (fields) => {
  * Packages quiz data into a byte array for encryption.
  * 
 * @param {Object} data the data object containing quiz questions
- * @param {number} data.latitude the user's latitude
- * @param {number} data.longitude the user's longitude
+ * @param {number} data.fips the fips of the reported location
  * @param {number} data.eventSize the size of the event, clamped to 0 and 65535
  * @param {number} data.eventDuration the length of the event in minutes
  * @param {boolean} data.eventOutside whether or not the event is outside
@@ -128,21 +129,11 @@ const parseFields = (fields) => {
  */
 const packageQuizData = (data) => {
 
-    const fields = generateFields(data.eventSize, data.eventDuration, data.eventOutside, data.maskWearing, data.maskPercentage, data.userMaskWearing, data.socialDistancing, data.risk, data.quizVersion)
-
-    const f = new Float64Array(2);
-    f[0] = data.latitude;
-    f[1] = data.longitude;
-
-    const fB = new Uint8Array(f.buffer);
-
-    const ui = Buffer.alloc(32);
+    const fields = generateFields(data.fips, data.eventSize, data.eventDuration, data.eventOutside, data.maskWearing, data.maskPercentage, data.userMaskWearing, data.socialDistancing, data.risk, data.quizVersion)
     
-    let i = 0, j = 0;
+    const ui = Buffer.alloc(32);
 
-    for ( i = 0; i < f.buffer.byteLength; i++, j++) {
-        ui[j] = fB[i];
-    }
+    let i = 0, j = 0;
 
     for (i = 0 ; i < fields.length; i++, j++) {
         ui[j] = fields.charCodeAt(i);
@@ -156,6 +147,7 @@ const packageQuizData = (data) => {
  * 
  * @param {Buffer} pkg the decrypted buffer
  * @returns {Object} data the data object containing quiz questions
+ * @return {number} data.fips the fips of the location
  * @returns {number} data.eventSize the size of the event, clamped to 0 and 65535
  * @returns {number} data.eventDuration the length of the event in minutes
  * @returns {String} data.insideOutside location of event, either 'inside' or 'outside'
@@ -164,15 +156,8 @@ const packageQuizData = (data) => {
  * @returns {number} data.risk the risk result, clamped to 0 and 1
  */
 const unpackageQuizData = (pkg) => {
-    const b = new Uint8Array(16);
 
     let i = 0; j = 0;
-
-    for ( i = 0; i < 16; i++, j++) {
-        b[i] = pkg[j];
-    }
-
-    const f = new Float64Array(b.buffer);
 
     const stringCC = [];
 
@@ -183,11 +168,7 @@ const unpackageQuizData = (pkg) => {
 
     let fields = String.fromCharCode(...stringCC);
 
-    return {   
-        latitude: f[0],
-        longitude: f[1],
-        ...parseFields(fields),
-    }
+    return parseFields(fields);
 }
 
 module.exports = {
@@ -196,3 +177,4 @@ module.exports = {
     packageQuizData: packageQuizData,
     unpackageQuizData: unpackageQuizData
 }
+

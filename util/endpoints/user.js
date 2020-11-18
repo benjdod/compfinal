@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { authenticateUser } = require('../auth/token');
 const { listRoutes } = require('./index');
-const { getQuizzes, insertQuiz } = require('../database');
+const { getQuizzes, insertQuiz, getByUID } = require('../database');
 
 // authenticate all routes
 // this also populates req.jwtPayload
@@ -21,6 +21,20 @@ router.get('/ping', (req,res) => {
 
 router.get('/reflectjwt', (req,res) => {
     res.json(req.jwtPayload);
+})
+
+router.get('/details', async (req,res) => {
+    getByUID(req.jwtPayload.u)
+        .then(user => res.json({
+            firstname: user.firstname,
+            lastname: user.lastname,
+            username: user.username,
+            createdAt: user.timecreated,
+        }))
+        .catch(e => {
+            console.error(e);
+            res.status(500).send('500: could not get user info due to a server error')
+        })
 })
 
 router.get('/quizzes', async (req,res) => {

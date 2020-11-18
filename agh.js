@@ -1,141 +1,75 @@
-const database = require('./util/database');
-const password = require('./util/auth/password');
-const crypt = require('./util/crypt');
-const { calculateRisk } = require('./util/quiz');
-const { packageQuizData, encrypt, decrypt, decryptToString, generateUserKey, unpackageQuizData, derivePasswordKey } = require('./util/crypt');
+const { packageQuizData, unpackageQuizData } = require('./util/quizdata');
+const { generateUserKey, encrypt, decrypt, derivePasswordKey } = require('./util/crypt');
+const { insertQuiz, getByUID } = require('./util/database');
 
-const g = () => {
-    const p = packageQuizData({
-        latitude: 54.4324,
-        longitude: -77.4324,
-        eventDuration: 20,
-        eventSize: 6,
-        eventOutside: true,
-        socialDistancing: 2,
-        maskWearing: false,
-        maskPercentage: 0,
-        risk: 0.12,
-        quizVersion: 6,
-    })
-    const key = generateUserKey();
-    const e = encrypt(p, key);
-    const d = decrypt(e, key);
-    const u = unpackageQuizData(d);
+const packaged = packageQuizData({
+    fips: 1001,
+    eventSize: 400,
+    eventDuration: 56,
+    eventOutside: true,
+    maskPercentage: 0.34,
+    maskWearing: true,
+    userMaskWearing: true,
+    risk: 0.45,
+    quizVersion: 0,
+    socialDistancing: 4,
+})
 
-    console.log(p);
-    console.log(e);
-    console.log(d);
-    console.log(u);
-}
+const key = generateUserKey();
 
-const h = () => {
-    const data = {
-        latitude: 54.4324,
-        longitude: -77.4324,
-        eventDuration: 20,
-        eventSize: 6,
-        eventOutside: true,
-        socialDistancing: 2,
-        maskWearing: false,
-        maskPercentage: 0,
-        risk: 0.12,
-        quizVersion: 6,
-    }
-    const filled = calculateRisk(data);
-    console.log(filled);
-}
+const encrypted = encrypt(packaged, key);
+const decrypted = decrypt(encrypted, key);
 
-const f = () => {
-    const masterKey = generateUserKey();
-    const encMaster = encrypt(masterKey, derivePasswordKey('password'));
-    console.log(masterKey);
-    console.log(encMaster);
-    console.log(decryptToString(encMaster, derivePasswordKey('password')));
-}
+console.log(packaged);
+console.log(encrypted.length);
+console.log(unpackageQuizData(decrypted));
 
-f();
+const seedQuizzes = async () => {
 
-const loadUser = async () => {
-    const pw = 'password'
-    const hashed = await password.hash(pw);
-    const masterKey = generateUserKey();
-    const userKey = derivePasswordKey(pw);
-    const encKey = crypt.encrypt(masterKey, userKey);
-    console.log(masterKey);
-    database.updateUser(1, 'testuser', 'Benny', 'Ringold', hashed, encKey);
-
-    const g = await database.getByUID(1);
-
-    console.log(g);
-    console.log(decryptToString(g.key, derivePasswordKey(pw)));
-}
-
-const loadQuizzes = () => {
-
-    const data = [
+    const dataArray = [
         {
-            latitude: 54.4324,
-            longitude: -77.4324,
-            eventDuration: 20,
-            eventSize: 6,
+            fips: 1001,
+            eventSize: 400,
+            eventDuration: 56,
             eventOutside: true,
-            socialDistancing: 2,
-            maskWearing: false,
-            maskPercentage: 0,
-            userMaskWearing: true,
-            risk: 0.12,
-            quizVersion: 1,
-        },
-        {
-            latitude: 21.4734,
-            longitude: -11.907,
-            eventDuration: 500,
-            eventSize: 500,
-            eventOutside: false,
-            socialDistancing: 0,
-            maskWearing: false,
-            maskPercentage: 0,
-            userMaskWearing: false,
-            risk: 0.98,
-            quizVersion: 1,
-        },
-        {
-            latitude: 81.9348,
-            longitude: 2.7583477,
-            eventDuration: 1,
-            eventSize: 1,
-            eventOutside: true,
-            socialDistancing: 12,
+            maskPercentage: 0.34,
             maskWearing: true,
-            maskPercentage: 100,
             userMaskWearing: true,
-            risk: 0.01,
-            quizVersion: 1,
+            risk: 0.45,
+            quizVersion: 0,
+            socialDistancing: 4,
+        },
+        {
+            fips: 1001,
+            eventSize: 20,
+            eventDuration: 1,
+            eventOutside: false,
+            maskPercentage: 0.90,
+            maskWearing: true,
+            userMaskWearing: true,
+            risk: 0.21,
+            quizVersion: 0,
+            socialDistancing: 0,
+        },
+        {
+            fips: 1001,
+            eventSize: 6,
+            eventDuration: 90,
+            eventOutside: false,
+            maskPercentage: 0,
+            maskWearing: false,
+            userMaskWearing: false,
+            risk: 0.12,
+            quizVersion: 0,
+            socialDistancing: 0,
         },
     ]
 
-    database.getByUID(1)
-        .then(user => {
-            const masterKey = decryptToString(user.key, derivePasswordKey('password'));
-            console.log(masterKey);
-            data.forEach(datum => database.insertQuiz(1, masterKey, datum));
-            
-        })
+    const user = await getByUID(1);
+
+    const masterKey = decrypt(user.key, derivePasswordKey('password'));
+
+    dataArray.forEach(datum => insertQuiz(1, masterKey, datum))
 }
 
-const viewQuizzes = () => {
-    database.getByUID(1)
-    .then(user => {
-        const masterKey = decryptToString(user.key, derivePasswordKey('password'));
-        database.getQuizzes(1, masterKey)
-        .then(res => {
-            console.log('db responded with: ', res);
-        })
-        .catch(e => {
-            console.error(e);
-        })
-    })
-}
-
-//loadUser();
-//loadQuizzes();
+seedQuizzes();
