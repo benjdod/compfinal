@@ -62,7 +62,14 @@ class Quiz extends React.Component {
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            }).then(res => res.json()).then(res => console.log(res))
+            }).then(res => res.json()).then(res => {
+                this.props.history.push({
+                    pathname: '/quizresult',
+                    state: {
+                        result: res,
+                    }
+                });
+            })
             /*fetch('/user/addquiz', {
                 method: 'post',
                 body: JSON.stringify(out)

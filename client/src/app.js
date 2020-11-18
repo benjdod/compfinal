@@ -13,6 +13,7 @@ import Guidelines from "./pages/guidelines"
 import Account from "./pages/account"
 import News from "./pages/news"
 import Quiz from "./pages/quizzard"
+import QuizResult from "./pages/quizresult"
 import Register from "./pages/register"
 
 import Footer from "./pages/tests/footergang"
@@ -51,6 +52,7 @@ export default () => {
                 <Route exact path='/account' component={Account}/>
                 <Route exact path='/register' component={Register}/>
                 <Route exact path='/quiz' component={Quiz}/>
+                <Route eact path='/quizresult' component={QuizResult}/>
                 <Route exact path='/test/footer' component={Footer}/>
                 <Route exact path='/test/bounce' component={BounceOut}/>
 
