@@ -11,7 +11,12 @@ export default (props) => {
 
     // if no result data has been set, we didn't come from the quizzard,
     // so we redirect to /account
-    if (!location.state || !location.state.result) history.push('/account');
+    if (!location.state) {
+        history.push('/account')
+        return null;
+    }
+
+    if (!location.state.result) history.push('/account');
 
     const quizresult = location.state.result;
 

@@ -1,5 +1,4 @@
 import React from "react"
-import { Link } from "react-router-dom"
 import PageFrame from "_components/pageframe"
 import HomeBox from "../components/homebox"
 import Footer from "../components/footer"
@@ -11,8 +10,8 @@ export default () => {
         <div class="bg-image">
             <div class="pageWrap">
             </div>
-            <HomeBox />
-            <Footer />
+            <HomeBox/>
+            <Footer/>
         </div>
     )
 }

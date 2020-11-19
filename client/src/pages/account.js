@@ -24,6 +24,7 @@ export default () => {
             credentials: 'include'
         }).then(res => res.json())
         .then(res => {
+            // FIXME: sort quiz results by time
             const quizCrumbs = res.map(quiz => <QuizCrumb data={quiz}/>);
             setQuizzes(quizCrumbs);
         })

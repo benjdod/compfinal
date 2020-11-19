@@ -168,7 +168,6 @@ class Quiz extends React.Component {
                     <label htmlFor="input-others-mask">Will attendees be wearing masks?</label>
                     <select id="input-others-mask" onChange={(e) => {
                             this.setState({maskWearing: e.target.value === 'yes' });
-
                         }} defaultValue={this.state.maskWearing ? 'yes' : 'no'}>
                         <option value="yes">Yes</option>
                         <option value="no">No</option>
