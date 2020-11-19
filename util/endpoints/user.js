@@ -42,19 +42,21 @@ router.get('/details', async (req,res) => {
 router.get('/quizzes', async (req,res) => {
     try {
         const masterKey = req.jwtPayload.k;
-        const quizzes = await getQuizzes(req.jwtPayload.u, masterKey);
+        console.log(masterKey);
+        const quizzes = await getQuizzes(req.jwtPayload.u, req.jwtPayload.k);
+        console.log(quizzes);
         const fipsLUT = await cache.get('censuspops');
-        console.log(fipsLUT[1][0]);
         const out = quizzes.map(quiz => {
             // FIXME: define one place for the changeover from string fips to number fips
-            const f = fipsLUT.find(row => row[0] === quiz.fips.toString().padStart(5,"0"))
-            console.log(f);
+            const quizfips = quiz.fips.toString().padStart(5,"0");
+            const f = fipsLUT.find(row => row[0] === quizfips);
+            if (!f) return null;
             return {
                 ...quiz,
                 county: f[2],
                 state: f[3],
             }
-        })
+        }).filter(r => r !== null);
         res.json(out);
     } catch (e) {
         console.error(e);
@@ -66,6 +68,10 @@ router.post('/addquiz', async (req, res) => {
     const uid = req.jwtPayload.u;
     const masterKey = req.jwtPayload.k;
     const data = req.body;
+
+    console.log('/user addquiz data: ', data);
+
+    console.log(masterKey);
 
     insertQuiz(uid, masterKey, data)
         .then(() => {

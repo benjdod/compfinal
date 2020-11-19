@@ -66,6 +66,9 @@ const validateData = (data) => {
 }
 
 const generateFields = (fips, eventSize, eventDuration, eventOutside, maskWearing, maskPercentage, userMaskWearing, socialDistancing, risk, quizVersion) => {
+    
+    // parses final data form (e.g. fips, risk, and quizVersion, not lat and long)
+
     const inputs = {
         eventSize: Math.abs(Math.trunc(clamp(eventSize, 0, 65535))),
         eventOutside: eventOutside ? true : false,

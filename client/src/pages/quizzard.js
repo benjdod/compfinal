@@ -56,6 +56,9 @@ class Quiz extends React.Component {
 
         const submit = () => {
             const {step, ...inputs} = this.state;
+
+            let resultData = null;
+
             fetch('/api/calculaterisk', {
                 method: 'post',
                 body: JSON.stringify(inputs),
@@ -63,12 +66,34 @@ class Quiz extends React.Component {
                     'Content-Type': 'application/json',
                 }
             }).then(res => res.json()).then(res => {
+                resultData = res;
+                const addBody = JSON.stringify(resultData);
+                console.log(addBody);
+                const out= fetch('/user/addquiz', {
+                    method: 'post',
+                    body: addBody,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                return out;
+            }).then((res) => {
+                console.log(res);
+                console.log('result data: ', resultData);
                 this.props.history.push({
                     pathname: '/quizresult',
                     state: {
-                        result: res,
+                        result: resultData,
                     }
                 });
+            }).catch(e => {
+                console.error(e);
+                this.props.history.push({
+                    pathname: '/account',
+                    state: {
+                        message: 'Could not upload quiz result',
+                    }
+                })
             })
             /*fetch('/user/addquiz', {
                 method: 'post',
@@ -116,7 +141,7 @@ class Quiz extends React.Component {
             <div>
                 <form>
                     <label htmlFor="input-event-size">How many people will be attending?</label>
-                    <input type="number" id="input-event-size" min="0" max="50000" defaultValue={this.state.eventSize} onChange={(e) => {                       this.setState({eventDuration: e.target.value });
+                    <input type="number" id="input-event-size" min="0" max="50000" defaultValue={this.state.eventSize} onChange={(e) => { 
                         this.setState({eventSize: parseInt(e.target.value) });
                     }}></input>
                     <label htmlFor="input-event-duration">How long will you be there? (in minutes)</label>

@@ -103,7 +103,7 @@ export default (props) => {
                 width={width}
                 height={height}
                 mapStyle="mapbox://styles/mapbox/light-v10"
-                onViewportChange={viewport => { setViewport(viewport);}}
+                onViewportChange={viewport => { setViewport(viewport); setLatLong(viewport.latitude, viewport.longitude) }}
                 mapboxApiAccessToken={MAPBOX_TOKEN}
                 >
             <Geocoder

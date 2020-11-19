@@ -103,6 +103,8 @@ exports.getByUID = async (uid) => {
  */
 exports.insertQuiz = async (uid, masterKey, data) => {
 
+    console.log(masterKey);
+
     const package = packageQuizData(data);
     const encrypted = encrypt(package, masterKey);
 
@@ -116,10 +118,12 @@ exports.insertQuiz = async (uid, masterKey, data) => {
 }
 
 exports.getQuizzes = async (uid, masterKey) => {
+    console.log(masterKey);
     try {
         const res = await client.query(`select * from quizzes where uid = ${uid}`);
         const decrypted = res.rows.map(row => {
-            return {...unpackageQuizData(decrypt(row.result, masterKey)), timestamp: row.timecreated};
+            const unpackaged = unpackageQuizData(decrypt(row.result, masterKey));
+            return { ...unpackaged, timestamp: row.timecreated};
         })
         return decrypted;
     } catch (e) {
