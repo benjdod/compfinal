@@ -16,6 +16,8 @@ import Quiz from "./pages/quizzard"
 import QuizResult from "./pages/quizresult"
 import Register from "./pages/register"
 
+import QuizView from "./components/quizview"
+
 import Footer from "./pages/tests/footergang"
 import BounceOut from "./pages/tests/bounceout"
 
@@ -49,7 +51,7 @@ export default () => {
                 <Route exact path='/map' component={Maps}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/guidelines' component={Guidelines}/>
-                <Route exact path='/account' component={Account}/>
+                <Route path='/account' component={Account}></Route>
                 <Route exact path='/register' component={Register}/>
                 <Route exact path='/quiz' component={Quiz}/>
                 <Route eact path='/quizresult' component={QuizResult}/>

@@ -11,6 +11,9 @@ import Guidelines5 from "../images/guidelines5.png"
 import Guidelines6 from "../images/guidelines6.png"
 import Guidelines7 from "../images/guidelines7.png"
 
+
+// STYLE: TODO: change this, and other pages, to use the PageFrame component
+// if a footer is defined to work with the pageframe, it can work across the board
 export default () => {
 
     return (

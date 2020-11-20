@@ -147,6 +147,10 @@ strong {
     font-weight: bold;
 }
 
+em {
+    font-style: italic;
+}
+
 p {
     display: block;
     margin-block-start: 1em;

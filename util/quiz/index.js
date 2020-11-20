@@ -61,19 +61,21 @@ exports.calculateRisk = (data, useVersion) => {
              */
 
             // TODO: add mask reduction from other people usage
+            // get research/data to back it up, and add that data as a 
+            // reference in the about page. 
             const infections = data.cases;
             const population = data.population;
             const pI = infections / population;
             const n = data.eventSize;
-            const m = 0.65;
+            const m = 0.5;          // this is 0.65, but we are being conservative here
             const D = data.socialDistancing;
-            const O = 18.7;
+            const O = 12.5;         // this is 18.7, but again, we're being conservative here
             const H = data.eventDuration
 
             const weitzFactor = 1 - Math.pow(1 - pI, n);
             const maskWearerFactor = 1 - m;
             const outdoorFactor = 1/O;
-            const distancingFactor = Math.pow(1/2.2, D);
+            const distancingFactor = Math.pow(1/1.5, D);    // distancing factor should be 2.02, but yeah...
             const timeFactor = H/120;
 
             console.log(`risk factors (v${version}):`, weitzFactor, maskWearerFactor, outdoorFactor, distancingFactor, timeFactor)

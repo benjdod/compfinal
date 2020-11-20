@@ -1,4 +1,4 @@
-const LoaderCache = require('../lib/loader');
+const LoaderCache = require('../../lib/loader');
 const { default: axios } = require('axios')
 
 const cache = new LoaderCache();

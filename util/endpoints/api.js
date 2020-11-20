@@ -5,7 +5,8 @@ const { default: axios } = require('axios');
 const { calculateRisk } = require('../quiz');
 
 // use the loader cache
-const cache = require('../sourcecache');
+const cache = require('../data/sourcecache');
+const source = require('../data/sourcemethods');
 
 router.get('/', listRoutes(router));
 
@@ -124,9 +125,12 @@ router.post('/calculaterisk', async (req,res) => {
     const b = req.body;
 
     let fipscases = null;
+    let countyState = null;
 
     try {
         fipscases = await qll(req.body.latitude, req.body.longitude);
+        const fipsLUT = await cache.get('censuspops');
+        countyState = source.fipsToCountyState(fipscases.fips, fipsLUT);
     } catch (e) {
         console.error(e);
         res.status(500).send('500: could not source data to calculate risk');
@@ -141,8 +145,16 @@ router.post('/calculaterisk', async (req,res) => {
 
     const risk = calculateRisk(calcInputs);
     risk.fips = fipscases.fips;
-    console.log(risk);
-    res.json(risk);
+
+    const out = {
+        ...risk,
+        ...countyState,
+        timestamp: Date.now(),
+    }
+
+    console.log('api serving risk result: ', out);
+
+    res.json(out);
 })
 
 router.all('*', (req,res) => {

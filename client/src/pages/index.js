@@ -1,11 +1,24 @@
-import React from "react"
+import React, { useEffect } from "react"
 import PageFrame from "_components/pageframe"
 import HomeBox from "../components/homebox"
 import Footer from "../components/footer"
 
+import { useHistory } from "react-router-dom"
+
 import boxStyle from "../components/modules/box.module.css"
 
 export default () => {
+
+    const history = useHistory();
+
+    useEffect(() => {
+        fetch('/user/ping')
+        .then(res => {
+            if (res.status == 200) 
+                history.push('/account')
+        })
+    })
+
     return (
         <div class="bg-image">
             <div class="pageWrap">

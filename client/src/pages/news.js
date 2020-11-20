@@ -87,6 +87,7 @@ componentDidMount() {
 }
 
 
+  // TODO: this could use a loader component (a-la https://loading.io)
   render() {
 
     let ncArticles = this.state.localNews;

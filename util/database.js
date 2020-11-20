@@ -123,7 +123,7 @@ exports.getQuizzes = async (uid, masterKey) => {
         const res = await client.query(`select * from quizzes where uid = ${uid}`);
         const decrypted = res.rows.map(row => {
             const unpackaged = unpackageQuizData(decrypt(row.result, masterKey));
-            return { ...unpackaged, timestamp: row.timecreated};
+            return { ...unpackaged, timestamp: new Date(row.timecreated)};
         })
         return decrypted;
     } catch (e) {
