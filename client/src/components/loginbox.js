@@ -95,7 +95,6 @@ const loginbox = (props) => {
 
                 
             </form>
-            <Link to="/map" className="button">temp button to map</Link>
         </div>
     )
     

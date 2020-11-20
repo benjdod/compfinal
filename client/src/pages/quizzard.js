@@ -163,6 +163,7 @@ class Quiz extends React.Component {
             </div>
         )
 
+        // FIXME: mask percentage value is coming out not right...
         const maskStep = (
             <div>
                 <form>
@@ -175,9 +176,9 @@ class Quiz extends React.Component {
                     </select>
 
                     <label htmlFor="input-mask-percentage">What percentage of attendees will be wearing masks</label>
-                    <input type="number" id="input-mask-percentage" min="0" max="100" defaultValue={`${Math.round(this.state.maskPercentage * 100)}`} onChange={(e) => {
+                    <input type="number" id="input-mask-percentage" min="0" max="100"  onChange={(e) => {
                         this.setState({maskPercentage: parseInt(e.target.value) / 100 });
-                    }}></input>
+                    }} defaultValue={`${Math.round(this.state.maskPercentage * 100)}`}></input>
 
                     <label htmlFor="input-user-mask">Will you be wearing a mask?</label>
                     <select id="input-user-mask" onChange={(e) => {

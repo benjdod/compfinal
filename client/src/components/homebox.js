@@ -13,8 +13,6 @@ const homebox = (props) => {
 
     const userData = props.userData;
 
-    console.log(loggedIn, userData);
-
     const header = loggedIn && userData !== undefined
         ? <h1>Welcome back, {userData.firstname}</h1>
         : <h1>COVID-19 Risk Assessor</h1>

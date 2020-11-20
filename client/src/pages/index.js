@@ -17,19 +17,20 @@ export default () => {
         // see if we're logged in or not
         fetch('/user/details')
         .then(res => {
-            if (res.status !== 200) 
-                setHomeBox(<HomeBox/>)
-            
             return res.json();
         }).then(res => {
-            // if homebox is still null, we never set it, 
-            // and our user response was a 200, so we 
-            // need to set the box!
-            if (homeBox === null) {
-                setHomeBox(<HomeBox loggedIn userData={res}/>)
-            }
+            console.log(res);
+            setHomeBox(<HomeBox loggedIn userData={res}/>)
+        }).catch(e => {
+
+            // if we're here, then the request failed,
+            // probably due to a 401 unauthorized,
+            // but regardless we render the not logged in homebox
+            console.log('failed');
+            console.error(e);
+            setHomeBox(<HomeBox/>)
         })
-    })
+    }, []) // no dependencies so we do NOT render a million times and crash a user's browser
 
     return (
         <PageFrame header={false} gutter={false} footerCover transparentFooter>

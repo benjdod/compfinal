@@ -2,14 +2,15 @@ import React from "react"
 import { Link } from "react-router-dom"
 import LoginBox from "../components/loginbox"
 import Footer from "../components/footer"
+import PageFrame from "../components/pageframe"
 
 export default () => {
     return (
-        <div className="bg-image">
-            <div className="pageWrap">
+        <PageFrame header={false} gutter={false} footerCover transparentFooter>
+            <div className="bg-image">
+                <LoginBox />
             </div>
-            <LoginBox />
-            <Footer />
-        </div>
+        </PageFrame>
+        
     )
 }
