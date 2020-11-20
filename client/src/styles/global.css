@@ -181,6 +181,9 @@ a {
     background-color: rgb(219, 219, 219);
     transition: 0.2s ease;
 }
+
+
+
 #root {
     height: 100%;
 }
@@ -217,7 +220,7 @@ sub {
     background-image: url("../images/map-background-blurred.jpg");
     /* filter: blur(8px);
     -webkit-filter: blur(8px); */
-    height: 100%;
+    height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

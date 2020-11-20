@@ -110,7 +110,6 @@ componentDidMount() {
     })
     return (
       <div>
-        <Footer />
         <PageFrame>
       <h1 className={newsPageStyle.title}>Local News</h1>  
       <div className={listStyle.gallery}>

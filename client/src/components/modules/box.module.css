@@ -34,6 +34,10 @@
     transition: 0.2s ease;
 }
 
+.buttonbox * {
+    margin: 2px 0px;
+}
+
 
 @media only screen and (max-width: 1200px) {
     .box {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import PageFrame from "_components/pageframe"
 import HomeBox from "../components/homebox"
 import Footer from "../components/footer"
@@ -11,21 +11,34 @@ export default () => {
 
     const history = useHistory();
 
+    const [homeBox, setHomeBox] = useState(null);
+
     useEffect(() => {
-        fetch('/user/ping')
+        // see if we're logged in or not
+        fetch('/user/details')
         .then(res => {
-            if (res.status == 200) 
-                history.push('/account')
+            if (res.status !== 200) 
+                setHomeBox(<HomeBox/>)
+            
+            return res.json();
+        }).then(res => {
+            // if homebox is still null, we never set it, 
+            // and our user response was a 200, so we 
+            // need to set the box!
+            if (homeBox === null) {
+                setHomeBox(<HomeBox loggedIn userData={res}/>)
+            }
         })
     })
 
     return (
-        <div class="bg-image">
-            <div class="pageWrap">
+        <PageFrame header={false} gutter={false} footerCover transparentFooter>
+            <div class="bg-image">
+                <div class="pageWrap">
+                </div>
+                {homeBox}
             </div>
-            <HomeBox/>
-            <Footer/>
-        </div>
+        </PageFrame>
     )
 }
 

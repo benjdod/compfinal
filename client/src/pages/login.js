@@ -5,8 +5,8 @@ import Footer from "../components/footer"
 
 export default () => {
     return (
-        <div class="bg-image">
-            <div class="pageWrap">
+        <div className="bg-image">
+            <div className="pageWrap">
             </div>
             <LoginBox />
             <Footer />

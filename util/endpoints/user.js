@@ -32,7 +32,7 @@ router.get('/details', async (req,res) => {
             firstname: user.firstname,
             lastname: user.lastname,
             username: user.username,
-            createdAt: user.timecreated,
+            createdAt: new Date(user.timecreated),
         }))
         .catch(e => {
             console.error(e);

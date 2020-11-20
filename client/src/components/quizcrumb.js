@@ -37,9 +37,9 @@ export default (props) => {
     // of complete safety to the user. 
     const inner = (
         <div >
-            <h3 className={localStyle.title}>{data.county}, {data.state}</h3>
+            <h3 className={localStyle.title}>{data.county} County, {data.state}</h3>
             <p className={localStyle.date}>{moment(data.timestamp).fromNow()}</p>
-            <p>Risk: {data.risk}</p>
+            <p className={localStyle.risk}>Risk: {data.risk}</p>
         </div>
     )
     return (

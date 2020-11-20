@@ -55,7 +55,7 @@ export default () => {
         }).then(res => res.json())
         .then(res => {
             // FIXME: sort quiz results by time
-            const quizCrumbs = res.map(quiz => <QuizCrumb data={quiz}/>);
+            const quizCrumbs = res.map(quiz => <QuizCrumb data={quiz}/>).reverse();
             setQuizzes(quizCrumbs);
         })
         .catch(err => {

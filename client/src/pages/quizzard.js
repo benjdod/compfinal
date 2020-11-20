@@ -121,7 +121,8 @@ class Quiz extends React.Component {
 
         const startStep = (
             <div>
-                <h3 className="text-italic">First, a few questions...</h3>
+                <h3 className="text-italic">COVID-19 Risk Assessor</h3>
+                <p>This quiz will assess your risk for contracting COVID-19 given event details. The creators and mantainers of this website are not medical professionals, and the resulting risk estimate should in no way be construed as medical advice!</p>
                 {nextButton}
             </div>
         )

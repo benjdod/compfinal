@@ -37,6 +37,8 @@ const loginbox = (props) => {
             setMessage(validate);
         }
 
+        console.log(inputs);
+
         fetch('/auth/login', {
             method: 'POST',
             cache: 'no-cache',
@@ -93,7 +95,7 @@ const loginbox = (props) => {
 
                 
             </form>
-            <Link to="/map" classNme="button">temp button to map</Link>
+            <Link to="/map" className="button">temp button to map</Link>
         </div>
     )
     

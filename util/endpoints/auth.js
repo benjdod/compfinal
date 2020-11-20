@@ -12,6 +12,8 @@ router.get('/', listRoutes(router));
 router.post('/login', async (req,res) => {
     const body = req.body;
 
+    console.log(body);
+
     if (body.username === undefined || body.password === undefined) {
         res.status(400).send(null);
         return;
@@ -20,6 +22,8 @@ router.post('/login', async (req,res) => {
     try {
 
         const user = await database.getUser(body.username);
+
+        console.log(user);
 
         if (!user) {
             res.status(404).send('user not found');
@@ -34,6 +38,7 @@ router.post('/login', async (req,res) => {
             res.status(401).send('incorrect credentials');
         }
     } catch (e) {
+        console.error(e);
         res.status(500).send(`Internal server error (${e.message})`);
     }
 
