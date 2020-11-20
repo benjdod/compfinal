@@ -4,9 +4,13 @@ import NavBar from "./navbar"
 import Footer from "./footer"
 
 import localStyle from "./modules/pageframe.module.css"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 export default (props) => {
+
+    const location = useLocation();
+
+    console.log(location.state);
 
     const nav = props.header === undefined || props.header !== false
         ? <NavBar/>

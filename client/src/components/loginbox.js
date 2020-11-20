@@ -74,12 +74,14 @@ const loginbox = (props) => {
         <div className={boxStyle.box}>
             <h1>Log In</h1>
             <form id="login-form">
-                {/* styles for this message based on login state */}
+                {/* STYLE: need to determine a look for any messages produced by the logging-in
+                process. e.g. a block at the bottom of the form; red for errors, blue for whatever.
+                It just looks pretty brutal rn. */}
                 <p style={{
                     color: '#ff6969',
                     backgroundColor: 'rgba(200,100,100,0.1)',
                     display: 'inline',
-                }}>{loginState === 'rejected' ? 'Incorrect username or password' : loginState === 'accepted' ? 'Logged in' : ''}</p>
+                }}>{loginState === 'rejected' ? 'Incorrect username or password' : loginState === 'error' ? 'Could not log in user' : ''}</p>
                 <br />
                 <br />
                 <label id="email-label" htmlFor="username">Username</label><br />
