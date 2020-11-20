@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 
 export default () => {
 
-    const startingCoords = [37.7749, -122.4194]
+    const startingCoords = [36.89, -96.73]  // rough geographical center of the US
 
     const [coords, setCoords] = useState(startingCoords);
 
@@ -16,7 +16,7 @@ export default () => {
 
         const map = L.map('mapid', {
             center: startingCoords,
-            zoom: 13,
+            zoom: 4,
         });
 
         //setMap(map);
@@ -33,7 +33,11 @@ export default () => {
         }).addTo(map);
 
         // reference: https://github.com/Esri/esri-leaflet-geocoder
-        const geocoder = L.esri.Geocoding.geosearch().addTo(map);
+        const geocoder = L.esri.Geocoding.geosearch({
+            useMapBounds: false,
+            placeholder: "Search for your locality"
+        }).addTo(map);
+        console.log(geocoder);
         let geocoderResults = L.layerGroup().addTo(map);
 
         geocoder.on('results', (data) => {
@@ -52,10 +56,12 @@ export default () => {
                 bounds._northEast.lng + (bounds._southWest.lng - bounds._northEast.lng) * 0.5,
             ]
             setCoords(center);
+            console.log(center);
         })
 
         navigator.geolocation.getCurrentPosition((res) => {
-            map.panTo(new L.latLng(res.coords.latitude, res.coords.longitude))
+            map.setView(new L.latLng(res.coords.latitude, res.coords.longitude), 12);
+            L.marker([res.coords.latitude, res.coords.longitude]).addTo(map);
         })
 
         console.log(L.latLng.lat);
