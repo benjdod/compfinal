@@ -1,1 +1,0 @@
-This is just a collection of files for development. They have no part in the current application.
