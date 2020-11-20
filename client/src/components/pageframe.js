@@ -15,8 +15,6 @@ export default (props) => {
 
     const location = useLocation();
 
-    console.log(location.state);
-
     const nav = props.header === undefined || props.header !== false
         ? <NavBar/>
         : null;

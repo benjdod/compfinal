@@ -4,6 +4,8 @@ import NavBar from "../components/navbar"
 import Footer from "../components/footer"
 import PageFrame from "../components/pageframe"
 
+import localStyle from "./modules/about.module.css"
+
 export default () => {
 
     // this makes it easier to put in links...
@@ -22,7 +24,7 @@ export default () => {
                 {
                     args.map(idx => {
 
-                        refElts.push(<p><a href={references[idx]} target="_blank">{idx+1}: {references[idx]}</a></p>)
+                        refElts.push(<p>{idx+1}: <a className={localStyle.link} href={references[idx]} target="_blank">{references[idx]}</a></p>)
 
                         return (
                             <div style={{display: 'inline'}}>
