@@ -6,6 +6,11 @@ import Footer from "./footer"
 import localStyle from "./modules/pageframe.module.css"
 import { Link, useLocation } from "react-router-dom"
 
+/**
+ * This wraps content in a header and footer
+ * @param {object} props
+ * @param {string|boolean} props.gutter specify the gutter behavior. If boolean false, no gutter is created. Gutter width can be specified with a string. Default behavior is 10% on each side
+ */
 export default (props) => {
 
     const location = useLocation();
@@ -27,10 +32,16 @@ export default (props) => {
             </div>
         </div>) : null
 
+    const gutterWidth = (props.gutter !== undefined) 
+        ? (props.gutter === true)
+            ? '10%'
+            : props.gutter
+        : '10%' 
+
     return (
         <div className={localStyle.container}>
             {nav}
-            <div className={`${localStyle.content} ${footer !== null && props.footerCover !== true ? localStyle.footerspace : ''} ${props.gutter !== undefined && props.gutter === false ? '' : localStyle.gutter}`}>
+            <div className={`${localStyle.content} ${footer !== null && props.footerCover !== true ? localStyle.footerspace : ''}`} style={{paddingLeft: gutterWidth, paddingRight: gutterWidth}}>
                 {props.children}
             </div>
             {footer}

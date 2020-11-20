@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import NavBar from "../components/navbar"
 import infoboxStyle from "../components/modules/infobox.module.css"
 import Footer from "../components/footer"
+import PageFrame from "../components/pageframe"
 import Guidelines1 from "../images/guidelines1.png"
 import Guidelines2 from "../images/guidelines2.png"
 import Guidelines3 from "../images/guidelines3.png"
@@ -12,14 +13,11 @@ import Guidelines6 from "../images/guidelines6.png"
 import Guidelines7 from "../images/guidelines7.png"
 
 
-// STYLE: TODO: change this, and other pages, to use the PageFrame component
-// if a footer is defined to work with the pageframe, it can work across the board
+// STYLE: it looks like these list bullets are being duplicated in some of the cards
 export default () => {
 
     return (
-        <div>
-            <NavBar />
-
+      <PageFrame gutter="0">
 
             <h1 className="page-title">CDC Guidelines</h1>
 
@@ -146,8 +144,6 @@ export default () => {
               </div>
 
           </div>
- 
-        <Footer />
-        </div>
+        </PageFrame>
     )
 }
