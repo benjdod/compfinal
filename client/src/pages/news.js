@@ -3,8 +3,7 @@ import NewsCard from "../components/newscard"
 import axios from "axios";
 import newsPageStyle from "../components/modules/newsPage.module.css";
 import PageFrame from "../components/pageframe.js"
-import listStyle from "../components/modules/hList.module.css"
-import Footer from "../components/footer"
+import listStyle from "../components/modules/hlist.module.css"
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
 
 

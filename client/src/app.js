@@ -21,6 +21,7 @@ import QuizView from "./components/quizview"
 import Footer from "./pages/tests/footergang"
 import BounceOut from "./pages/tests/bounceout"
 import Spacing from "./pages/tests/spacing"
+import Leaflet from "./pages/tests/leaflet"
 
 import "./styles/global.css"
 
@@ -59,7 +60,7 @@ export default () => {
                 <Route exact path='/test/footer' component={Footer}/>
                 <Route exact path='/test/bounce' component={BounceOut}/>
                 <Route exact path='/test/spacing' component={Spacing}/>
-
+                <Route exact path='/test/leaflet' component={Leaflet}/>
 
                 {/* this is the default page 404 page. It needs to stay below 
                     all other routes since it catches any route that falls
