@@ -39,6 +39,26 @@ cache.add('nytcovidstates', 60*60*8, [], async () => {
     }
 })
 
+cache.add('statepops', 60*60*24*7, [], async () => {
+    try {
+        const key = '157cc218dfb158478f18c0ce168a6ff40a09d950';
+        const query = `https://api.census.gov/data/2019/pep/population?get=POP,NAME&for=state:*&key=${key}`;
+        const response = await axios.get(query);
+
+        const out = [['fips', 'population', 'state']];
+
+        response.data.slice(1,response.data.length).forEach(row => {
+            out.push([row[2], parseInt(row[0]), row[1]])
+        })
+
+        return out.sort((a,b) => a[0] - b[0]);
+
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+})
+
 cache.add('censuspops', 60*60*24, [], async () => {
     try {
         const key = '157cc218dfb158478f18c0ce168a6ff40a09d950';
@@ -89,6 +109,10 @@ cache.add('covidstateshistory', 60*60*12, [], async () => {
                 fipsKeys[key].push([datum[0], datum[3], datum[4]])
             })
 
+        Object.keys(fipsKeys).forEach(key => {
+            fipsKeys[key] = fipsKeys[key].reverse();
+        })
+
         return fipsKeys
     } catch (e) {
         console.log(e);
@@ -96,69 +120,70 @@ cache.add('covidstateshistory', 60*60*12, [], async () => {
     }
 })
 
-cache.add('covid_delta_7day', 60*60*24, ['covidstateshistory'], async (deps) => {
+cache.add('covid_deltas', 60*60*24, ['covidstateshistory'], async (deps) => {
 
-    const out = []
+    const out = [];
+
+    out.push(['fips', 'delta_7d', 'delta_14d', 'delta_28d']);
 
     Object.keys(deps.covidstateshistory).forEach(key => {
         if (key === 'fips') return;
-        const slice = deps.covidstateshistory[key].reverse().slice(0,7);
+        const slice = deps.covidstateshistory[key].slice(0,29);
+        console.log('delta slice ', slice);
         out.push([
             key,
-            slice[0][1] - slice[6][1],  // cases
-            slice[0][2] - slice[6][2]   // deaths
+            [
+                slice[0][1] - slice[6][1],  // cases
+                slice[0][2] - slice[6][2]   // deaths
+            ],
+            [
+                slice[0][1] - slice[14][1],  // cases
+                slice[0][2] - slice[14][2]   // deaths
+            ],
+            [
+                slice[0][1] - slice[27][1],  // cases
+                slice[0][2] - slice[27][2]   // deaths
+            ]
         ])
     })
 
     return out;
 })
 
-cache.add('covid_delta_28day', 60*60*24, ['covidstateshistory'], async (deps) => {
-
-    const out = []
-
-    Object.keys(deps.covidstateshistory).forEach(key => {
-        if (key === 'fips') return;
-        const slice = deps.covidstateshistory[key].reverse().slice(0,29);
-        out.push([
-            key,
-            slice[0][1] - slice[28][1],  // cases
-            slice[0][2] - slice[28][2]   // deaths
-        ])
-    })
-
-    return out;
-})
-
-cache.add('statesgeo_base', 60*60*24*7, ['covid_delta_7day'], (deps) => {
+cache.add('statesgeo_base', 60*60*24*7, [], () => {
     const geo = JSON.parse(fs.readFileSync(path.resolve(__dirname, './local/states_5m.json'), 'utf-8'));
     return geo;
 })
 
-cache.add('statesgeo_detailed', 60*60*24, ['statesgeo_base', 'covid_delta_7day', 'covid_delta_28day', 'covidstateshistory'], (deps) => {
+cache.add('statesgeo_detailed', 60*60*24, ['statesgeo_base', 'covid_deltas', 'covidstateshistory', 'statepops'], (deps) => {
 
     const geo = deps.statesgeo_base;
-    const delta7day = deps.covid_delta_7day;
-    const delta1month = deps.covid_delta_28day;
+    const de = deps.covid_deltas;
     const history = deps.covidstateshistory;
+    const statepops = deps.statepops;
 
     geo.features.forEach((state,idx) => {
-        const delta_7d = delta7day.find(d => d[0] == state.properties.STATE);
-        if (delta_7d) 
-            geo.features[idx].properties.delta_7d = [delta_7d[1], delta_7d[2]]
-        else 
-            geo.features[idx].properties.delta_7d = null;
+        // find deltas and population data by fips 
+        const deltas = de.find(d => d[0] == state.properties.STATE);
+        const populationData = statepops.find(s => s[0] == state.properties.STATE);
+        
+        const p = populationData[1];
 
-        const delta_1mo = delta1month.find(d => d[0] == state.properties.STATE);
-        if (delta_1mo) 
-            geo.features[idx].properties.delta_1mo = [delta_1mo[1], delta_1mo[2]]
-        else 
-            geo.features[idx].properties.delta_1mo = null;
+        if (deltas && populationData) {
+            geo.features[idx].properties.delta_7d = [deltas[1][0] / p, deltas[1][1] / p]
+            geo.features[idx].properties.delta_14d = [deltas[2][0] / p, deltas[2][1] / p]
+            geo.features[idx].properties.delta_28d = [deltas[3][0] / p, deltas[3][1] / p]
+        } else {
+            geo.features[idx].properties.delta_7d = null;
+            geo.features[idx].properties.delta_14d = null;
+            geo.features[idx].properties.delta_28d = null;
+        }
+
 
         const mostRecent = history[state.properties.STATE][0];
             
         geo.features[idx].properties.recent = 
-            mostRecent ? [parseInt(mostRecent[1]), parseInt(mostRecent[2])] : null;
+            mostRecent ? [mostRecent[0], parseInt(mostRecent[1]), parseInt(mostRecent[2])] : null;
 
     })
 

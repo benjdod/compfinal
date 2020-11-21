@@ -18,19 +18,13 @@ export default () => {
     const refElts = []
 
     const makeInline = (...args) => {
-
         return (
             <sup>
                 {
                     args.map(idx => {
-
                         refElts.push(<p>{idx+1}: <a className={localStyle.link} href={references[idx]} target="_blank">{references[idx]}</a></p>)
-
                         return (
-                            <div style={{display: 'inline'}}>
-                                <a href={references[idx]} target="_blank">[{idx + 1}]</a>
-                                {idx < args.length - 1 ? ',' : ''}
-                            </div>
+                            <span><a href={references[idx]} target="_blank">[{idx + 1}]</a>{idx < args.length - 1 ? ',' : ''}</span>
                         )
                         
                     })
