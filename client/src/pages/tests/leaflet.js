@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import moment from "moment"
 //import L from "leaflet"
 
 const gradient = (number, low, high) => {
@@ -66,7 +67,7 @@ export default (props) => {
             setCoords([marker._latlng.lat, marker._latlng.lng]);
         }
 
-        //if (props.startOnLocation === true)
+        if (props.startOnLocation === true)
             navigator.geolocation.getCurrentPosition((res) => {
             map.setView(new L.latLng(res.coords.latitude, res.coords.longitude), 12);
             setMarker([res.coords.latitude, res.coords.longitude]);
@@ -105,14 +106,37 @@ export default (props) => {
         } )
 
         //fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
-        fetch('/api/statesgeojson')
+        fetch('/api/statesgeojson-loaded')
         .then(res => res.json())
         .then(res => {
             // https://leafletjs.com/reference-1.7.1.html#geojson
-            L.geoJSON(res, {
+            const geoLayer = L.geoJSON(res, {
                 onEachFeature: (feature, layer) => {
                     layer.on('click', e => {
                         console.log('clicked on state', feature.properties.NAME);
+                    })
+
+                    layer.on('mouseover', e => {
+                        const layer = e.target;
+                        layer.setStyle({
+                            fillOpacity: 0.5,
+                        })
+                    })
+
+                    layer.on('mouseout', e => {
+                        geoLayer.resetStyle(e.target);
+                    })
+
+                    const recentDate = new Date(feature.properties.recent[0]);
+                    const popupText = `<div>
+                        date: ${moment(recentDate).format('LL')}<br/>
+                        cases: ${feature.properties.recent[1]}<br/>
+                        deaths: ${feature.properties.recent[2]}
+                        </div>
+                        `
+
+                    layer.bindTooltip(popupText, {
+                        direction: 'left',
                     })
                 },
                 style: (feature) => {

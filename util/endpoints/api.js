@@ -157,11 +157,19 @@ router.post('/calculaterisk', async (req,res) => {
     res.json(out);
 })
 
-router.get('/statesgeojson', async (req,res) => {
+router.get('/statesgeojson-base', async (req,res) => {
+
+    cache.get('statesgeo_base')
+    .then(data => {
+        res.json(data);
+    })
+    .catch(e => res.status(500).send('500: could not get file'))
+})
+
+router.get('/statesgeojson-loaded', async (req,res) => {
 
     cache.get('statesgeo_detailed')
     .then(data => {
-        
         res.json(data);
     })
     .catch(e => res.status(500).send('500: could not get file'))
