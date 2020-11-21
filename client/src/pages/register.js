@@ -3,6 +3,7 @@ import { useHistory  } from "react-router-dom"
 
 import PageFrame from "_components/pageframe"
 import Validate from "../../../util/formvalidation"
+import boxStyle from "../components/modules/box.module.css"
 
 // convenience methods
 
@@ -65,26 +66,30 @@ export default () => {
 
     // STYLE: this needs to be styled in the same way as the login page
     return (
-        <PageFrame>
-            <div style={{display: 'block', textAlign: 'center'}}>
-                <div style={{display: 'inline-block'}}>
-                    <form className='children-as-block' onSubmit={submit}>
-                        <label htmlFor='input-first-name'>First name</label>
-                        <TextInput id='input-first-name' maxLength="127" onChange={(e) => {inputs.firstname = e.target.value;}}/>
-                        <label htmlFor='input-last-name'>Last name</label>
-                        <TextInput id='input-last-name' maxLength="127" onChange={(e) => {inputs.lastname = e.target.value; }}/>
-                        <label htmlFor='input-user-name'>User name</label>
-                        <TextInput id='input-user-name' maxLength="127" onChange={(e) => {inputs.username = e.target.value; }}/>
-                        <label htmlFor='input-password'>Password</label>
-                        <input type='password' id='input-password' type='password' minLength="8" maxLength="255" onChange={(e) => {inputs.password = e.target.value}}/>
-                        <button type='submit'>Submit</button>
-                    </form>
-                    <div>
-                        {errormessage}
+        <PageFrame header={false} gutter={false} footerCover transparentFooter>
+            <div class="bg-image">
+                <div class="pageWrap">
+                </div>
+                <div className={boxStyle.box}>
+                    <h1>Sign Up</h1>
+                    <div style={{display: 'inline-block'}}>
+                        <form className='children-as-block' onSubmit={submit}>
+                            <label htmlFor='input-first-name'>First name</label>
+                            <TextInput id='input-first-name' maxLength="127" onChange={(e) => {inputs.firstname = e.target.value;}}/>
+                            <label htmlFor='input-last-name'>Last name</label>
+                            <TextInput id='input-last-name' maxLength="127" onChange={(e) => {inputs.lastname = e.target.value; }}/>
+                            <label htmlFor='input-user-name'>User name</label>
+                            <TextInput id='input-user-name' maxLength="127" onChange={(e) => {inputs.username = e.target.value; }}/>
+                            <label htmlFor='input-password'>Password</label>
+                            <input type='password' id='input-password' type='password' minLength="8" maxLength="255" onChange={(e) => {inputs.password = e.target.value}}/>
+                            <button type='submit' className={boxStyle.formbutton}>Submit</button>
+                        </form>
+                        <div>
+                            {errormessage}
+                        </div>
                     </div>
                 </div>
             </div>
-            
             
             
         </PageFrame>

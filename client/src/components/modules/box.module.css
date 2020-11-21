@@ -27,6 +27,7 @@
     vertical-align: center;
     font-size: 14px;
     background-color: white;
+    border: none;
 }
 .formbutton:hover {
     cursor: pointer;
