@@ -35,40 +35,46 @@ export default (props) => {
         </div>
     )
 
-
+    //low risk
     const gaugeG = (
         <div className= {gaugeStyle.gauge}>
             <div className = {gaugeStyle.gauge__body}>
                 <div className= {gaugeStyle.gauge__fill__green}></div>
                     <div className= {gaugeStyle.guage__cover}></div>
             </div>
-            Low Risk
+            <strong>Low Risk</strong>
+            <p>Caution reccomended for users with underlying health conditions.</p>
         </div> )
+    //medium risk
     const gaugeY = (
         <div className= {gaugeStyle.gauge}>
             <div className = {gaugeStyle.gauge__body}>
                 <div className= {gaugeStyle.gauge__fill__yellow}></div>
                     <div className= {gaugeStyle.guage__cover}></div>
             </div>
-            Medium Risk
+            <strong>Medium Risk</strong>
+            <p>Not reccomended for users with underlying health conditions.</p>
         </div> )
+    //high risk
     const gaugeO = (
         <div className= {gaugeStyle.gauge}>
             <div className = {gaugeStyle.gauge__body}>
                 <div className= {gaugeStyle.gauge__fill__orange}></div>
                     <div className= {gaugeStyle.guage__cover}></div>
             </div>
-            High Risk
+            <strong>High Risk</strong>
+            <p>Highly discouraged for all users.</p>
         </div> )
-
-const gaugeR = (
-    <div className= {gaugeStyle.gauge}>
-        <div className = {gaugeStyle.gauge__body}>
-            <div className= {gaugeStyle.gauge__fill__red}></div>
-                <div className= {gaugeStyle.guage__cover}></div>
-        </div>
-        Extreme Risk
-    </div> )
+    //extreme risk
+    const gaugeR = (
+        <div className= {gaugeStyle.gauge}>
+            <div className = {gaugeStyle.gauge__body}>
+                <div className= {gaugeStyle.gauge__fill__red}></div>
+                    <div className= {gaugeStyle.guage__cover}></div>
+            </div>
+            <strong>Extreme Risk</strong>
+            <p>Highly discouraged for all users.</p>
+        </div>)
 
     // TODO: it would be awesome to have like a slider / color changing component
     // to make the risk number seem more real. We will also have to establish color rules for 
