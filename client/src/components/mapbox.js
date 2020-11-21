@@ -24,6 +24,25 @@ export default (props) => {
         pitch: 0,
     });
 
+    // keep the navigator dialog from firing again and again
+    // for some reason it wants to do that...
+    const [ locationFired, setLocationFired ] = useState(false);
+
+    if (props.startOnLocation && !locationFired) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log('got position: ', position);
+        setViewport({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          zoom: 12,
+          bearing: 0,
+          pitch: 0,
+        })
+      })
+      setLocationFired(true);
+    }
+      
+
     //changes to the new viewport
     const mapRef = useRef();
     const handleViewportChange = useCallback(
@@ -92,7 +111,7 @@ export default (props) => {
                 width={width}
                 height={height}
                 mapStyle="mapbox://styles/mapbox/light-v10"
-                onViewportChange={viewport => { setViewport(viewport);}}
+                onViewportChange={viewport => { setViewport(viewport); setLatLong(viewport.latitude, viewport.longitude) }}
                 mapboxApiAccessToken={MAPBOX_TOKEN}
                 >
             <Geocoder

@@ -9,7 +9,7 @@ export default () => {
     let latitude = 0;
     let longitude = 0;
 
-    const mb = <MapBox width='100vw' height='90vh' setLatLong={(lat,long) => {
+    const mb = <MapBox width='100vw' height='90vh' startOnLocation setLatLong={(lat,long) => {
         latitude = lat;
         longitude = long;
         console.log(`(${latitude}, ${longitude})`);

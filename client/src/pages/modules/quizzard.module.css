@@ -22,10 +22,36 @@
 
 .button {
     border: none;
-    background: #eee;
+    /*background: #eee;*/
     font-size: inherit;
 }
 
+/* backy way to elevate the specifity of these rules above that of 
+the global .button class. 
+STYLE: See if we can generalize these rules to global scope 
+(e.g. all next/accept/submit/yes buttons look the same way */
+.container .next {
+    background-color: rgb(121, 185, 121);
+    background: rgb(121, 185, 121);
+}
+
+.container .next:hover {
+    background-color: rgb(170, 235, 170);
+}
+
+.container .back {
+    background-color: #ddd;
+}
+
+.container .back:hover {
+    background-color: #eee;
+}
+
 .buttonblock {
-    display: inline;
+    display: inline-block;
+    padding: 10px;
+}
+
+.buttonblock button {
+    margin: 0px 10px;
 }

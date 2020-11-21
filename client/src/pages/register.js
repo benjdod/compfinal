@@ -63,6 +63,7 @@ export default () => {
 
     const errormessage = <p style={{backgroundColor: '#fcc', color: '#f77', display: 'inline-block', padding: '5px', visibility: error ? 'visible' : 'hidden'}}>{error ? error : ''}</p>
 
+    // STYLE: this needs to be styled in the same way as the login page
     return (
         <PageFrame>
             <div style={{display: 'block', textAlign: 'center'}}>

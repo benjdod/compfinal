@@ -1,10 +1,11 @@
 import React from "react"
-import { Link } from "react-router-dom"
 import NewsCard from "../components/newscard"
-import PageFrame from "../components/pageframe"
 import axios from "axios";
 import newsPageStyle from "../components/modules/newsPage.module.css";
+import PageFrame from "../components/pageframe.js"
+import listStyle from "../components/modules/hlist.module.css"
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
+
 
 export class News extends React.Component{
   constructor(props){
@@ -85,9 +86,83 @@ componentDidMount() {
 }
 
 
+  // TODO: this could use a loader component (a-la https://loading.io)
   render() {
+
+    let ncArticles = this.state.localNews;
+    let usaArticles = this.state.usaNews;
+    const parser = new DOMParser();
+  
+    ncArticles.forEach(article =>{
+      let descrip = this.formatDescripiton(article.description, 20);
+      article.description = descrip + '...';
+    }
+      )
+   usaArticles.forEach(article => {
+      let descrip = this.formatDescripiton(article.description, 20);
+      article.description = descrip + '...';
+    })
+
+    this.state.worldNews.forEach(article => {
+      let descrip = this.formatDescripiton(article.description, 20);
+      article.description = descrip + '...';
+    })
     return (
-      <p>here</p>
+      <div>
+        <PageFrame>
+      <h1 className={newsPageStyle.title}>Local News</h1>  
+      <div className={listStyle.gallery}>
+        <div className={listStyle.gallery_scroller}>
+          {this.state.localNews.map(article => 
+          <div className={listStyle.gallery_scroller_div}>
+          <NewsCard
+          image = {article.image.url}
+          title = {article.title}
+          date = {article.datePublished.splice}
+          publisher = {article.provider.name}
+          description = {article.description}
+          link = {article.url}/>
+          </div>
+          )}
+          </div>
+          </div>
+          
+    <h1 className={newsPageStyle.title}>National</h1>  
+      <div className={listStyle.gallery}>
+        <div className={listStyle.gallery_scroller}>
+          {this.state.usaNews.map(article => 
+          <div className={listStyle.gallery_scroller_div}>
+          <NewsCard
+          image = {article.image.url}
+          title = {article.title}
+          date = {article.datePublished.splice}
+          publisher = {article.provider.name}
+          description = {article.description}
+          link = {article.url}/>
+          </div>
+          )}
+          </div>
+          </div>
+
+<h1 className={newsPageStyle.title}>Global</h1>  
+      <div className={listStyle.gallery}>
+        <div className={listStyle.gallery_scroller}>
+          {this.state.worldNews.map(article => 
+          <div className={listStyle.gallery_scroller_div}>
+          <NewsCard
+          image = {article.image.url}
+          title = {article.title}
+          date = {article.datePublished.splice}
+          publisher = {article.provider.name}
+          description = {article.description}
+          link = {article.url}/>
+          </div>
+          )}
+          </div>
+          </div>
+        </PageFrame>
+        </div>
+
     )
         }
 
@@ -109,5 +184,65 @@ componentDidMount() {
           </li>)}
         )
       </ul>
+
+
+
+
+
+           <ul>
+      {this.state.localNews.map(article => 
+        <div className={newsPageStyle.masonryitem}>
+          <div className={newsPageStyle.masonrycontent}>
+      <li><NewsCard
+        image = {article.image.url}
+        title = {article.title}
+        date = {article.datePublished.splice}
+        publisher = {article.provider.name}
+        description = {article.description}
+        link = {article.url}/> 
+        </li>
+        </div>
+        </div>)}
+      </ul>
+  
+
+       
+      <ul>
+        {this.state.usaNews.map(article => 
+        <div className={newsPageStyle.masonryitem}>
+          <div className={newsPageStyle.masonrycontent}>
+          <li><NewsCard
+          image = {article.image.url}
+          title = {article.title}
+          date = {article.datePublished.splice}
+          publisher = {article.provider.name}
+          description = {article.description}
+          link = {article.url}/> 
+          </li>
+          </div>
+          </div>)}
+      </ul>
+
+
+     
+      <ul>
+      {this.state.worldNews.map(article => 
+        <div className={newsPageStyle.masonryitem}>
+          <div className={newsPageStyle.masonrycontent}>
+          <li><NewsCard
+          image = {article.image.url}
+          title = {article.title}
+          date = {article.datePublished.splice}
+          publisher = {article.provider.name}
+          description = {article.description}
+          link = {article.url}/> 
+          </li>
+          </div>
+          </div>)}
+          </ul>
+          </div>
+      </PageFrame>
+      </div>
+    )
       */
-export default News;
+export default News

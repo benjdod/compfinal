@@ -2,11 +2,10 @@ import React, { useState } from "react"
 import { useHistory, Redirect } from "react-router-dom"
 
 import PageFrame from "../components/pageframe"
+import MapBox from "../components/mapbox"
 
 import localStyle from "./modules/quizzard.module.css"
 
-const { validateInputs } = require('../../../util/quizdata')
-const { calculateRisk } = require('../../../util/quiz');
 
 const min = (a,b) => {
     return a < b ? a : b;
@@ -25,7 +24,7 @@ class Quiz extends React.Component {
         this.state = {
             step: 0,
 
-            /*** quiz data ***/
+            /*** risk assessment data ***/
             latitude: 27.9938,        // float
             longitude: -81.82347,       // float
             eventSize: 3,       // int: number of attendees
@@ -55,8 +54,45 @@ class Quiz extends React.Component {
 
         const submit = () => {
             const {step, ...inputs} = this.state;
-            const calc = calculateRisk(inputs, 0);
-            console.log(calc);
+
+            let resultData = null;
+
+            fetch('/api/calculaterisk', {
+                method: 'post',
+                body: JSON.stringify(inputs),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(res => res.json()).then(res => {
+                resultData = res;
+                const addBody = JSON.stringify(resultData);
+                console.log(addBody);
+                const out= fetch('/user/addquiz', {
+                    method: 'post',
+                    body: addBody,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                return out;
+            }).then((res) => {
+                console.log(res);
+                console.log('result data: ', resultData);
+                this.props.history.push({
+                    pathname: '/quizresult',
+                    state: {
+                        result: resultData,
+                    }
+                });
+            }).catch(e => {
+                console.error(e);
+                this.props.history.push({
+                    pathname: '/account',
+                    state: {
+                        message: 'Could not upload quiz result',
+                    }
+                })
+            })
             /*fetch('/user/addquiz', {
                 method: 'post',
                 body: JSON.stringify(out)
@@ -70,9 +106,9 @@ class Quiz extends React.Component {
             */
         }
 
-        const nextButton = <button className={`button ${localStyle.button}`} onClick={() => {this.setState({step: this.state.step + 1}); console.log(this.state);}}>Next</button>
-        const backButton = <button className={`button ${localStyle.button}`} onClick={() => {this.setState({step: max(0, this.state.step - 1)}); console.log(this.state);}}>Back</button>
-        const submitButton = <button className={`button ${localStyle.button}`} onClick={submit}>Submit</button>
+        const nextButton = <button className={`button ${localStyle.button} ${localStyle.next}`} onClick={() => {this.setState({step: this.state.step + 1}); console.log(this.state);}}>Next</button>
+        const backButton = <button className={`button ${localStyle.button} ${localStyle.back}`} onClick={() => {this.setState({step: max(0, this.state.step - 1)}); console.log(this.state);}}>Back</button>
+        const submitButton = <button className={`button ${localStyle.button} ${localStyle.next}`} onClick={submit}>Submit</button>
 
         const buttons = (
             <div className={localStyle.buttonblock}>
@@ -83,7 +119,8 @@ class Quiz extends React.Component {
 
         const startStep = (
             <div>
-                <h3 className="text-italic">First, a few questions...</h3>
+                <h3 className="text-italic">COVID-19 Risk Assessor</h3>
+                <p>This quiz will assess your risk for contracting COVID-19 given event details. The creators and mantainers of this website are not medical professionals, and the resulting risk estimate should in no way be construed as medical advice!</p>
                 {nextButton}
             </div>
         )
@@ -91,7 +128,10 @@ class Quiz extends React.Component {
         const locationStep = (
             <div>
                 <p>Where are you?</p>
-                <pre>/* Mapbox in here, with call to location web api to automatically fill in the field */</pre>
+                <MapBox width="100%" height="50vh" startOnLocation setLatLong={(lat,long) => {
+                    this.state.latitude = lat;
+                    this.state.longitude = long;
+                }}/>
                 {buttons}
             </div>
         )
@@ -100,7 +140,7 @@ class Quiz extends React.Component {
             <div>
                 <form>
                     <label htmlFor="input-event-size">How many people will be attending?</label>
-                    <input type="number" id="input-event-size" min="0" max="50000" defaultValue={this.state.eventSize} onChange={(e) => {                       this.setState({eventDuration: e.target.value });
+                    <input type="number" id="input-event-size" min="0" max="50000" defaultValue={this.state.eventSize} onChange={(e) => { 
                         this.setState({eventSize: parseInt(e.target.value) });
                     }}></input>
                     <label htmlFor="input-event-duration">How long will you be there? (in minutes)</label>
@@ -121,22 +161,22 @@ class Quiz extends React.Component {
             </div>
         )
 
+        // FIXME: mask percentage value is coming out not right...
         const maskStep = (
             <div>
                 <form>
                     <label htmlFor="input-others-mask">Will attendees be wearing masks?</label>
                     <select id="input-others-mask" onChange={(e) => {
                             this.setState({maskWearing: e.target.value === 'yes' });
-
                         }} defaultValue={this.state.maskWearing ? 'yes' : 'no'}>
                         <option value="yes">Yes</option>
                         <option value="no">No</option>
                     </select>
 
                     <label htmlFor="input-mask-percentage">What percentage of attendees will be wearing masks</label>
-                    <input type="number" id="input-mask-percentage" min="0" max="100" defaultValue={`${Math.round(this.state.maskPercentage * 100)}`} onChange={(e) => {
+                    <input type="number" id="input-mask-percentage" min="0" max="100"  onChange={(e) => {
                         this.setState({maskPercentage: parseInt(e.target.value) / 100 });
-                    }}></input>
+                    }} defaultValue={`${Math.round(this.state.maskPercentage * 100)}`}></input>
 
                     <label htmlFor="input-user-mask">Will you be wearing a mask?</label>
                     <select id="input-user-mask" onChange={(e) => {
@@ -187,14 +227,13 @@ class Quiz extends React.Component {
         }
 
         return (
-            <PageFrame>
+            <PageFrame gutter="20%">
                 <div className={`${localStyle.container}`}>
                     {content()}
                 </div>
             </PageFrame>
         )
     }
-
 
 }
 

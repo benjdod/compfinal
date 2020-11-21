@@ -2,44 +2,169 @@ const express = require('express');
 const router = express.Router();
 const { listRoutes } = require('./index');
 const { default: axios } = require('axios');
+const { calculateRisk } = require('../quiz');
+
+// use the loader cache
+const cache = require('../data/sourcecache');
+const source = require('../data/sourcemethods');
 
 router.get('/', listRoutes(router));
 
-let countyData = {
-    data: null,
-    timestamp: null
+/*
+const cache = {
+    countyCovidData: {
+        data: null,
+        timestamp: null
+    },
+    countyPops: {
+        data: null,
+        timestamp: null,
+    }
+}
+*/
+
+const qll = async (latitude, longitude) => {
+
+    const bad = (
+        typeof latitude !== 'number' ||
+        typeof longitude !== 'number' ||
+        latitude < -90 || latitude > 90 ||
+        longitude < -180 || longitude > 180
+    ) || false;
+
+    if (bad) {
+        return null;
+    }
+
+    try {
+        const block = await axios.get(`https://geo.fcc.gov/api/census/block/find?latitude=${latitude}&longitude=${longitude}&format=json`);
+        const targetFips = block.data.County.FIPS;
+
+        if (!targetFips) {
+            return null;
+        }
+
+        const population = (await cache.get('censuspops')).find(row => row[0] === targetFips)[1];
+        const cases = parseInt((await cache.get('nytcovidcounties')).find(row => row[3] === targetFips)[4]);
+
+        return {
+            fips: targetFips,
+            pop: population,
+            cases: cases,
+        }
+    
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
 }
 
 router.get('/countydata', (req,res) => {
+    cache.get('nytcovidcounties')
+        .then(data => {
+            res.json(data);
+        })
+        .catch(e => {
+            console.error(e);
+            res.status(500).send('500: could not load resource');
+        })
+})
 
+router.get('/statedata', (req,res) => {
+    cache.get('nytcovidstates')
+    .then(data => {
+        res.json(data);
+    })
+    .catch(e => {
+        console.error(e);
+        res.status(500).send('500: could not load resource');
+    })
+})
 
-    if (countyData.data) {
+router.get('/censuspops', (req,res) => {
+    cache.get('censuspops')
+    .then(data => {
+        res.json(data);
+    })
+    .catch(e => {
+        console.error(e);
+        res.status(500).send('500: could not load resource');
+    })
+}) 
 
-        const currentTime = Date.now();
+router.get('/querylatlon', async (req,res) => {
 
-        // if our data is more than half a day old, refresh it!
-        if ((currentTime - countyData.timestamp)/1000 < 60*60*12) {
-            console.log(`serving copy of data since it's only ${(currentTime - countyData.timestamp) / 1000} seconds old`, );
-            res.json(countyData.data)
-            return;
-        }            
-        
+    const latitude = parseFloat(req.query.lat);
+    const longitude = parseFloat(req.query.lon);
+
+    const bad = (
+        req.query.lat === undefined || req.query.lon === undefined ||
+        typeof latitude !== 'number' ||
+        typeof longitude !== 'number' ||
+        latitude < -90 || latitude > 90 ||
+        longitude < -180 || longitude > 180
+    ) || false;
+
+    if (bad) {
+        res.status(400).send(`bad request: must include valid 'lat' and 'lon' fields in url parameters (e.g. ?lat=34.585&lon=-79.012)`);
+        return;
     }
 
-    console.log('fetching new county data and serving');
+    try {
+        out = await qll(latitude, longitude);
+        return out;
+    } catch (e) {
+        console.error(e);
+        res.status(500).send('500: could not fetch data to process request');
+    }
 
-    axios.get('https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-counties.csv')
-        .then(data => {
-            const out = data.data.split('\n').map((row,idx) => {
-                if (idx === 0) return;
-                const spl = row.split(',')
-                if (spl.length === 9) spl.push('');
-                return spl;
-            }).filter((row,idx) => idx !== 0)
-            countyData.data = out;
-            countyData.timestamp = Date.now();
-            res.json(countyData.data)
-        })
+})
+
+router.post('/calculaterisk', async (req,res) => {
+
+    const b = req.body;
+
+    let fipscases = null;
+    let countyState = null;
+
+    try {
+        fipscases = await qll(req.body.latitude, req.body.longitude);
+        const fipsLUT = await cache.get('censuspops');
+        countyState = source.fipsToCountyState(fipscases.fips, fipsLUT);
+    } catch (e) {
+        console.error(e);
+        res.status(500).send('500: could not source data to calculate risk');
+        return;
+    }
+
+    const calcInputs = req.body;
+    calcInputs.latitude = undefined;
+    calcInputs.longitude = undefined;
+    calcInputs.population = fipscases.pop;
+    calcInputs.cases = fipscases.cases;
+
+    const risk = calculateRisk(calcInputs);
+    risk.fips = fipscases.fips;
+
+    const out = {
+        ...risk,
+        ...countyState,
+        timestamp: Date.now(),
+    }
+
+    console.log('api serving risk result: ', out);
+
+    res.json(out);
+})
+
+router.get('/statesgeojson', async (req,res) => {
+
+    cache.get('statesgeo_detailed')
+    .then(data => {
+        
+        res.json(data);
+    })
+    .catch(e => res.status(500).send('500: could not get file'))
 })
 
 router.all('*', (req,res) => {

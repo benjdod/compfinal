@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import NavBar from "../components/navbar"
 import infoboxStyle from "../components/modules/infobox.module.css"
 import Footer from "../components/footer"
+import PageFrame from "../components/pageframe"
 import Guidelines1 from "../images/guidelines1.png"
 import Guidelines2 from "../images/guidelines2.png"
 import Guidelines3 from "../images/guidelines3.png"
@@ -11,16 +12,16 @@ import Guidelines5 from "../images/guidelines5.png"
 import Guidelines6 from "../images/guidelines6.png"
 import Guidelines7 from "../images/guidelines7.png"
 
+
+// STYLE: it looks like these list bullets are being duplicated in some of the cards
 export default () => {
 
     return (
-        <div>
-            <NavBar />
+      <PageFrame gutter="0">
 
+            <h1 className="page-title">CDC Guidelines</h1>
 
-            <h1 class="page-title">CDC Guidelines</h1>
-
-            <p className={infoboxStyle.cdcSource}>This information comes directly from the Centers for Disease Control and Prevention Website. For more information, go to <a target="_blank" href="https://www.cdc.gov/" class="underline">CDC.gov</a></p>
+            <p className={infoboxStyle.cdcSource}>This information comes directly from the Centers for Disease Control and Prevention Website. For more information, go to <a target="_blank" href="https://www.cdc.gov/" className="underline">CDC.gov</a></p>
 
         <div className={infoboxStyle.masonrycontainer}>
             <div className={`${infoboxStyle.masonryitem} ${infoboxStyle.itemOne}`}>
@@ -143,8 +144,6 @@ export default () => {
               </div>
 
           </div>
- 
-        <Footer />
-        </div>
+        </PageFrame>
     )
 }
