@@ -155,18 +155,24 @@ cache.add('statesgeo_base', 60*60*24*7, [], () => {
     return geo;
 })
 
-cache.add('statesgeo_detailed', 60*60*24, ['statesgeo_base', 'covid_deltas', 'covidstateshistory'], (deps) => {
+cache.add('statesgeo_detailed', 60*60*24, ['statesgeo_base', 'covid_deltas', 'covidstateshistory', 'statepops'], (deps) => {
 
     const geo = deps.statesgeo_base;
     const de = deps.covid_deltas;
     const history = deps.covidstateshistory;
+    const statepops = deps.statepops;
 
     geo.features.forEach((state,idx) => {
+        // find deltas and population data by fips 
         const deltas = de.find(d => d[0] == state.properties.STATE);
-        if (deltas) {
-            geo.features[idx].properties.delta_7d = [deltas[1][0], deltas[1][1]]
-            geo.features[idx].properties.delta_14d = [deltas[2][0], deltas[2][1]]
-            geo.features[idx].properties.delta_28d = [deltas[3][0], deltas[3][1]]
+        const populationData = statepops.find(s => s[0] == state.properties.STATE);
+        
+        const p = populationData[1];
+
+        if (deltas && populationData) {
+            geo.features[idx].properties.delta_7d = [deltas[1][0] / p, deltas[1][1] / p]
+            geo.features[idx].properties.delta_14d = [deltas[2][0] / p, deltas[2][1] / p]
+            geo.features[idx].properties.delta_28d = [deltas[3][0] / p, deltas[3][1] / p]
         } else {
             geo.features[idx].properties.delta_7d = null;
             geo.features[idx].properties.delta_14d = null;

@@ -4,6 +4,7 @@ import moment from "moment"
 
 const gradient = (number, low, high) => {
     const input = ((number < low ? low : number > high ? high : number) - low) / (high - low);
+    console.log(input);
     const lowColor = [0.1, 0.8, 0.6];
     const highColor = [0.95, 0.4, 0.25];
 
@@ -146,7 +147,7 @@ export default (props) => {
                     style: (feature) => {
                         console.log(feature.properties);
                         return {
-                            color: gradient(feature.properties.delta_7d[0], 0, 100000),
+                            color: gradient(feature.properties.delta_7d[0], 0, 0.009),
                             weight: 1,
                             fillOpacity: 0.2,
                         }
