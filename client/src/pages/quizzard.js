@@ -142,7 +142,7 @@ class Quiz extends React.Component {
 
         const locationStep = (
             <div>
-                <p>Where are you?</p>
+                <p>Where are you in the US?</p>
                 <MapBox width="100%" height="50vh" startOnLocation setLatLong={(lat,long) => {
                     this.state.latitude = lat;
                     this.state.longitude = long;
