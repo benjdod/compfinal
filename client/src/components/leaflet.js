@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react"
 import moment from "moment"
 //import L from "leaflet"
 
+// TODO: we need dedicated methods for how to color 
+// quiz results and general covid risk things...
+// we need a two way gradient (red up for increase, blue down for decrease),
+// probably a logarithmic gradient, and a unidrectional gradient
 const gradient = (number, low, high) => {
     const input = ((number < low ? low : number > high ? high : number) - low) / (high - low);
-    console.log(input);
     const lowColor = [0.1, 0.8, 0.6];
     const highColor = [0.95, 0.4, 0.25];
 
@@ -39,6 +42,9 @@ export default (props) => {
         const map = L.map('mapid', {
             center: startingCoords,
             zoom: 4,
+            //zoomSnap: 0.25,
+            zoomDelta: 1,
+            wheelPxPerZoomLevel: 60,   // this is the defeault
         });
 
         //setMap(map);
@@ -145,7 +151,6 @@ export default (props) => {
                         })
                     },
                     style: (feature) => {
-                        console.log(feature.properties);
                         return {
                             color: gradient(feature.properties.delta_7d[0], 0, 0.009),
                             weight: 1,

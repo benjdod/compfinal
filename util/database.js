@@ -109,21 +109,20 @@ exports.insertQuiz = async (uid, masterKey, data) => {
     const encrypted = encrypt(package, masterKey);
 
     try {
-        return await client.query(`insert into quizzes (uid, result) values (${uid}, '${encrypted}')`);
+        return await client.query(`insert into quizzes (user_uid, result) values (${uid}, '${encrypted}')`);
     } catch (e) {
         console.error(e);
         return null;
     }
-
 }
 
 exports.getQuizzes = async (uid, masterKey) => {
     console.log(masterKey);
     try {
-        const res = await client.query(`select * from quizzes where uid = ${uid}`);
+        const res = await client.query(`select * from quizzes where user_uid = ${uid}`);
         const decrypted = res.rows.map(row => {
             const unpackaged = unpackageQuizData(decrypt(row.result, masterKey));
-            return { ...unpackaged, timestamp: new Date(row.timecreated)};
+            return { ...unpackaged, timestamp: new Date(row.timecreated), uid: row.uid,};
         })
         return decrypted;
     } catch (e) {

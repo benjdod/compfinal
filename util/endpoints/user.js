@@ -81,4 +81,9 @@ router.post('/addquiz', async (req, res) => {
         })
 })
 
+router.post('/deleteaccount', async (req, res) => {
+    const uid = req.jwtPayload.u;
+    const masterKey = req.jwtPayload.k;
+})
+
 module.exports = router;

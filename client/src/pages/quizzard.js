@@ -70,7 +70,7 @@ class Quiz extends React.Component {
         const submit = () => {
             const {step, ...inputs} = this.state;
 
-            let resultData = null;
+            let quizResult = null;
 
             fetch('/api/calculaterisk', {
                 method: 'post',
@@ -79,8 +79,8 @@ class Quiz extends React.Component {
                     'Content-Type': 'application/json',
                 }
             }).then(res => res.json()).then(res => {
-                resultData = res;
-                const addBody = JSON.stringify(resultData);
+                quizResult = res;
+                const addBody = JSON.stringify(quizResult);
                 console.log(addBody);
                 const out= fetch('/user/addquiz', {
                     method: 'post',
@@ -92,11 +92,11 @@ class Quiz extends React.Component {
                 return out;
             }).then((res) => {
                 console.log(res);
-                console.log('result data: ', resultData);
+                console.log('result data: ', quizResult);
                 this.props.history.push({
                     pathname: '/quizresult',
                     state: {
-                        result: resultData,
+                        result: quizResult,
                     }
                 });
             }).catch(e => {
