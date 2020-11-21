@@ -50,12 +50,27 @@ class Quiz extends React.Component {
     // now we can use the state variable, 'step' to switch the 
     // page content based on its value...
 
+    componentDidMount() {
+        fetch('/user/ping', {
+            method: 'get',
+            credentials: 'include'
+        }).then(res => {
+            if (res.status !== 200) {
+                this.props.history.push('/login')
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            this.props.history.push('/login')
+        })
+    }
+
     render() {
 
         const submit = () => {
             const {step, ...inputs} = this.state;
 
-            let resultData = null;
+            let quizResult = null;
 
             fetch('/api/calculaterisk', {
                 method: 'post',
@@ -64,8 +79,8 @@ class Quiz extends React.Component {
                     'Content-Type': 'application/json',
                 }
             }).then(res => res.json()).then(res => {
-                resultData = res;
-                const addBody = JSON.stringify(resultData);
+                quizResult = res;
+                const addBody = JSON.stringify(quizResult);
                 console.log(addBody);
                 const out= fetch('/user/addquiz', {
                     method: 'post',
@@ -77,11 +92,11 @@ class Quiz extends React.Component {
                 return out;
             }).then((res) => {
                 console.log(res);
-                console.log('result data: ', resultData);
+                console.log('result data: ', quizResult);
                 this.props.history.push({
                     pathname: '/quizresult',
                     state: {
-                        result: resultData,
+                        result: quizResult,
                     }
                 });
             }).catch(e => {
@@ -127,7 +142,7 @@ class Quiz extends React.Component {
 
         const locationStep = (
             <div>
-                <p>Where are you?</p>
+                <p>Where are you in the US?</p>
                 <MapBox width="100%" height="50vh" startOnLocation setLatLong={(lat,long) => {
                     this.state.latitude = lat;
                     this.state.longitude = long;

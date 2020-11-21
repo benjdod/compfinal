@@ -42,12 +42,3 @@ export default () => {
         </PageFrame>
     )
 }
-
-/* <p>Example newscard: </p>
-<NewsCard
-    title="Cat Saved From Tree" 
-    date="October 10, 2020" 
-    publisher="Daily Tar Heel" 
-    description="They got the cat out of the tree!"
-    link="https://www.radio.com/fm1019/blogs/james-steele/man-gets-stuck-tree-saving-cat"
-/> */

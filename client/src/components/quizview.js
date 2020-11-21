@@ -1,5 +1,6 @@
 import React from "react"
 import moment from "moment"
+import gaugeStyle from "./modules/gauge.module.css"
 
 
 // STYLE: this needs to be styled 
@@ -34,15 +35,82 @@ export default (props) => {
         </div>
     )
 
+
+    const gaugeG = (
+        <div className= {gaugeStyle.gauge}>
+            <div className = {gaugeStyle.gauge__body}>
+                <div className= {gaugeStyle.gauge__fill__green}></div>
+                    <div className= {gaugeStyle.guage__cover}></div>
+            </div>
+            Low Risk
+        </div> )
+    const gaugeY = (
+        <div className= {gaugeStyle.gauge}>
+            <div className = {gaugeStyle.gauge__body}>
+                <div className= {gaugeStyle.gauge__fill__yellow}></div>
+                    <div className= {gaugeStyle.guage__cover}></div>
+            </div>
+            Medium Risk
+        </div> )
+    const gaugeO = (
+        <div className= {gaugeStyle.gauge}>
+            <div className = {gaugeStyle.gauge__body}>
+                <div className= {gaugeStyle.gauge__fill__orange}></div>
+                    <div className= {gaugeStyle.guage__cover}></div>
+            </div>
+            High Risk
+        </div> )
+
+const gaugeR = (
+    <div className= {gaugeStyle.gauge}>
+        <div className = {gaugeStyle.gauge__body}>
+            <div className= {gaugeStyle.gauge__fill__red}></div>
+                <div className= {gaugeStyle.guage__cover}></div>
+        </div>
+        Extreme Risk
+    </div> )
+
     // TODO: it would be awesome to have like a slider / color changing component
     // to make the risk number seem more real. We will also have to establish color rules for 
     // risk as well as the color coding for the map. (a linear equation to make a gradient
     // w/ cutoff @ a certain risk number e.g. 0 is green, 0.15 is red)
-    return (
-        <div>
-            <h2>{data.county} County, {data.state}</h2>
-            {time}
-            {details}
-        </div>
-    )
+
+
+    if(data.risk <= 0.01) {
+        return (
+            <div>
+                <h2>{data.county} County, {data.state}</h2>
+                {time}
+                {details}
+                {gaugeG}
+            </div>
+        )
+    } else if(data.risk <= 0.05 && data.risk > 0.01) {
+        return (
+            <div>
+                <h2>{data.county} County, {data.state}</h2>
+                {time}
+                {details}
+                {gaugeY}
+            </div>
+        )
+    } else if(data.risk <= 0.1 && data.risk > 0.05) {
+        return (
+            <div>
+                <h2>{data.county} County, {data.state}</h2>
+                {time}
+                {details}
+                {gaugeO}
+            </div>
+        )
+    } else{
+        return (
+            <div>
+                <h2>{data.county} County, {data.state}</h2>
+                {time}
+                {details}
+                {gaugeR}
+            </div>
+        )
+    }
 }
