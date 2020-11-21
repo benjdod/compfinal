@@ -16,7 +16,8 @@ export default () => {
             <NavLink className={`${navStyle.item} ${navStyle.push}`} to="/quiz">QUIZ</NavLink>
             <NavLink className={`${navStyle.item}`} to="/news">NEWS</NavLink>
             <NavLink className={`${navStyle.item}`} to="/guidelines">GUIDELINES</NavLink>
-            <NavLink className={`${navStyle.item}`} to="/about">ABOUT</NavLink>
+            {/* we probably don't need this in the navbar, we'll reference it enough
+            <NavLink className={`${navStyle.item}`} to="/about">ABOUT</NavLink>*/}
             <NavLink className={`${navStyle.item}`} to="/account">ACCOUNT</NavLink>
         </nav>
     )

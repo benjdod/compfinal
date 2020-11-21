@@ -92,6 +92,17 @@ router.get('/censuspops', (req,res) => {
     })
 }) 
 
+router.get('/statepops', (req,res) => {
+    cache.get('statepops')
+    .then(data => {
+        res.json(data);
+    })
+    .catch(e => {
+        console.error(e);
+        res.status(500).send('500: could not load resource');
+    })
+}) 
+
 router.get('/querylatlon', async (req,res) => {
 
     const latitude = parseFloat(req.query.lat);
@@ -155,6 +166,24 @@ router.post('/calculaterisk', async (req,res) => {
     console.log('api serving risk result: ', out);
 
     res.json(out);
+})
+
+router.get('/statesgeojson-base', async (req,res) => {
+
+    cache.get('statesgeo_base')
+    .then(data => {
+        res.json(data);
+    })
+    .catch(e => res.status(500).send('500: could not get file'))
+})
+
+router.get('/statesgeojson-loaded', async (req,res) => {
+
+    cache.get('statesgeo_detailed')
+    .then(data => {
+        res.json(data);
+    })
+    .catch(e => res.status(500).send('500: could not get file'))
 })
 
 router.all('*', (req,res) => {

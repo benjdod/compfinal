@@ -6,8 +6,6 @@ import MapBox from "../components/mapbox"
 
 import localStyle from "./modules/quizzard.module.css"
 
-const { validateInputs } = require('../../../util/quizdata')
-const { calculateRisk } = require('../../../util/quiz');
 
 const min = (a,b) => {
     return a < b ? a : b;
@@ -51,6 +49,21 @@ class Quiz extends React.Component {
     
     // now we can use the state variable, 'step' to switch the 
     // page content based on its value...
+
+    componentDidMount() {
+        fetch('/user/ping', {
+            method: 'get',
+            credentials: 'include'
+        }).then(res => {
+            if (res.status !== 200) {
+                this.props.history.push('/login')
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            this.props.history.push('/login')
+        })
+    }
 
     render() {
 
@@ -229,7 +242,7 @@ class Quiz extends React.Component {
         }
 
         return (
-            <PageFrame>
+            <PageFrame gutter="20%">
                 <div className={`${localStyle.container}`}>
                     {content()}
                 </div>

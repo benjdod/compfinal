@@ -8,7 +8,7 @@ import QuizCrumb from "../components/quizcrumb"
 
 export default () => {
 
-    const [data, setData] = useState('');
+    const [details, setDetails] = useState({});
 
     const [quizzes, setQuizzes] = useState([]);
 
@@ -37,13 +37,13 @@ export default () => {
             }, 3000);
         }
     
-    // TODO: add indexedDB api for faster load times (when we renav here and haven't added anew quiz)
+    // TODO: add indexedDB api for faster load times (when we renavigate here and haven't added a new quiz)
     useEffect(() => {
-        fetch('/user/reflectjwt', {
+        fetch('/user/details', {
             method: 'get',
             credentials: 'include'
         }).then(res => res.json())
-        .then(res => setData(JSON.stringify(res, null, 2)))
+        .then(res => setDetails(res))
         .catch(err => {
             console.error(err);
             history.push('/login')
@@ -65,6 +65,7 @@ export default () => {
 
     const basePageContent = (<div>
         {navMessage}
+        <h2>{details.firstname} {details.lastname}</h2>
         <h3>Quizzes:</h3>
         {quizzes}
     </div>)
