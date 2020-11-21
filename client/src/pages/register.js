@@ -74,14 +74,18 @@ export default () => {
                     <h1>Sign Up</h1>
                     <div style={{display: 'inline-block'}}>
                         <form className='children-as-block' onSubmit={submit}>
-                            <label htmlFor='input-first-name'>First name</label>
+                            <label htmlFor='input-first-name' className={boxStyle.signUpLabel}>First name</label>
                             <TextInput id='input-first-name' maxLength="127" onChange={(e) => {inputs.firstname = e.target.value;}}/>
-                            <label htmlFor='input-last-name'>Last name</label>
+                            <br />
+                            <label htmlFor='input-last-name' className={boxStyle.signUpLabel}>Last name</label>
                             <TextInput id='input-last-name' maxLength="127" onChange={(e) => {inputs.lastname = e.target.value; }}/>
-                            <label htmlFor='input-user-name'>User name</label>
+                            <br />
+                            <label htmlFor='input-user-name' className={boxStyle.signUpLabel}>User name</label>
                             <TextInput id='input-user-name' maxLength="127" onChange={(e) => {inputs.username = e.target.value; }}/>
-                            <label htmlFor='input-password'>Password</label>
+                            <br />
+                            <label htmlFor='input-password' className={boxStyle.signUpLabel}>Password</label>
                             <input type='password' id='input-password' type='password' minLength="8" maxLength="255" onChange={(e) => {inputs.password = e.target.value}}/>
+                            <br />
                             <button type='submit' className={boxStyle.formbutton}>Submit</button>
                         </form>
                         <div>

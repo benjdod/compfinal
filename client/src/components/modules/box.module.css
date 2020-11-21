@@ -39,6 +39,10 @@
     margin: 2px 0px;
 }
 
+.signUpLabel {
+    padding-right: 20px;
+}
+
 
 @media only screen and (max-width: 1200px) {
     .box {
