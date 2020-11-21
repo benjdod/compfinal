@@ -34,8 +34,7 @@ const homebox = (props) => {
     return (
         <div className={boxStyle.box}>
             {header}
-            {/* TODO: I feel like this needs to be workshopped a little bit. */}
-            <p className={boxStyle.intro}>Welcome to our website, where you can learn more about the COVID-19 risk in your area.</p>
+            <p className={boxStyle.intro}>Welcome to the COVID-19 Risk Assessor, where you can get a risk estimate of catching COVID-19 at your upcoming event.</p>
             {innerbuttons}
         </div>
     )
