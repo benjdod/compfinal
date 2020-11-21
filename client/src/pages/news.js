@@ -1,9 +1,10 @@
-import React from "react"
-import NewsCard from "../components/newscard"
+import React from "react";
+import NewsCard from "../components/newscard";
 import axios from "axios";
 import newsPageStyle from "../components/modules/newsPage.module.css";
-import PageFrame from "../components/pageframe.js"
-import listStyle from "../components/modules/hlist.module.css"
+import PageFrame from "../components/pageframe.js";
+import listStyle from "../components/modules/hlist.module.css";
+// import loading from "../images/maginfyingGlass.svg";
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
 
 
@@ -14,10 +15,12 @@ export class News extends React.Component{
       localNews: [],
       usaNews: [],
       worldNews: [],
+      isLoading: true
     }
   }
 
 componentDidMount() {
+
   axios({
     method: 'GET',
     url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
@@ -44,7 +47,31 @@ componentDidMount() {
     method: 'GET',
     url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
     params: {
-      pageSize: '10',
+      pageSize: '50',
+      q: 'coronavirus north carolina',
+      autoCorrect: 'true',
+      pageNumber: '1',
+      toPublishedDate: 'null',
+      fromPublishedDate: 'null',
+      withThumbnails: 'true'
+    },
+    headers: {
+      'x-rapidapi-key': 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc',
+      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
+    }
+  }).then(response => {
+    this.setState({
+      localNews: response.data.value
+    })
+  }).catch(error => {
+    console.log(error);
+  });
+
+  axios({
+    method: 'GET',
+    url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
+    params: {
+      pageSize: '50',
       q: 'coronavirus united states',
       autoCorrect: 'true',
       pageNumber: '1',
@@ -60,13 +87,13 @@ componentDidMount() {
     this.setState({
       usaNews: response.data.value
     })
-  });
+  }).catch(error => console.log(error));
 
   axios({
     method: 'GET',
     url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
     params: {
-      pageSize: '10',
+      pageSize: '50',
       q: 'coronavirus global',
       autoCorrect: 'true',
       pageNumber: '1',
@@ -82,31 +109,32 @@ componentDidMount() {
     this.setState({
       worldNews: response.data.value
     })
-  });
+  }).catch(error => {
+    console.log(error);
+  })
+
+  // trim descripitons
+  this.state.localNews.forEach(article =>{
+      let descrip = this.formatDescripiton(article.description, 20);
+      article.description = descrip + '...';
+    }
+      )
+  this.state.usaNews.forEach(article => {
+      let descrip = this.formatDescripiton(article.description, 20);
+      article.description = descrip + '...';
+    })
+  this.state.worldNews.forEach(article => {
+      let descrip = this.formatDescripiton(article.description, 20);
+      article.description = descrip + '...';
+    })
+
 }
 
 
   // TODO: this could use a loader component (a-la https://loading.io)
   render() {
-
-    let ncArticles = this.state.localNews;
-    let usaArticles = this.state.usaNews;
-    const parser = new DOMParser();
-  
-    ncArticles.forEach(article =>{
-      let descrip = this.formatDescripiton(article.description, 20);
-      article.description = descrip + '...';
-    }
-      )
-   usaArticles.forEach(article => {
-      let descrip = this.formatDescripiton(article.description, 20);
-      article.description = descrip + '...';
-    })
-
-    this.state.worldNews.forEach(article => {
-      let descrip = this.formatDescripiton(article.description, 20);
-      article.description = descrip + '...';
-    })
+    
+    console.log(this.state);
     return (
       <div>
         <PageFrame>
