@@ -157,6 +157,14 @@ router.post('/calculaterisk', async (req,res) => {
     res.json(out);
 })
 
+router.get('/statesgeojson', (req,res) => {
+    cache.get('statesgeo5m')
+        .then(data => {
+            res.json(data);
+        })
+        .catch(e => res.status(500).send('500: could not get file'))
+})
+
 router.all('*', (req,res) => {
     res.status(404).send('<pre>api route not found</pre>');
 })

@@ -2,6 +2,8 @@ const { packageQuizData, unpackageQuizData } = require('./util/quizdata');
 const { generateUserKey, encrypt, decrypt, derivePasswordKey } = require('./util/crypt');
 const { insertQuiz, getByUID } = require('./util/database');
 
+const cache = require('./util/data/sourcecache');
+
 const packaged = packageQuizData({
     fips: 1001,
     eventSize: 400,
@@ -76,3 +78,9 @@ const seedQuizzes = async () => {
 }
 
 //seedQuizzes();
+
+const a = () => {
+    cache.get('covidstateshistory')
+}
+
+a();

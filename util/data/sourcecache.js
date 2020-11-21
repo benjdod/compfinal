@@ -1,5 +1,7 @@
 const LoaderCache = require('../../lib/loader');
 const { default: axios } = require('axios')
+const fs = require('fs');
+const path = require('path');
 
 const cache = new LoaderCache();
 
@@ -73,4 +75,28 @@ cache.add('censuspops', 60*60*24, [], async () => {
     }
 })
 
+cache.add('covidstateshistory', 60*60*12, [], async () => {
+    try {
+        const fipsKeys = {}
+
+        const raw = await axios.get('https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv');
+        raw.data.split('\n').map(row => row.split(','))
+            .forEach(datum => {
+                const key = datum[2];
+                if (!fipsKeys[key])
+                    fipsKeys[key] = new Array();
+
+                fipsKeys[key].push([datum[0], datum[3], datum[4]])
+            })
+        return fipsKeys
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+})
+
+cache.add('statesgeo5m', 60*60*24*7, [], () => {
+    const out = JSON.parse(fs.readFileSync(path.resolve(__dirname, './local/states_5m.json'), 'utf-8'));
+    return out;
+})
 module.exports = cache;

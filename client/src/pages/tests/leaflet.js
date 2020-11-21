@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 //import L from "leaflet"
 
-export default () => {
+export default (props) => {
 
     const startingCoords = [36.89, -96.73]  // rough geographical center of the US
 
@@ -32,21 +32,40 @@ export default () => {
             accessToken: 'your.mapbox.access.token'
         }).addTo(map);
 
+        let initMarkerGroup = L.layerGroup().addTo(map);
+        let marker = L.marker(startingCoords, {
+            alt: 'your location',
+            draggable: true,
+        });
+        initMarkerGroup.addLayer(marker);
+
+        const setMarker = (latlng) => {
+            marker.setLatLng(latlng);
+            setCoords([marker._latlng.lat, marker._latlng.lng]);
+        }
+
+        //if (props.startOnLocation === true)
+            navigator.geolocation.getCurrentPosition((res) => {
+            map.setView(new L.latLng(res.coords.latitude, res.coords.longitude), 12);
+            setMarker([res.coords.latitude, res.coords.longitude]);
+        })
+
         // reference: https://github.com/Esri/esri-leaflet-geocoder
         const geocoder = L.esri.Geocoding.geosearch({
             useMapBounds: false,
             placeholder: "Search for your locality"
         }).addTo(map);
         console.log(geocoder);
-        let geocoderResults = L.layerGroup().addTo(map);
+        //let geocoderResults = L.layerGroup().addTo(map);
 
         geocoder.on('results', (data) => {
-            geocoderResults.clearLayers();
             const results = data.results.reverse();
 
+            /*
             results.forEach(result => {
                 geocoderResults.addLayer(L.marker(result.latlng))
-            })
+            })*/
+            setMarker(results[0].latlng);
         })
 
         map.on('moveend', (e) => {            
@@ -56,17 +75,15 @@ export default () => {
                 bounds._northEast.lng + (bounds._southWest.lng - bounds._northEast.lng) * 0.5,
             ]
             setCoords(center);
-            console.log(center);
+            /*console.log(map._panes.markerPane.remove());*/
         })
 
-        navigator.geolocation.getCurrentPosition((res) => {
-            map.setView(new L.latLng(res.coords.latitude, res.coords.longitude), 12);
-            L.marker([res.coords.latitude, res.coords.longitude]).addTo(map);
-        })
+        map.on('click', (e) => {
+            setMarker(e.latlng)
+        } )
 
-        console.log(L.latLng.lat);
-
-        fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+        //fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+        fetch('/api/statesgeojson')
         .then(res => res.json())
         .then(res => {
             L.geoJSON(res).addTo(map);
