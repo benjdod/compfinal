@@ -39,6 +39,26 @@ cache.add('nytcovidstates', 60*60*8, [], async () => {
     }
 })
 
+cache.add('statepops', 60*60*24*7, [], async () => {
+    try {
+        const key = '157cc218dfb158478f18c0ce168a6ff40a09d950';
+        const query = `https://api.census.gov/data/2019/pep/population?get=POP,NAME&for=state:*&key=${key}`;
+        const response = await axios.get(query);
+
+        const out = [['fips', 'population', 'state']];
+
+        response.data.slice(1,response.data.length).forEach(row => {
+            out.push([row[2], parseInt(row[0]), row[1]])
+        })
+
+        return out.sort((a,b) => a[0] - b[0]);
+
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+})
+
 cache.add('censuspops', 60*60*24, [], async () => {
     try {
         const key = '157cc218dfb158478f18c0ce168a6ff40a09d950';

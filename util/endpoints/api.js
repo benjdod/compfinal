@@ -92,6 +92,17 @@ router.get('/censuspops', (req,res) => {
     })
 }) 
 
+router.get('/statepops', (req,res) => {
+    cache.get('statepops')
+    .then(data => {
+        res.json(data);
+    })
+    .catch(e => {
+        console.error(e);
+        res.status(500).send('500: could not load resource');
+    })
+}) 
+
 router.get('/querylatlon', async (req,res) => {
 
     const latitude = parseFloat(req.query.lat);

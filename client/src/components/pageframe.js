@@ -26,6 +26,7 @@ export default (props) => {
             <p dangerouslySetInnerHTML={{__html: cpstatement}}/>
             <div className={`${localStyle.footerlinks}`}>
                 <Link to="/about">About</Link>
+                <Link to="/explore">Explore</Link>
                 <Link to="/guidelines">CDC Guidelines</Link>
             </div>
         </div>) : null

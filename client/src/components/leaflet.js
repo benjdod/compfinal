@@ -34,7 +34,6 @@ export default (props) => {
     //const [markerHandler, setMarkerHandler] = useState(() => {});
 
     useEffect(() => {
-        console.log(document.getElementById('mapid'));
 
         const map = L.map('mapid', {
             center: startingCoords,
@@ -51,15 +50,17 @@ export default (props) => {
             id: 'mapbox/light-v9',
             tileSize: 512,
             zoomOffset: -1,
-            accessToken: 'your.mapbox.access.token'
+            //accessToken: 'your.mapbox.access.token'
         }).addTo(map);
 
-        let initMarkerGroup = L.layerGroup().addTo(map);
-        let marker = L.marker(startingCoords, {
+        let marker = props.useMarker === true ? L.marker(startingCoords, {
             alt: 'your location',
             draggable: true,
-        });
-        initMarkerGroup.addLayer(marker);
+        }) : null;
+        if (props.useMarker === true) {
+            let initMarkerGroup = L.layerGroup().addTo(map);
+            initMarkerGroup.addLayer(marker);
+        }
 
         const setMarker = (latlng) => {
             if (!marker) return;
@@ -73,23 +74,25 @@ export default (props) => {
             setMarker([res.coords.latitude, res.coords.longitude]);
         })
 
-        // reference: https://github.com/Esri/esri-leaflet-geocoder
-        const geocoder = L.esri.Geocoding.geosearch({
-            useMapBounds: false,
-            placeholder: "Search for your locality"
-        }).addTo(map);
-        console.log(geocoder);
-        //let geocoderResults = L.layerGroup().addTo(map);
+        if (props.useGeocoder) {
+            // reference: https://github.com/Esri/esri-leaflet-geocoder
+            const geocoder = L.esri.Geocoding.geosearch({
+                useMapBounds: false,
+                placeholder: "Search for your locality"
+            }).addTo(map);
+            console.log(geocoder);
+            //let geocoderResults = L.layerGroup().addTo(map);
 
-        geocoder.on('results', (data) => {
-            const results = data.results.reverse();
+            geocoder.on('results', (data) => {
+                const results = data.results.reverse();
 
-            /*
-            results.forEach(result => {
-                geocoderResults.addLayer(L.marker(result.latlng))
-            })*/
-            setMarker(results[0].latlng);
-        })
+                /*
+                results.forEach(result => {
+                    geocoderResults.addLayer(L.marker(result.latlng))
+                })*/
+                setMarker(results[0].latlng);
+            })
+        }
 
         map.on('moveend', (e) => {            
             const bounds = map.getBounds();
@@ -97,7 +100,7 @@ export default (props) => {
                 bounds._southWest.lat + (bounds._northEast.lat - bounds._southWest.lat) * 0.5,
                 bounds._northEast.lng + (bounds._southWest.lng - bounds._northEast.lng) * 0.5,
             ]
-            setCoords(center);
+            //setCoords(center);
             /*console.log(map._panes.markerPane.remove());*/
         })
 
@@ -106,62 +109,60 @@ export default (props) => {
         })
 
         //fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
-        fetch('/api/statesgeojson-loaded')
-        .then(res => res.json())
-        .then(res => {
-            // https://leafletjs.com/reference-1.7.1.html#geojson
-            const geoLayer = L.geoJSON(res, {
-                onEachFeature: (feature, layer) => {
-                    layer.on('click', e => {
-                        console.log('clicked on state', feature.properties.NAME);
-                    })
-
-                    layer.on('mouseover', e => {
-                        const layer = e.target;
-                        layer.setStyle({
-                            fillOpacity: 0.5,
+        if (props.useOverlay)
+            fetch('/api/statesgeojson-loaded')
+            .then(res => res.json())
+            .then(res => {
+                // https://leafletjs.com/reference-1.7.1.html#geojson
+                const geoLayer = L.geoJSON(res, {
+                    onEachFeature: (feature, layer) => {
+                        layer.on('click', e => {
+                            console.log('clicked on state', feature.properties.NAME);
                         })
-                    })
 
-                    layer.on('mouseout', e => {
-                        geoLayer.resetStyle(e.target);
-                    })
+                        layer.on('mouseover', e => {
+                            const layer = e.target;
+                            layer.setStyle({
+                                fillOpacity: 0.5,
+                            })
+                        })
 
-                    const recentDate = new Date(feature.properties.recent[0]);
-                    const popupText = `<div>
-                        date: ${moment(recentDate).format('LL')}<br/>
-                        cases: ${feature.properties.recent[1]}<br/>
-                        deaths: ${feature.properties.recent[2]}
-                        </div>
-                        `
+                        layer.on('mouseout', e => {
+                            geoLayer.resetStyle(e.target);
+                        })
 
-                    layer.bindTooltip(popupText, {
-                        direction: 'left',
-                    })
-                },
-                style: (feature) => {
-                    console.log(feature.properties);
-                    return {
-                        color: gradient(feature.properties.delta_7d[0], 0, 100000),
-                        weight: 1,
-                        fillOpacity: 0.2,
+                        const recentDate = new Date(feature.properties.recent[0]);
+                        const popupText = `<div>
+                            date: ${moment(recentDate).format('LL')}<br/>
+                            cases: ${feature.properties.recent[1]}<br/>
+                            deaths: ${feature.properties.recent[2]}
+                            </div>
+                            `
+
+                        layer.bindTooltip(popupText, {
+                            direction: 'left',
+                        })
+                    },
+                    style: (feature) => {
+                        console.log(feature.properties);
+                        return {
+                            color: gradient(feature.properties.delta_7d[0], 0, 100000),
+                            weight: 1,
+                            fillOpacity: 0.2,
+                        }
                     }
-                }
-            }).addTo(map);
-        }).catch(e => {
-            console.log('error fetching geojson!');
-            console.error(e)
-        })
+                }).addTo(map);
+            }).catch(e => {
+                console.log('error fetching geojson!');
+                console.error(e)
+            })
     }, [])
 
 
     return (
         <div>
-            <div id="mapid" style={{height: '90vh', width: '90%'}}>
+            <div id="mapid" style={{height: props.height || '50vh', width: props.width || '50vw'}}>
             </div>
-            <button onClick={(e) => {
-                console.log(coords);
-            }}>log coords</button>
         </div>
     )
 }
