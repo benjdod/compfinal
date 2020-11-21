@@ -4,28 +4,6 @@ const { insertQuiz, getByUID } = require('./util/database');
 
 const cache = require('./util/data/sourcecache');
 
-const packaged = packageQuizData({
-    fips: 1001,
-    eventSize: 400,
-    eventDuration: 56,
-    eventOutside: true,
-    maskPercentage: 0.34,
-    maskWearing: true,
-    userMaskWearing: true,
-    risk: 0.45,
-    quizVersion: 0,
-    socialDistancing: 4,
-})
-
-const key = generateUserKey();
-
-const encrypted = encrypt(packaged, key);
-const decrypted = decrypt(encrypted, key);
-
-console.log(packaged);
-console.log(encrypted.length);
-console.log(unpackageQuizData(decrypted));
-
 const seedQuizzes = async () => {
 
     const dataArray = [
@@ -79,8 +57,9 @@ const seedQuizzes = async () => {
 
 //seedQuizzes();
 
-const a = () => {
-    cache.get('covidstateshistory')
+const a = async () => {
+    const geo = await cache.get('statesgeo_detailed');
+
 }
 
 a();

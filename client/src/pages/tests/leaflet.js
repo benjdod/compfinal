@@ -1,6 +1,27 @@
 import React, { useEffect, useState } from "react"
 //import L from "leaflet"
 
+const gradient = (number, low, high) => {
+    const input = ((number < low ? low : number > high ? high : number) - low) / (high - low);
+    const lowColor = [0.1, 0.8, 0.6];
+    const highColor = [0.95, 0.4, 0.25];
+
+    const outColor = [
+        ((lowColor[0] + ((highColor[0] - lowColor[0]) * input))),
+        ((lowColor[1] + ((highColor[1] - lowColor[1]) * input))),
+        ((lowColor[2] + ((highColor[2] - lowColor[2]) * input))),
+    ]
+
+    let outStr = '#'
+
+    outColor.forEach(c => {
+        const hexCode = Math.trunc(c*255).toString(16).padStart(2,"0");
+        outStr += hexCode;
+    })
+
+    return outStr;
+}
+
 export default (props) => {
 
     const startingCoords = [36.89, -96.73]  // rough geographical center of the US
@@ -9,7 +30,7 @@ export default (props) => {
 
     const [globalMap, setMap] = useState(null);
 
-    const [markerHandler, setMarkerHandler] = useState(() => {});
+    //const [markerHandler, setMarkerHandler] = useState(() => {});
 
     useEffect(() => {
         console.log(document.getElementById('mapid'));
@@ -40,6 +61,7 @@ export default (props) => {
         initMarkerGroup.addLayer(marker);
 
         const setMarker = (latlng) => {
+            if (!marker) return;
             marker.setLatLng(latlng);
             setCoords([marker._latlng.lat, marker._latlng.lng]);
         }
@@ -86,7 +108,22 @@ export default (props) => {
         fetch('/api/statesgeojson')
         .then(res => res.json())
         .then(res => {
-            L.geoJSON(res).addTo(map);
+            // https://leafletjs.com/reference-1.7.1.html#geojson
+            L.geoJSON(res, {
+                onEachFeature: (feature, layer) => {
+                    layer.on('click', e => {
+                        console.log('clicked on state', feature.properties.NAME);
+                    })
+                },
+                style: (feature) => {
+                    console.log(feature.properties);
+                    return {
+                        color: gradient(feature.properties.delta_7d[0], 0, 100000),
+                        weight: 1,
+                        fillOpacity: 0.2,
+                    }
+                }
+            }).addTo(map);
         }).catch(e => {
             console.log('error fetching geojson!');
             console.error(e)
