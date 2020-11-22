@@ -27,7 +27,20 @@ The way it's currently set up, there's a pages folder in `client/src` where each
  ## API Documentation
     
 - /countydata
-> Retrieves data from NYT that includes, statistics from todays date about every county in the US in 
-> regards to a counties number of cases, deaths, confirmed cases, confirmed deaths, probable cases and 
-> probable deaths. Also includes the counties corresponding fips code.
+
+> A get request retrieves data from NYT that includes, statistics from todays date about every county in the > US in regards to a counties number of cases, deaths, confirmed cases, confirmed deaths, probable cases and 
+> probable deaths. Also includes the counties corresponding fips code. The return type is a json object.
+
+- /statedata
+
+> Uses the same NYT data that /countydata retrieves but instead of statistics by county returns a json object
+> that has statistics by state.
+
+- /countypops
+
+> Returns a json objext that gives the population for every US county, data is retrived from the census.
+
+- /statepops
+
+> Returns a json object with the population of each US state, data is retireved from the census.
  
