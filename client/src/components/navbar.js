@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 // it performs better in React
 import NavLink from "./navlink"
 import navStyle from "./modules/navbar.module.css"
+import Arrow from "../images/arrow.png"
 
 export default () => {
 
@@ -16,7 +17,7 @@ export default () => {
             {/* <NavLink className={`${navStyle.item}`} to="/guidelines">GUIDELINES</NavLink> */}
 
             <li className={`${navStyle.item} ${navStyle.dropdown}`}>
-                <NavLink className={`${navStyle.item} ${navStyle.dropbtn}`} to="#">INFO</NavLink>
+                <NavLink className={`${navStyle.item} ${navStyle.dropbtn}`} to="#">INFO <img className={navStyle.arrow} src={Arrow} /></NavLink>
                 <div className={navStyle.dropdownContent}>
                     <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="/news">NEWS</NavLink>
                     <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="/guidelines">GUIDELINES</NavLink>
