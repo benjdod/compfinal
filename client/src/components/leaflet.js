@@ -37,7 +37,7 @@ export default (props) => {
 
     //const [markerHandler, setMarkerHandler] = useState(() => {});
 
-    const setLatLng = props.setLatLng && props.userMarker ? props.setLatLng : () => {};
+    const setLatLng = props.setLatLng && props.useMarker ? props.setLatLng : () => {};
 
     useEffect(() => {
 

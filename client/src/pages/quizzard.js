@@ -151,7 +151,7 @@ class Quiz extends React.Component {
                     }}/>
                 */}
                 
-                <Leaflet width="100%" height="50vh" useMarker useGeocoder startOnLocation setLatLong={(latlng) => {
+                <Leaflet width="100%" height="50vh" useMarker useGeocoder startOnLocation setLatLng={(latlng) => {
                     this.state.latitude = latlng[0];
                     this.state.longitude = latlng[1];
                 }}/>

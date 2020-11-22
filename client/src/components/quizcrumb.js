@@ -35,6 +35,20 @@ export default (props) => {
 
     // FIXME: never display a risk of 0, it will provide a false impression
     // of complete safety to the user. 
+
+    const deleteQuizHandler = (e) => {
+        e.stopPropagation();
+        fetch(`/user/quizzes/${data.uid}`, {
+            method: 'delete',
+            credentials: 'include'
+        }).then(() => {
+            console.log('hello');
+            window.location.reload();
+        }).catch(e => {
+            console.error(e);
+        })
+    }
+
     const inner = (
         <div >
             <h3 className={localStyle.title}>{data.county} County, {data.state}</h3>
@@ -43,19 +57,7 @@ export default (props) => {
             <div className={localStyle.menu}>
                 <img className={localStyle.menuIcon} src={Menu} />
                 <div className={localStyle.dropdownContent}>
-                    <p className={localStyle.dropItem} onClick={(e) => {
-                        e.stopPropagation();
-                        console.log(`delete /user/quizzes/${data.uid}`);
-                        fetch(`/user/quizzes/${data.uid}`, {
-                            method: 'delete',
-                            credentials: 'include'
-                        }).then(() => {
-                            window.location.reload();
-                        }).catch(e => {
-                            console.error(e);
-                            alert('could not delete quiz!');
-                        })
-                    }}>Delete</p>
+                    <p className={localStyle.dropItem} onClick={deleteQuizHandler}>Delete</p>
                 </div>
             </div>
             <p className={localStyle.risk}>Risk: {data.risk}</p>

@@ -26,15 +26,13 @@ The way it's currently set up, there's a pages folder in `client/src` where each
 
  ## API Documentation
     
-- /countydata
+- `/countydata [GET]`
 
-> A get request retrieves data from NYT that includes, statistics from todays date about every county in the > US in regards to a counties number of cases, deaths, confirmed cases, confirmed deaths, probable cases and 
-> probable deaths. Also includes the counties corresponding fips code. The return type is a json object.
+> A get request retrieves data from NYT that includes, statistics from todays date about every county in the US in regards to a counties number of cases, deaths, confirmed cases, confirmed deaths, probable cases and probable deaths. Also includes the counties corresponding fips code. The return type is a json object.
 
-- /statedata
+- `/statedata`
 
-> Uses the same NYT data that /countydata retrieves but instead of statistics by county returns a json object
-> that has statistics by state.
+> Uses the same NYT data that /countydata retrieves but instead of statistics by county returns a json object that has statistics by state.
 
 - /countypops
 
