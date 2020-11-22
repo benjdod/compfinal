@@ -15,6 +15,8 @@ const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
 // you can use fetch to construct a request with the coords from navigator.geolocation.getcurrent
 // or whatever it is
 
+
+
 export class News extends React.Component{
   constructor(props){
     super(props);
@@ -22,18 +24,22 @@ export class News extends React.Component{
       localNews: [],
       usaNews: [],
       worldNews: [],
-      isLoading: true
+      isLoading: true,
+      location: ""
     }
+    this.getLocation = this.getLocation.bind(this);
   }
 
 componentDidMount() {
 
+  navigator.geolocation.getCurrentPosition(this.getLocation, (error=>console.log(error)));
+  setTimeout(() => {
   axios({
     method: 'GET',
     url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
     params: {
       pageSize: '10',
-      q: 'coronavirus north carolina',
+      q: `coronavirus ${this.state.location}`,
       autoCorrect: 'true',
       pageNumber: '1',
       toPublishedDate: 'null',
@@ -45,10 +51,11 @@ componentDidMount() {
       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
     }
   }).then(response => {
+    console.log(this.state);
     this.setState({
       localNews: response.data.value
     })
-  });
+  }).catch(error => console.log(error));
 
   axios({
     method: 'GET',
@@ -136,16 +143,13 @@ componentDidMount() {
       article.description = descrip + '...';
     })
 
+  }, 200);
+
   
 }
 
-
-  // TODO: this could use a loader component (a-la https://loading.io)
   render() {
-    
-    console.log(this.state);
     return (
-      
       this.state.isLoading ? 
       <figure>
         <img className = {loadingStyle.loading} src = {loading}></img>
@@ -209,83 +213,21 @@ componentDidMount() {
     )
         }
 
-  formatDescripiton(description, n){ 
+ formatDescripiton(description, n){ 
     return description.split(" ").splice(0, n).join(" ");
   }
+
+  getLocation(location){
+    let lat = location.coords.latitude.toFixed(3);
+    let lon = location.coords.longitude.toFixed(3);
+    let url = '/api/querylatlon'
+    // adding params to url
+    url += `?lat=${lat}&lon=${lon}`;
+     fetch(url,{
+      method: 'get',
+      credentials: 'include'
+  }).then(result => result.json())
+    .then(result => this.setState({location: result.state}));
+  }
 }
-
-/*
- <ul>
-        {this.state.usaNews.forEach(article => 
-          <li><NewsCard
-          image = {article.image.url}
-          title = {article.title}
-          date = {article.datePublished.splice}
-          publisher = {article.provider.name}
-          description = {article.description}
-          link = {article.url}/> 
-          </li>)}
-        )
-      </ul>
-
-
-
-
-
-           <ul>
-      {this.state.localNews.map(article => 
-        <div className={newsPageStyle.masonryitem}>
-          <div className={newsPageStyle.masonrycontent}>
-      <li><NewsCard
-        image = {article.image.url}
-        title = {article.title}
-        date = {article.datePublished.splice}
-        publisher = {article.provider.name}
-        description = {article.description}
-        link = {article.url}/> 
-        </li>
-        </div>
-        </div>)}
-      </ul>
-  
-
-       
-      <ul>
-        {this.state.usaNews.map(article => 
-        <div className={newsPageStyle.masonryitem}>
-          <div className={newsPageStyle.masonrycontent}>
-          <li><NewsCard
-          image = {article.image.url}
-          title = {article.title}
-          date = {article.datePublished.splice}
-          publisher = {article.provider.name}
-          description = {article.description}
-          link = {article.url}/> 
-          </li>
-          </div>
-          </div>)}
-      </ul>
-
-
-     
-      <ul>
-      {this.state.worldNews.map(article => 
-        <div className={newsPageStyle.masonryitem}>
-          <div className={newsPageStyle.masonrycontent}>
-          <li><NewsCard
-          image = {article.image.url}
-          title = {article.title}
-          date = {article.datePublished.splice}
-          publisher = {article.provider.name}
-          description = {article.description}
-          link = {article.url}/> 
-          </li>
-          </div>
-          </div>)}
-          </ul>
-          </div>
-      </PageFrame>
-      </div>
-    )
-      */
 export default News
