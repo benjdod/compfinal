@@ -1,7 +1,4 @@
 import React from "react"
-import { Link } from "react-router-dom"
-import NavBar from "../components/navbar"
-import Footer from "../components/footer"
 import PageFrame from "../components/pageframe"
 
 import localStyle from "./modules/about.module.css"

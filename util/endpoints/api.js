@@ -44,11 +44,18 @@ const qll = async (latitude, longitude) => {
             return null;
         }
 
-        const population = (await cache.get('censuspops')).find(row => row[0] === targetFips)[1];
+        const censuspops = await cache.get('censuspops')
+
+        const censuspopsRow = censuspops.find(row => row[0] === targetFips);
+        const population = censuspopsRow[1];
+        const county = censuspopsRow[2];
+        const state = censuspopsRow[3];
         const cases = parseInt((await cache.get('nytcovidcounties')).find(row => row[3] === targetFips)[4]);
 
         return {
             fips: targetFips,
+            county: county,
+            state: state,
             pop: population,
             cases: cases,
         }
@@ -123,7 +130,7 @@ router.get('/querylatlon', async (req,res) => {
 
     try {
         out = await qll(latitude, longitude);
-        return out;
+        res.json(out);
     } catch (e) {
         console.error(e);
         res.status(500).send('500: could not fetch data to process request');

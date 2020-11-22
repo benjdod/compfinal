@@ -67,7 +67,8 @@ exports.calculateRisk = (data, useVersion) => {
             const population = data.population;
             const pI = infections / population;
             const n = data.eventSize;
-            const m = 0.5;          // this is 0.65, but we are being conservative here
+            const m = 0.02;         // this is 0.65, but we are being conservative here
+                                    // danish study: https://www.acpjournals.org/doi/10.7326/M20-6817
             const D = data.socialDistancing;
             const O = 12.5;         // this is 18.7, but again, we're being conservative here
             const H = data.eventDuration
@@ -76,7 +77,7 @@ exports.calculateRisk = (data, useVersion) => {
             const maskWearerFactor = 1 - m;
             const outdoorFactor = 1/O;
             const distancingFactor = Math.pow(1/1.5, D);    // distancing factor should be 2.02, but yeah...
-            const timeFactor = H/120;
+            const timeFactor = H/75;
 
             console.log(`risk factors (v${version}):`, weitzFactor, maskWearerFactor, outdoorFactor, distancingFactor, timeFactor)
 
