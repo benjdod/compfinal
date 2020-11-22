@@ -23,3 +23,9 @@ The way it's currently set up, there's a pages folder in `client/src` where each
  - Create a css module file in the same directory, using the same name like `components/[name].module.css`
  - Import the module into the component file
  - For non module style, just import them without naming them, e.g. `import './blah/blah.css'`. The global stylesheet is already available across all components, since it's imported in the root `App.js`
+
+ ## API Documentation
+    - /countydata
+    > Retrieves data from NYT that includes, statistics from todays date about every county in the US in 
+    > regards to a counties number of cases, deaths, confirmed cases, confirmed deaths, probable cases and 
+    > probable deaths. Also includes the counties corresponding fips code.
