@@ -8,6 +8,11 @@ import listStyle from "../components/modules/hlist.module.css";
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
 
 
+// @JACOB: just added state field to an api endpoint called querylatlon. lat and long are url encoded. 
+// you can try it out by just navigating to it in a browser (it's a GET endpoint),
+// you can use fetch to construct a request with the coords from navigator.geolocation.getcurrent
+// or whatever it is
+
 export class News extends React.Component{
   constructor(props){
     super(props);

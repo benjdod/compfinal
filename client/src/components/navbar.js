@@ -4,7 +4,6 @@ import { Link } from "react-router-dom"
 // NavLink uses Link from react-router instead of anchor tags becase
 // it performs better in React
 import NavLink from "./navlink"
-
 import navStyle from "./modules/navbar.module.css"
 
 export default () => {
