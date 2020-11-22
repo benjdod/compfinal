@@ -3,7 +3,7 @@ import { useHistory  } from "react-router-dom"
 
 import PageFrame from "_components/pageframe"
 import Validate from "../../../util/formvalidation"
-import boxStyle from "../components/modules/box.module.css"
+import boxStyle from "../components/modules/boxUpdate.module.css";
 
 // convenience methods
 

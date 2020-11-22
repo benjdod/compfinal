@@ -1,0 +1,57 @@
+.box {
+    background-color: inherit; /* Fallback color */
+    background-color: inherit;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 40%;
+    padding: 20px 20px 40px 20px;
+    text-align: center;
+}
+.intro {
+    margin: 0 0 40px 0;
+}
+.forgot {
+    font-size: 12px;
+    margin: 0 0 40px 0;
+}
+.forgot:hover {
+    text-decoration: underline;
+}
+.formbutton {
+    width: auto;
+    height: 40px;
+    font-family: 'Open Sans', sans-serif;
+    vertical-align: center;
+    font-size: 14px;
+    background-color: white;
+    border: none;
+}
+.formbutton:hover {
+    cursor: pointer;
+    background-color: rgb(219, 219, 219);
+    transition: 0.2s ease;
+}
+
+.buttonbox * {
+    margin: 2px 0px;
+}
+
+.signUpLabel {
+    padding-right: 20px;
+}
+
+
+@media only screen and (max-width: 1200px) {
+    .box {
+        width: 50%;
+    }
+  }
+
+@media only screen and (max-width: 700px) {
+    .box {
+        width: 70%;
+    }
+  }
