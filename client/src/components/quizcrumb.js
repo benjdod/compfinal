@@ -3,6 +3,7 @@ import React from "react"
 import { useHistory } from "react-router-dom"
 
 import localStyle from "./modules/quizcrumb.module.css"
+import Menu from "../images/menu.png"
 
 // STYLE: these are the inline results that are displayed
 // in the user's account page. NEed to look sexy 
@@ -39,7 +40,15 @@ export default (props) => {
         <div >
             <h3 className={localStyle.title}>{data.county} County, {data.state}</h3>
             <p className={localStyle.date}>{moment(data.timestamp).fromNow()}</p>
+            {/* <img class={localStyle.menu} src={Menu} /> */}
+            <div className={localStyle.menu}>
+                <img className={localStyle.menuIcon} src={Menu} />
+                <div className={localStyle.dropdownContent}>
+                    <p className={localStyle.dropItem}>Delete</p>
+                </div>
+            </div>
             <p className={localStyle.risk}>Risk: {data.risk}</p>
+
         </div>
     )
     return (
