@@ -130,7 +130,10 @@ router.get('/querylatlon', async (req,res) => {
 
     try {
         out = await qll(latitude, longitude);
-        res.json(out);
+        if (out)
+            res.json(out);
+        else 
+            throw new Error('fcc api did not respond!');
     } catch (e) {
         console.error(e);
         res.status(500).send('500: could not fetch data to process request');
