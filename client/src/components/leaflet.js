@@ -37,6 +37,8 @@ export default (props) => {
 
     //const [markerHandler, setMarkerHandler] = useState(() => {});
 
+    const setLatLng = props.setLatLng ? props.setLatLng : () => {};
+
     useEffect(() => {
 
         const map = L.map('mapid', {

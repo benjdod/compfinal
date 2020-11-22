@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.get('/', listRoutes(router));
 
+// provides an auth token to the client if their 
+// login stuff is good (username, password in the request body)
 router.post('/login', async (req,res) => {
     const body = req.body;
 
@@ -44,6 +46,8 @@ router.post('/login', async (req,res) => {
 
 })
 
+// pretty sure this is unused, I will verify and remove if so
+// it does the same thing as /user/ping.
 router.post('/ping', (req,res) => {
     if (req.cookies['auth_token'])
         token.verifyUser(req.cookies.auth_token, () => {
@@ -55,6 +59,8 @@ router.post('/ping', (req,res) => {
         res.status(400).send('no credentials');
 })
 
+// creates a new user given the inputs in the request body.
+// and logs them in (provides the new user with a token)
 router.post('/register', async (req,res) => {
 
     // takes a request with the new user info in the body, 
@@ -88,7 +94,7 @@ router.post('/register', async (req,res) => {
 
 })
 
-// sandbox auth routes
+// don't document: catches bad requests.
 router.all('*', (req,res) => {
     res.status(404).send(`<code>404: not found</code>`);
 })

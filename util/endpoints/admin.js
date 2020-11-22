@@ -6,6 +6,10 @@ const { listRoutes } = require('./index');
 
 const adminkey = 'bingobango';
 
+// this probably doesn't need to be documented. I'm happy to delete it 
+// when we're done with the website, it's not really important at all.
+
+// authentication middleware for admin stuff. 
 router.use((req,res,next) => {
 
     if (req.path.indexOf('/login') !== -1) {
