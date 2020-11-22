@@ -37,10 +37,10 @@ export default () => {
                   <p>&#8226; The best way to prevent illness is to avoid being exposed to this virus.</p>
                   <p>&#8226; The virus is thought to spread mainly from person-to-person.</p>
                     <ul>
-                      <li>&#9900; Between people who are in close contact with one another (within about 6 feet).</li>
-                      <li>&#9900; Through respiratory droplets produced when an infected person coughs, sneezes or talks.</li>
-                      <li>&#9900; These droplets can land in the mouths or noses of people who are nearby or possibly be inhaled into the lungs.</li>
-                      <li>&#9900; Some recent studies have suggested that COVID-19 may be spread by people who are not showing symptoms.</li>
+                      <p className={infoboxStyle.openCircle}> Between people who are in close contact with one another (within about 6 feet).</p>
+                      <p className={infoboxStyle.openCircle}> Through respiratory droplets produced when an infected person coughs, sneezes or talks.</p>
+                      <p className={infoboxStyle.openCircle}> These droplets can land in the mouths or noses of people who are nearby or possibly be inhaled into the lungs.</p>
+                      <p className={infoboxStyle.openCircle}> Some recent studies have suggested that COVID-19 may be spread by people who are not showing symptoms.</p>
                     </ul>
               </div>
             </div>
@@ -56,15 +56,15 @@ export default () => {
                 <p>&#8226; If soap and water are not readily available, <strong>use a hand sanitizer that contains at least 60% alcohol.</strong> Cover all surfaces of your hands and rub them together until they feel dry.</p>
                 <p>&#8226; <strong>Avoid touching your eyes, nose, and mouth</strong> with unwashed hands.</p>
                 <ul>
-                    <li>&#9900; Before eating or preparing food</li>
-                    <li>&#9900; Before touching your face</li>
-                    <li>&#9900; After using the restroom</li>
-                    <li>&#9900; After leaving a public place</li>
-                    <li>&#9900; After blowing your nose, coughing, or sneezing</li>
-                    <li>&#9900; After handling your mask</li>
-                    <li>&#9900; After changing a diaper</li>
-                    <li>&#9900; After caring for someone sick</li>
-                    <li>&#9900; After touching animals or pets</li>
+                    <p className={infoboxStyle.openCircle}> Before eating or preparing food</p>
+                    <p className={infoboxStyle.openCircle}> Before touching your face</p>
+                    <p className={infoboxStyle.openCircle}> After using the restroom</p>
+                    <p className={infoboxStyle.openCircle}> After leaving a public place</p>
+                    <p className={infoboxStyle.openCircle}> After blowing your nose, coughing, or sneezing</p>
+                    <p className={infoboxStyle.openCircle}> After handling your mask</p>
+                    <p className={infoboxStyle.openCircle}> After changing a diaper</p>
+                    <p className={infoboxStyle.openCircle}> After caring for someone sick</p>
+                    <p className={infoboxStyle.openCircle}> After touching animals or pets</p>
                 </ul>
               </div>
             </div>
@@ -76,13 +76,13 @@ export default () => {
                 </div>
                 <p>&#8226; <strong>Inside your home:</strong> Avoid close contact with people who are sick.</p>
                 <ul>
-                    <li>&#9900; If possible, maintain 6 feet between the person who is sick and other household members.</li>
+                    <p className={infoboxStyle.openCircle}> If possible, maintain 6 feet between the person who is sick and other household members.</p>
                 </ul>
                 <p>&#8226; <strong>Outside your home:</strong> Put 6 feet of distance between yourself and people who don’t live in your household.</p>
                     <ul>
-                        <li>&#9900; Remember that some people without symptoms may be able to spread virus.</li>
-                        <li>&#9900; Stay at least 6 feet (about 2 arms’ length) from other people.</li>
-                        <li>&#9900; Keeping distance from others is especially important for people who are at higher risk of getting very sick.</li>
+                        <p className={infoboxStyle.openCircle}> Remember that some people without symptoms may be able to spread virus.</p>
+                        <p className={infoboxStyle.openCircle}> Stay at least 6 feet (about 2 arms’ length) from other people.</p>
+                        <p className={infoboxStyle.openCircle}> Keeping distance from others is especially important for people who are at higher risk of getting very sick.</p>
                     </ul>
               </div>
             </div>
@@ -96,7 +96,7 @@ export default () => {
                   <p>&#8226; The mask is meant to protect other people in case you are infected.</p>
                   <p>&#8226; Everyone should wear a mask in public settings and when around people who don’t live in your household, especially when other social distancing measures are difficult to maintain.</p>
                       <ul>
-                          <li>&#9900; Masks should not be placed on young children under age 2, anyone who has trouble breathing, or is unconscious, incapacitated or otherwise unable to remove the mask without assistance.</li>
+                          <p className={infoboxStyle.openCircle}> Masks should not be placed on young children under age 2, anyone who has trouble breathing, or is unconscious, incapacitated or otherwise unable to remove the mask without assistance.</p>
                       </ul>
                   <p>&#8226; Do NOT use a mask meant for a healthcare worker. Currently, surgical masks and N95 respirators are critical supplies that should be reserved for healthcare workers and other first responders.</p>
                   <p>&#8226; Continue to keep about 6 feet between yourself and others. The mask is not a substitute for social distancing.</p>
@@ -133,11 +133,11 @@ export default () => {
                   </div>
                   <p>&#8226; <strong>Be alert for symptoms.</strong> Watch for fever, cough, shortness of breath, or other symptoms <strong>of COVID-19.</strong></p>
                   <ul>
-                      <li>&#9900; Especially important if you are running essential errands, going into the office or workplace, and in settings where it may be difficult to keep a physical distance of 6 feet.</li>
+                      <p className={infoboxStyle.openCircle}> Especially important if you are running essential errands, going into the office or workplace, and in settings where it may be difficult to keep a physical distance of 6 feet.</p>
                   </ul>
                   <p>&#8226; <strong>Take your temperature</strong> if symptoms develop.</p>
                     <ul>
-                        <li>&#9900; Don’t take your temperature within 30 minutes of exercising or after taking medications that could lower your temperature, like acetaminophen.</li>
+                        <p className={infoboxStyle.openCircle}> Don’t take your temperature within 30 minutes of exercising or after taking medications that could lower your temperature, like acetaminophen.</p>
                     </ul>
                   <p>&#8226; Follow CDC guidance if symptoms develop.</p>
                 </div>

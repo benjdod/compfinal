@@ -1,0 +1,15 @@
+.loading {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    height: auto;
+    width: auto;
+    padding-top: 150px;
+}
+
+.text {
+    padding-left: 590px;
+    font-family: 'Open Sans', sans-serif;
+}
+
