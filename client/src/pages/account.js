@@ -64,11 +64,24 @@ export default () => {
         })
     }, [])
 
+    const userDetails = (
+        <div>
+            <h2>{details.firstname} {details.lastname}</h2>
+            <h4>{details.username}</h4>
+        </div>
+    )
+
+    const quizDetails = (
+        <div>
+            <h3>Quizzes:</h3>
+            {quizzes}
+        </div>
+    )
+
     const basePageContent = (<div>
         {navMessage}
-        <h2>{details.firstname} {details.lastname}</h2>
-        <h3>Quizzes:</h3>
-        {quizzes}
+        {userDetails}
+        {quizDetails}
     </div>)
 
     const router = (

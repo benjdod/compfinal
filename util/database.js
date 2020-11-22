@@ -30,9 +30,25 @@ exports.insertUser = async (username, firstname, lastname, passhash, encryptedKe
     }
 }
 
-exports.updateUser = async (uid, username, firstname, lastname, passhash, encryptedKey) => {
+exports.updateUser = async (uid, fields) => {
+
+    const toUpdate = []
+
+    if (fields.username)
+        toUpdate.push(`username = ${fields.username}`);
+    if (fields.firstname)
+        toUpdate.push(`firstname = ${fields.firstname}`);
+    if (fields.lastname)
+        toUpdate.push(`lastname = ${fields.lastname}`);
+    if (fields.passhash)
+        toUpdate.push(`passhash = ${fields.passhash}`);
+    if (fields.key)
+        toUpdate.push(`key = ${fields.key}`);
+
+    const queryStr = 'update users set ' + toUpdate.join(', ') + `where id = ${uid}`;
+
     try {
-        return await client.query(`update users set username = '${username}', firstname = '${firstname}', lastname = '${lastname}', passhash = '${passhash}', key = '${encryptedKey}' where id = ${uid};`);
+        return await client.query(queryStr);
     } catch (e) {
         console.error(e);
         return null;
@@ -94,6 +110,17 @@ exports.getByUID = async (uid) => {
     }
 }
 
+exports.deleteByUID = async (uid) => {
+    try {
+        const out = client.query(`delete from users where id = ${uid}`);
+        console.log('db response from deleting user: ', out);
+        return out;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
 /**
  * packages, encrypts, and inserts the quiz data into the table
  * 
@@ -116,8 +143,32 @@ exports.insertQuiz = async (uid, masterKey, data) => {
     }
 }
 
+exports.getQuiz = async (uid, quizId, masterKey) => {
+    try {
+        const res = await client.query(`select * from quizzes where user_uid = ${uid} AND uid = ${quizId}`);
+        const decrypted = res.rows.map(row => {
+            const unpackaged = unpackageQuizData(decrypt(row.result, masterKey));
+            return { ...unpackaged, timestamp: new Date(row.timecreated), uid: row.uid,};
+        })
+        return decrypted[0];
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
+exports.deleteQuiz = async (uid, quizId) => {
+    try {
+        const res = await client.query(`delete from quizzes where user_uid = ${uid} AND uid = ${quizId}`);
+        console.log('response from deleting quiz:', res);
+        return res;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
 exports.getQuizzes = async (uid, masterKey) => {
-    console.log(masterKey);
     try {
         const res = await client.query(`select * from quizzes where user_uid = ${uid}`);
         const decrypted = res.rows.map(row => {
@@ -125,6 +176,17 @@ exports.getQuizzes = async (uid, masterKey) => {
             return { ...unpackaged, timestamp: new Date(row.timecreated), uid: row.uid,};
         })
         return decrypted;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
+exports.deleteQuizzes = async (uid) => {
+    try {
+        const res = await client.query(`delete from quizzes where user_uid = ${uid}`);
+        console.log('response from deleting all quizzes:', res);
+        return res;
     } catch (e) {
         console.error(e);
         return null;
