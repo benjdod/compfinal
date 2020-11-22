@@ -4,7 +4,9 @@ import axios from "axios";
 import newsPageStyle from "../components/modules/newsPage.module.css";
 import PageFrame from "../components/pageframe.js";
 import listStyle from "../components/modules/hlist.module.css";
-// import loading from "../images/maginfyingGlass.svg";
+import loadingStyle from "../components/modules/loading.module.css";
+import loading from "../images/maginfyingGlass.gif"
+
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
 
 
@@ -107,7 +109,8 @@ componentDidMount() {
     }
   }).then(response => {
     this.setState({
-      worldNews: response.data.value
+      worldNews: response.data.value,
+      isLoading: false
     })
   }).catch(error => {
     console.log(error);
@@ -128,6 +131,7 @@ componentDidMount() {
       article.description = descrip + '...';
     })
 
+  
 }
 
 
@@ -136,6 +140,12 @@ componentDidMount() {
     
     console.log(this.state);
     return (
+      
+      this.state.isLoading ? 
+      <figure>
+        <img className = {loadingStyle.loading} src = {loading}></img>
+        <figcaption className={loadingStyle.text}>Loading News...</figcaption>
+        </figure> :
       <div>
         <PageFrame>
       <h1 className={newsPageStyle.title}>Local News</h1>  
