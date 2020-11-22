@@ -5,6 +5,8 @@ import { useLocation, useHistory } from "react-router-dom"
 
 import PageFrame from "../components/pageframe"
 import QuizCrumb from "../components/quizcrumb"
+import localStyle from "../components/modules/quizcrumb.module.css"
+import upadateAccount from "../components/upadateAccount"
 
 import localStyle from "./modules/account.module.css"
 
@@ -81,6 +83,8 @@ export default () => {
         })
     }, [])
 
+
+
     const userDetails = (
         <div>
             <h2>{details.firstname} {details.lastname}</h2>
@@ -95,11 +99,27 @@ export default () => {
         </div>
     )
 
-    const basePageContent = (<div>
+    const basePageContent = (<div className={localStyle.flexItem}>
         {navMessage}
         {userDetails}
         {quizDetails}
     </div>)
+
+    const right = (
+        <div className={localStyle.flexItem}>
+            <div className={localStyle.flexBox}>
+                <div className="button">Update Account</div>
+                <div className="button">Delete Account</div>
+            </div>
+
+            <div>
+ 
+            </div>
+
+        </div>
+    )
+
+
 
     const router = (
     <Router>
@@ -110,7 +130,10 @@ export default () => {
 
     return (
         <PageFrame>
-            {basePageContent}            
+            <div className={localStyle.flexBox}>
+                {basePageContent}
+                {right}
+            </div>     
         </PageFrame>
     )
 }

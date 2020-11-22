@@ -5,7 +5,7 @@
     padding: 10px;
     background-color: #eee;
     font-size: 16px;
-    width: 40%;
+    width: 90%;
 }
 
 .title {
@@ -27,6 +27,7 @@
 underlining text or font weight, or coloring, etc... */
 .container:hover {
     box-shadow: 1px 1px 6px #ccc;
+    cursor: pointer;
 }
 
 .menu {
@@ -58,3 +59,12 @@ underlining text or font weight, or coloring, etc... */
     cursor: pointer;
     user-select: none;
 }
+
+
+.flexBox {
+    display: flex;
+}
+.flexItem {
+    width: 50%;
+}
+
