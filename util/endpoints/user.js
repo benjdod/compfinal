@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { authenticateUser } = require('../auth/token');
 const { listRoutes } = require('./index');
-const { getQuizzes, insertQuiz, getByUID, getQuiz, deleteQuiz } = require('../database');
+const { getQuizzes, insertQuiz, getByUID, getQuiz, deleteQuiz, updateUser, deleteQuizzes, deleteByUID } = require('../database');
 
 const cache = require('../data/sourcecache');
 const source = require('../data/sourcemethods');
@@ -13,6 +13,16 @@ router.use(authenticateUser);
 
 router.get('/', listRoutes(router));
 
+router.delete('/', async (req,res) => {
+    try {
+        await deleteQuizzes(req.jwtPayload.u);
+        await deleteByUID(req.jwtPayload.u);
+        res.clearCookie('auth_token').send('successfully deleted user');
+    } catch (e) {
+        console.error(e);
+        res.status(500).send('could not delete user');
+    }
+})
 
 router.get('/ping', (req,res) => {
     // if we get here, the response didn't fail at authenticateUser, 
@@ -39,7 +49,13 @@ router.get('/details', async (req,res) => {
 })
 
 router.put('/details', async (req,res) => {
-    
+    updateUser(req.body).then(response => {
+        console.log(response);
+        res.send('success');
+    }).catch(e => {
+        console.error(e);
+        res.status(500).send('could not update user details');
+    })
 })
 
 const addQuizFields = async (quizzes) => {
@@ -103,7 +119,7 @@ router.delete('/quizzes/:quizid', async (req,res) => {
         })
 })
 
-router.post('/addquiz', async (req, res) => {
+router.post('/quizzes', async (req, res) => {
     const uid = req.jwtPayload.u;
     const masterKey = req.jwtPayload.k;
     const data = req.body;

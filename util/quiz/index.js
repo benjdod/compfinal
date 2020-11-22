@@ -75,7 +75,7 @@ exports.calculateRisk = (data, useVersion) => {
 
             const weitzFactor = 1 - Math.pow(1 - pI, n);
             const maskWearerFactor = 1 - m;
-            const maskPercentageFactor = data.maskPercentage * 0.5    // from https://docs.google.com/spreadsheets/d/16K1OQkLD4BjgBdO8ePj6ytf-RpPMlJ6aXFg3PrIQBbQ/edit#gid=519189277
+            const maskPercentageFactor = 1 - (data.maskPercentage * 0.5)   // from https://docs.google.com/spreadsheets/d/16K1OQkLD4BjgBdO8ePj6ytf-RpPMlJ6aXFg3PrIQBbQ/edit#gid=519189277
 
             const outdoorFactor = 1/O;
             const distancingFactor = Math.pow(1/1.5, D);    // distancing factor should be 2.02, but yeah...

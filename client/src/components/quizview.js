@@ -31,7 +31,7 @@ export default (props) => {
             <p>A {data.eventDuration} minute event {data.eventOutside ? 'outside' : 'inside'} event with {data.eventSize} people attending.</p>
             <p>{data.maskPercentage > 0 ? data.maskPercentage >= 1 ? '100% of' : `Around ${Math.round(data.maskPercentage*100)}% of` : 'No'} attendees wearing masks</p>
             <p>{data.socialDistancing > 0 ? `${data.socialDistancing} meters of` : 'No'} social distancing</p>
-            <p style={{color: genColor(data.risk), fontWeight: 700}}>Risk: {data.risk}</p>
+            {/*<p style={{color: genColor(data.risk), fontWeight: 700}}>Risk: {data.risk}</p>*/}
         </div>
     )
 

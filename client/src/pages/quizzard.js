@@ -82,7 +82,7 @@ class Quiz extends React.Component {
                 quizResult = res;
                 const addBody = JSON.stringify(quizResult);
                 console.log(addBody);
-                const out= fetch('/user/addquiz', {
+                const out= fetch('/user/quizzes', {
                     method: 'post',
                     body: addBody,
                     headers: {
@@ -108,7 +108,7 @@ class Quiz extends React.Component {
                     }
                 })
             })
-            /*fetch('/user/addquiz', {
+            /*fetch('/user/quizzes', {
                 method: 'post',
                 body: JSON.stringify(out)
             })

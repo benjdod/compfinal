@@ -110,6 +110,17 @@ exports.getByUID = async (uid) => {
     }
 }
 
+exports.deleteByUID = async (uid) => {
+    try {
+        const out = client.query(`delete from users where id = ${uid}`);
+        console.log('db response from deleting user: ', out);
+        return out;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
 /**
  * packages, encrypts, and inserts the quiz data into the table
  * 
@@ -146,7 +157,7 @@ exports.getQuiz = async (uid, quizId, masterKey) => {
     }
 }
 
-exports.deleteQuiz = async (uid, quizId, masterKey) => {
+exports.deleteQuiz = async (uid, quizId) => {
     try {
         const res = await client.query(`delete from quizzes where user_uid = ${uid} AND uid = ${quizId}`);
         console.log('response from deleting quiz:', res);
@@ -165,6 +176,17 @@ exports.getQuizzes = async (uid, masterKey) => {
             return { ...unpackaged, timestamp: new Date(row.timecreated), uid: row.uid,};
         })
         return decrypted;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
+exports.deleteQuizzes = async (uid) => {
+    try {
+        const res = await client.query(`delete from quizzes where user_uid = ${uid}`);
+        console.log('response from deleting all quizzes:', res);
+        return res;
     } catch (e) {
         console.error(e);
         return null;
