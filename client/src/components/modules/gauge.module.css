@@ -1,8 +1,8 @@
+
 .gauge {
     width: 100%;
     max-width: 250px;
-    font-family: "Roboto", sans-serif;
-    font-size: 32px;
+    text-align: center;
     color: #004033;
   }
   

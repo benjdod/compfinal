@@ -138,6 +138,8 @@ export default (props) => {
                             geoLayer.resetStyle(e.target);
                         })
 
+                        console.log(feature);
+
                         const recentDate = new Date(feature.properties.recent[0]);
                         const popupText = `<div>
                             date: ${moment(recentDate).format('LL')}<br/>
