@@ -56,6 +56,18 @@ li.dropdown {
     display: block;
 }
 
+.dropdown:hover .arrow {
+    transform: rotate(180deg);
+}
+
+.arrow {
+    width: 16px;
+}
+
+/* .arrow:hover {
+    transform: rotate(180deg);
+} */
+
 @media only screen and (max-width: 700px) {
     .bar {
         display: block;
