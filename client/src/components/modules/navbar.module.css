@@ -22,7 +22,7 @@
     margin-left: auto;
 }
 
-.item:hover {
+.item:hover, .dropItem:hover {
     /* font-weight: 700; */
     color: darkgray;
     transition: 0.2s ease;
@@ -30,6 +30,30 @@
 
 .active {
     font-weight: 700;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 125px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropItem {
+    color: black;
+    display: block;
+    text-align: left;
+    margin-bottom: 12px;
+}
+
+.dropdown:hover .dropdownContent {
+    display: block;
 }
 
 @media only screen and (max-width: 700px) {

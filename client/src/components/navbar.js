@@ -9,13 +9,21 @@ import navStyle from "./modules/navbar.module.css"
 
 export default () => {
 
-    // TODO: this is not responsive for mobile! Hamburger menu or something...
     return (
         <nav className={`${navStyle.bar}`}>
             <Link to="/"><h2 className={navStyle.siteTitle}>COVID-19 Risk Assessor</h2></Link>
             <NavLink className={`${navStyle.item} ${navStyle.push}`} to="/quiz">QUIZ</NavLink>
-            <NavLink className={`${navStyle.item}`} to="/news">NEWS</NavLink>
-            <NavLink className={`${navStyle.item}`} to="/guidelines">GUIDELINES</NavLink>
+            {/* <NavLink className={`${navStyle.item}`} to="/news">NEWS</NavLink> */}
+            {/* <NavLink className={`${navStyle.item}`} to="/guidelines">GUIDELINES</NavLink> */}
+
+            <li className={`${navStyle.item} ${navStyle.dropdown}`}>
+                <NavLink className={`${navStyle.item} ${navStyle.dropbtn}`} to="#">INFO</NavLink>
+                <div className={navStyle.dropdownContent}>
+                    <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="/news">NEWS</NavLink>
+                    <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="/guidelines">GUIDELINES</NavLink>
+                    <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="/about">ABOUT</NavLink>
+                </div>
+            </li>
             {/* we probably don't need this in the navbar, we'll reference it enough
             <NavLink className={`${navStyle.item}`} to="/about">ABOUT</NavLink>*/}
             <NavLink className={`${navStyle.item}`} to="/account">ACCOUNT</NavLink>
