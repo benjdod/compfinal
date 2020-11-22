@@ -16,6 +16,7 @@ import Quiz from "./pages/quizzard"
 import QuizResult from "./pages/quizresult"
 import Register from "./pages/register"
 import Explore from "./pages/explore"
+import Update from "./components/upadateAccount"
 
 import QuizView from "./components/quizview"
 
@@ -61,6 +62,7 @@ export default () => {
                 <Route exact path='/test/footer' component={Footer}/>
                 <Route exact path='/test/bounce' component={BounceOut}/>
                 <Route exact path='/test/spacing' component={Spacing}/>
+                <Route exact path='/update' component={Update}/>
 
                 {/* this is the default page 404 page. It needs to stay below 
                     all other routes since it catches any route that falls

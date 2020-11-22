@@ -56,7 +56,7 @@ export default () => {
                 <div class="pageWrap">
                 </div>
                 <div className={boxStyle.box}>
-                    <h1>Sign Up</h1>
+                    <h1>Update Account Information</h1>
                     <div style={{display: 'inline-block'}}>
                         <form className='children-as-block' onSubmit={submit}>
                             <label htmlFor='input-first-name' className={boxStyle.signUpLabel}>First name</label>
