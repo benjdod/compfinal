@@ -8,21 +8,10 @@ const { calculateRisk } = require('../quiz');
 const cache = require('../data/sourcecache');
 const source = require('../data/sourcemethods');
 
+// lists api routes and available methods.
 router.get('/', listRoutes(router));
 
-/*
-const cache = {
-    countyCovidData: {
-        data: null,
-        timestamp: null
-    },
-    countyPops: {
-        data: null,
-        timestamp: null,
-    }
-}
-*/
-
+// don't document, helper function.
 const qll = async (latitude, longitude) => {
 
     const bad = (
@@ -66,6 +55,9 @@ const qll = async (latitude, longitude) => {
     }
 }
 
+// NOTE: ALL THESE RETURN JSON DATA
+
+// gets nyt covid current case data by county
 router.get('/countydata', (req,res) => {
     cache.get('nytcovidcounties')
         .then(data => {
@@ -77,6 +69,7 @@ router.get('/countydata', (req,res) => {
         })
 })
 
+// gets nyt covid current case data by state
 router.get('/statedata', (req,res) => {
     cache.get('nytcovidstates')
     .then(data => {
@@ -88,7 +81,8 @@ router.get('/statedata', (req,res) => {
     })
 })
 
-router.get('/censuspops', (req,res) => {
+// gets populations of each us county. Try it out!
+router.get('/countypops', (req,res) => {
     cache.get('censuspops')
     .then(data => {
         res.json(data);
@@ -99,6 +93,7 @@ router.get('/censuspops', (req,res) => {
     })
 }) 
 
+// gets populations of each us state.
 router.get('/statepops', (req,res) => {
     cache.get('statepops')
     .then(data => {
@@ -110,6 +105,7 @@ router.get('/statepops', (req,res) => {
     })
 }) 
 
+// query us info (state, county, fips, etc.) of a url-encoded latitude and longitude
 router.get('/querylatlon', async (req,res) => {
 
     const latitude = parseFloat(req.query.lat);
@@ -141,6 +137,9 @@ router.get('/querylatlon', async (req,res) => {
 
 })
 
+// calculates a risk number given a json object of input data
+// (check quizzard to see the structure of the object as provided
+// to this endpoint, as that's the only thing that uses it.)
 router.post('/calculaterisk', async (req,res) => {
 
     const b = req.body;
@@ -178,6 +177,7 @@ router.post('/calculaterisk', async (req,res) => {
     res.json(out);
 })
 
+// returns a geojson file of us states, no added information
 router.get('/statesgeojson-base', async (req,res) => {
 
     cache.get('statesgeo_base')
@@ -187,6 +187,9 @@ router.get('/statesgeojson-base', async (req,res) => {
     .catch(e => res.status(500).send('500: could not get file'))
 })
 
+// returns a geojson file of us states with covid data fields added
+// under the 'properties' field of each feature. (try it out to see
+// what it looks like)
 router.get('/statesgeojson-loaded', async (req,res) => {
 
     cache.get('statesgeo_detailed')
@@ -196,6 +199,7 @@ router.get('/statesgeojson-loaded', async (req,res) => {
     .catch(e => res.status(500).send('500: could not get file'))
 })
 
+// don't document, it's a catchall for bad routes.
 router.all('*', (req,res) => {
     res.status(404).send('<pre>api route not found</pre>');
 })
