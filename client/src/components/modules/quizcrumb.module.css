@@ -55,6 +55,7 @@ underlining text or font weight, or coloring, etc... */
     color: black;
     display: block;
     margin: 12px 12px 12px 12px;
-
+    cursor: pointer;
+    user-select: none;
 }
 

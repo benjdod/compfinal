@@ -30,7 +30,6 @@ export default (props) => {
         })
     }
 
-
     // no guarantee that the timezone won't be messed up for people 
     // not in EST
 
@@ -44,7 +43,19 @@ export default (props) => {
             <div className={localStyle.menu}>
                 <img className={localStyle.menuIcon} src={Menu} />
                 <div className={localStyle.dropdownContent}>
-                    <p className={localStyle.dropItem}>Delete</p>
+                    <p className={localStyle.dropItem} onClick={(e) => {
+                        e.stopPropagation();
+                        console.log(`delete /user/quizzes/${data.uid}`);
+                        fetch(`/user/quizzes/${data.uid}`, {
+                            method: 'delete',
+                            credentials: 'include'
+                        }).then(() => {
+                            window.location.reload();
+                        }).catch(e => {
+                            console.error(e);
+                            alert('could not delete quiz!');
+                        })
+                    }}>Delete</p>
                 </div>
             </div>
             <p className={localStyle.risk}>Risk: {data.risk}</p>
