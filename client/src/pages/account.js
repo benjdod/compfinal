@@ -63,8 +63,8 @@ export default () => {
 
     const userDetails = (
         <div>
-            <h2>{details.firstname} {details.lastname}</h2>
-            <h4>{details.username}</h4>
+            <p className={localStyle.header}>Name:&nbsp; <strong>{details.firstname} {details.lastname}</strong></p>
+            <p className={localStyle.header}>Username:&nbsp; <strong>{details.username}</strong></p>
             <div className="button" style={{display: 'inline-block'}} onClick={(e) => {
                 e.preventDefault();
                 showEditing(true);
@@ -74,7 +74,7 @@ export default () => {
 
     const quizDetails = (
         <div>
-            <h2>Quizzes</h2>
+            <p className={localStyle.header}>Quizzes:</p>
             <hr/>
             <QuizList/>
         </div>
@@ -101,11 +101,3 @@ export default () => {
         </PageFrame>
     )
 }
-
-// export function showForm() {
-//     return (
-//         <div className={localStyle.updateForm}>
-//             <p>something</p>
-//         </div>
-//     )
-// };
