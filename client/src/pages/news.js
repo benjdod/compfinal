@@ -27,6 +27,7 @@ export class News extends React.Component{
       worldNews: [],
       isLoading: true,
       location: "", // default
+      useLocation: false,
       error: false
     }
     this.getLocation = this.getLocation.bind(this);
@@ -59,11 +60,9 @@ componentDidMount() {
       localNews: response.data.value
     })
   }).catch(error => {
-    if (error.response.status === 429) {
       this.setState({
         error: true
-      })
-    }
+      }) 
   });
 }
   
@@ -88,11 +87,9 @@ componentDidMount() {
       usaNews: response.data.value
     })
   }).catch(error => {
-    if (error.response.status === 429) {
       this.setState({
         error: true
       })
-    }
   });
 
   axios({
@@ -117,11 +114,9 @@ componentDidMount() {
       isLoading: false
     })
   }).catch(error => {
-    if (error.response.status === 429) {
       this.setState({
         error: true
-      })
-    };
+      });
   })
 
   // trim descripitons
@@ -146,12 +141,14 @@ componentDidMount() {
   render() {
     return (
       this.state.error ? 
-      <PageFrame>
+     // if error
+     <PageFrame>
         <figure>
           <img className={loadingStyle.error} src={error}></img>
-          <figcaption className={loadingStyle.textError}>Sorry news is not avaliable right now.</figcaption>
+          <figcaption className={loadingStyle.textError}>Sorry, due to an error news is not avaliable right now.</figcaption>
         </figure>
       </PageFrame> :
+    // now check for when we are done loading
       this.state.isLoading ? 
       <PageFrame>
       <figure>
@@ -159,6 +156,8 @@ componentDidMount() {
         <figcaption className={loadingStyle.textLoading}>Loading News...</figcaption>
         </figure>
         </PageFrame> :
+  this.state.useLocation ? 
+  // location is being allowed
       <div>
         <PageFrame>
       <h1 className={newsPageStyle.title}>{this.state.location} News</h1>  
@@ -213,6 +212,45 @@ componentDidMount() {
           </div>
         </PageFrame>
         </div>
+  :
+  // when location not allowed to be used
+  <div>
+  <PageFrame>
+  <h1 className={newsPageStyle.title}>National</h1>  
+  <div className={listStyle.gallery}>
+    <div className={listStyle.gallery_scroller}>
+      {this.state.usaNews.map(article => 
+      <div className={listStyle.gallery_scroller_div}>
+      <NewsCard
+      image = {article.image.url}
+      title = {article.title}
+      date = {article.datePublished.splice}
+      publisher = {article.provider.name}
+      description = {article.description}
+      link = {article.url}/>
+      </div>
+      )}
+      </div>
+      </div>
+
+<h1 className={newsPageStyle.title}>Global</h1>  
+  <div className={listStyle.gallery}>
+    <div className={listStyle.gallery_scroller}>
+      {this.state.worldNews.map(article => 
+      <div className={listStyle.gallery_scroller_div}>
+      <NewsCard
+      image = {article.image.url}
+      title = {article.title}
+      date = {article.datePublished.splice}
+      publisher = {article.provider.name}
+      description = {article.description}
+      link = {article.url}/>
+      </div>
+      )}
+      </div>
+      </div>
+    </PageFrame>
+    </div>
 
     )
         }
@@ -231,7 +269,7 @@ componentDidMount() {
       method: 'get',
       credentials: 'include'
   }).then(result => result.json())
-    .then(result => this.setState({location: result.state}));
+    .then(result => this.setState({location: result.state, useLocation: true}));
   }
 }
 export default News
