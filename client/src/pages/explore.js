@@ -106,6 +106,12 @@ export default () => {
         }, false);
     }, [])
 
+    const failedToFetch = (
+        <div className={localStyle.failed}>
+            <p>Couldn't get state data</p>
+        </div>
+    )
+
     const fetchAndSetChart = (fips, stateName) => {
         console.log('statename: ', stateName);
         fetch(`/api/statehistory/${fips.toString().padStart(2,"0")}`)
@@ -116,6 +122,9 @@ export default () => {
             const deaths = res.map(r => r[2]).reverse();
             setChart(null);
             setChart(<HistoryChart stateName={stateName} cases={cases} deaths={deaths} labels={labels}/>)
+        }).catch(e => {
+            console.error(e);
+            setChart(failedToFetch);
         })
     }
 

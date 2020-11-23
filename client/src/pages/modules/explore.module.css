@@ -7,3 +7,15 @@
     display: inline-block;
     padding: 0px 10px 10px;
 }
+
+.failed {
+    height: 100px;
+    background-color: #f0f0f0;
+}
+
+.failed p {
+    padding: 50px 0px;
+    font-size: 32px;
+    color: #999;
+    font-style: italic;
+}
