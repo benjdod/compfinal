@@ -24,9 +24,15 @@ export default () => {
                     <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="/about">ABOUT</NavLink>
                 </div>
             </li>
+            <li className={`${navStyle.item} ${navStyle.dropdown}`}>
+                <NavLink className={`${navStyle.item} ${navStyle.dropbtn}`} to="/account">ACCOUNT <img className={navStyle.arrow} src={Arrow} /></NavLink>
+                <div className={navStyle.dropdownContent}>
+                    <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="#">LOG OUT</NavLink>
+                </div>
+            </li>
             {/* we probably don't need this in the navbar, we'll reference it enough
             <NavLink className={`${navStyle.item}`} to="/about">ABOUT</NavLink>*/}
-            <NavLink className={`${navStyle.item}`} to="/account">ACCOUNT</NavLink>
+            {/* <NavLink className={`${navStyle.item}`} to="/account">ACCOUNT</NavLink> */}
         </nav>
     )
 }
