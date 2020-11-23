@@ -65,7 +65,7 @@ export default () => {
         <div>
             <p className={localStyle.header}>Name:&nbsp; <strong>{details.firstname} {details.lastname}</strong></p>
             <p className={localStyle.header}>Username:&nbsp; <strong>{details.username}</strong></p>
-            <div className="button" style={{display: 'inline-block'}} onClick={(e) => {
+            <div className={`button ${localStyle.greyBtn}`} style={{display: 'inline-block'}} onClick={(e) => {
                 e.preventDefault();
                 showEditing(true);
             }}>Edit Details</div>
