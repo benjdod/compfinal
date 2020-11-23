@@ -40,10 +40,11 @@ export default () => {
     return (
         <PageFrame>
             <h3>Methods</h3>
-            <p>The COVID Risk Assessor expands upon Joshua Weitz's risk calculation equation, using his method as a base for calculating the user’s risk. {makeInline(0,1)} Using his equation, the Risk Assessor also takes in the users’ inputted event details to give a personalized risk percentage based on mask wearing, social distancing, and event location. To factor these relevant metrics we took data from a variety of research papers.</p>
+            <p>The COVID Risk Assessor expands upon Joshua Weitz's risk calculation equation, using his method as a base for calculating the user’s risk. {makeInline(0,1)} Using his equation, the Risk Assessor also takes in the users’ inputted event details to give a personalized risk percentage based on social distancing, mask wearing, duration of event, and event location. To factor these relevant metrics we took data from a variety of research papers.</p>
             <ul>
                 <li>Social distancing: Increases in social distance have been found to correspond with decreased risk. One meta-analysis found a 2x change in relative risk per meter{makeInline(2)}, but our equation uses a more conservative estimate since the data is not as "settled" </li>
                 <li>Mask wearing: Taking research compiled by Univ. of Colorado Boulder Prof. Jose L. Jimenez, we were able to infer that the general population wearing masks reduces the risk of emission by 50%. By other’s wearing cloth masks, your risk of inhaling air transmitted COVID is 30%.{makeInline(3)}</li>
+                <li>Duration of event: The average event duration in our equation model is 2 hours, so any time longer that 2 hours adds to the risk factor.</li>
                 <li>Event location: Using The New York Time’s ongoing repository of data on coronavirus cases and deaths in the U.S.{makeInline(4)}, the COVID Risk Assessor takes in the number of infections in the user’s event’s area, separated by county, and uses that data to give the user a more personalized risk assessment.</li>
             </ul>
 
