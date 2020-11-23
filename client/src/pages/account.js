@@ -5,8 +5,7 @@ import { useLocation, useHistory } from "react-router-dom"
 
 import PageFrame from "../components/pageframe"
 import QuizCrumb from "../components/quizcrumb"
-import localStyle from "../components/modules/quizcrumb.module.css"
-import upadateAccount from "../components/upadateAccount"
+import UpdateAccount from "../components/upadateAccount"
 
 import localStyle from "./modules/account.module.css"
 
@@ -17,6 +16,8 @@ export default () => {
     const [quizzes, setQuizzes] = useState();
 
     const [navMessage, setNavMessage] = useState(null);
+
+    const [editing, showEditing] = useState(false);
 
     const location = useLocation();
     const history = useHistory();
@@ -51,6 +52,8 @@ export default () => {
     
     // TODO: add indexedDB api for faster load times (when we renavigate here and haven't added a new quiz)
     useEffect(() => {
+
+        showEditing(false);
 
         fetch('/user/details', {
             method: 'get',
@@ -108,25 +111,18 @@ export default () => {
     const right = (
         <div className={localStyle.flexItem}>
             <div className={localStyle.flexBox}>
-                <div className="button">Update Account</div>
-                <div className="button">Delete Account</div>
+                <div className="button" onClick={(e) => {
+                    e.preventDefault();
+                    showEditing(true);
+                }}>Edit Details</div>
             </div>
 
-            <div>
- 
+            <div style={{visibility: editing ? 'visible': 'hidden'}}>
+                <UpdateAccount/>
             </div>
 
         </div>
     )
-
-
-
-    const router = (
-    <Router>
-        <Switch>
-            <Route exact path="/account" component={basePageContent}/>
-        </Switch>
-    </Router>)
 
     return (
         <PageFrame>
