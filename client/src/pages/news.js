@@ -37,7 +37,7 @@ componentDidMount() {
   navigator.geolocation.getCurrentPosition(this.getLocation, (error=>console.log(error)));
 
   setTimeout(() => {
-    if(this.state.location != "") {
+    if(this.state.useLocation) {
   axios({
     method: 'GET',
     url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
@@ -55,9 +55,9 @@ componentDidMount() {
       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
     }
   }).then(response => {
-    console.log("Herrrrrrrrrrrrrrrrrrrrr")
     this.setState({
-      localNews: response.data.value
+      localNews: response.data.value,
+      isLoading: false
     })
   }).catch(error => {
     console.log(error);
@@ -88,7 +88,7 @@ componentDidMount() {
       usaNews: response.data.value
     })
   }).catch(error => {
-    console.log(this.error);
+    console.log(error);
       this.setState({
         error: true
       })
@@ -112,8 +112,7 @@ componentDidMount() {
     }
   }).then(response => {
     this.setState({
-      worldNews: response.data.value,
-      isLoading: false
+      worldNews: response.data.value
     })
   }).catch(error => {
     console.log(error);
@@ -137,7 +136,7 @@ componentDidMount() {
       article.description = descrip + '...';
     })
 
-  }, 500);
+  }, 700);
 
 }
 
