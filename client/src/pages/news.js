@@ -8,9 +8,8 @@ import loadingStyle from "../components/modules/loading.module.css";
 import loading from "../images/maginfyingGlass.gif"
 import error from "../images/frownyface3.png"
 
-const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
-
-
+//const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
+const APIKEY = '3a203b4660msh4b451258d7a7a0bp191956jsnccefcfce6af8';
 // @JACOB: just added state field to an api endpoint called querylatlon. lat and long are url encoded. 
 // you can try it out by just navigating to it in a browser (it's a GET endpoint),
 // you can use fetch to construct a request with the coords from navigator.geolocation.getcurrent
@@ -43,7 +42,7 @@ componentDidMount() {
     method: 'GET',
     url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
     params: {
-      pageSize: '10',
+      pageSize: '50',
       q: `coronavirus ${this.state.location}`,
       autoCorrect: 'true',
       pageNumber: '1',
@@ -52,14 +51,16 @@ componentDidMount() {
       withThumbnails: 'true'
     },
     headers: {
-      'x-rapidapi-key': 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc',
+      'x-rapidapi-key': APIKEY,
       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
     }
   }).then(response => {
+    console.log("Herrrrrrrrrrrrrrrrrrrrr")
     this.setState({
       localNews: response.data.value
     })
   }).catch(error => {
+    console.log(error);
       this.setState({
         error: true
       }) 
@@ -79,7 +80,7 @@ componentDidMount() {
       withThumbnails: 'true'
     },
     headers: {
-      'x-rapidapi-key': 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc',
+      'x-rapidapi-key': APIKEY,
       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
     }
   }).then(response => {
@@ -87,6 +88,7 @@ componentDidMount() {
       usaNews: response.data.value
     })
   }).catch(error => {
+    console.log(this.error);
       this.setState({
         error: true
       })
@@ -105,7 +107,7 @@ componentDidMount() {
       withThumbnails: 'true'
     },
     headers: {
-      'x-rapidapi-key': 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc',
+      'x-rapidapi-key': APIKEY,
       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
     }
   }).then(response => {
@@ -114,6 +116,7 @@ componentDidMount() {
       isLoading: false
     })
   }).catch(error => {
+    console.log(error);
       this.setState({
         error: true
       });
@@ -134,11 +137,12 @@ componentDidMount() {
       article.description = descrip + '...';
     })
 
-  }, 200);
+  }, 500);
 
 }
 
   render() {
+    console.log(this.state);
     return (
       this.state.error ? 
      // if error
@@ -147,15 +151,19 @@ componentDidMount() {
           <img className={loadingStyle.error} src={error}></img>
           <figcaption className={loadingStyle.textError}>Sorry, due to an error news is not avaliable right now.</figcaption>
         </figure>
-      </PageFrame> :
+      </PageFrame> 
+      :
     // now check for when we are done loading
       this.state.isLoading ? 
+      // loading
       <PageFrame>
       <figure>
         <img className = {loadingStyle.loading} src = {loading}></img>
         <figcaption className={loadingStyle.textLoading}>Loading News...</figcaption>
         </figure>
-        </PageFrame> :
+        </PageFrame> 
+        :
+      // no error
   this.state.useLocation ? 
   // location is being allowed
       <div>
