@@ -58,7 +58,7 @@ The way it's currently set up, there's a pages folder in `client/src` where each
 
 - `/calculaterisk [GET]`
 
-> Calculates a risk number given a json object of input data from our quiz.
+> Calculates a risk number given a json object of input data from our quiz.  Possible error code of 500 if any of the fields are wrong or cannot calcluate a risk number.
 > Fields of this input object include,
 > - latitude: float 
 > - longitude:float
@@ -69,7 +69,7 @@ The way it's currently set up, there's a pages folder in `client/src` where each
 > - maskPercentage: boolean
 > - userMaskWearing: boolean
 > - socialDistancing: boolean  
-> Possible error code of 500 if any of the fields are wrong or cannot calcluate a risk number. 
+
 
 - `/statesgeojson-base [GET]`
 > Returns a geojson file of US states.
@@ -78,6 +78,19 @@ The way it's currently set up, there's a pages folder in `client/src` where each
 - `/statesgeojson-loaded [GET]`
 > Returns a geojson file of US states with covid data 
 >fields added under the 'properties' field of each feature.
+
+- `/login`
+> Provides an authorization token to the client if their login info was valid (username and password).
+> ### Error Codes
+> - `404 user not found`
+> - `401 incorrect credentials`
+> - `500 Internal server error`
+
+- `/register`
+
+> Creates a new user given the inpusts in the request body. Adds this new user info into the user database as well. Then logs the user in giving them a token.
+
+
 
 
 
