@@ -109,7 +109,8 @@ export default (props) => {
                     <br />
                     <button type='submit' className={boxStyle.formbutton}>Submit</button>
                 </form>
-                <button className={`${boxStyle.formbutton} button redBtn`} >Delete Account</button>
+                <button className={`${boxStyle.formbutton} redBtn button`} onClick={deleteAccountHandler}>Delete Account</button>
+                {passField}
                 <div>
                     {errormessage}
                 </div>
