@@ -73,13 +73,14 @@ class Quiz extends React.Component {
 
             let quizResult = null;
 
-            fetch('/api/calculaterisk', {
+            fetch(`/api/querylatlon?lat=${inputs.latitude}&lon=${inputs.longitude}`)
+            .then(() => {fetch('/api/calculaterisk', {
                 method: 'post',
                 body: JSON.stringify(inputs),
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            }).then(res => res.json()).then(res => {
+            })}).then(res => res.json()).then(res => {
                 quizResult = res;
                 const addBody = JSON.stringify(quizResult);
                 console.log(addBody);
@@ -105,21 +106,11 @@ class Quiz extends React.Component {
                 this.props.history.push({
                     pathname: '/account',
                     state: {
-                        message: 'Could not upload quiz result',
+                        message: 'could not upload quiz result!'
                     }
                 })
+                alert('Could not upload quiz result!');
             })
-            /*fetch('/user/quizzes', {
-                method: 'post',
-                body: JSON.stringify(out)
-            })
-            .then(res => {
-                console.log(res);
-                // go to account...
-                <Redirect to="/account"/>
-            })
-            .catch(e => console.error(e))
-            */
         }
 
         const nextButton = <button className={`button greenBtn ${localStyle.button} ${localStyle.next}`} onClick={() => {this.setState({step: this.state.step + 1}); console.log(this.state);}}>Next</button>

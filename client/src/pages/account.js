@@ -20,7 +20,12 @@ export default () => {
     const location = useLocation();
     const history = useHistory();
 
-    if (location.state)
+    
+    
+    // TODO: add indexedDB api for faster load times (when we renavigate here and haven't added a new quiz)
+    useEffect(() => {
+
+        if (location.state)
         if (location.state.message) {
             setNavMessage(
                 <div style={{
@@ -39,11 +44,6 @@ export default () => {
                 setNavMessage(null);
             }, 3000);
         }
-
-    
-    
-    // TODO: add indexedDB api for faster load times (when we renavigate here and haven't added a new quiz)
-    useEffect(() => {
 
         showEditing(false);
 
