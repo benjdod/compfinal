@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import { useLocation, useHistory } from "react-router-dom"
 
 import PageFrame from "../components/pageframe"
-import QuizCrumb from "../components/quizcrumb"
 import UpdateAccount from "../components/upadateAccount"
+import QuizList from "../components/quizlist"
 
 import localStyle from "./modules/account.module.css"
 
@@ -13,15 +13,12 @@ export default () => {
 
     const [details, setDetails] = useState({});
 
-    const [quizzes, setQuizzes] = useState();
-
     const [navMessage, setNavMessage] = useState(null);
 
     const [editing, showEditing] = useState(false);
 
     const location = useLocation();
     const history = useHistory();
-
 
     if (location.state)
         if (location.state.message) {
@@ -43,12 +40,7 @@ export default () => {
             }, 3000);
         }
 
-    // little blurb to show the user if they have 0 quizzes
-    const noQuizzes = (
-        <div className={localStyle.noquiz}>
-            <h3>Looks like you haven't taken any quizzes!</h3>
-        </div>
-    )
+    
     
     // TODO: add indexedDB api for faster load times (when we renavigate here and haven't added a new quiz)
     useEffect(() => {
@@ -65,25 +57,6 @@ export default () => {
             history.push('/login')
         })
 
-        fetch('/user/quizzes', {
-            method: 'get',
-            credentials: 'include'
-        }).then(res => res.json())
-        .then(res => {
-            // FIXME: sort quiz results by time
-            console.log(res);
-
-            if (res.length === 0) {
-                setQuizzes(noQuizzes);
-                return;
-            }
-
-            const quizCrumbs = res.map(quiz => <QuizCrumb data={quiz}/>).reverse();
-            setQuizzes(quizCrumbs);
-        })
-        .catch(err => {
-            console.error(err);
-        })
     }, [])
 
 
@@ -92,13 +65,18 @@ export default () => {
         <div>
             <p className={localStyle.header}>Name:&nbsp; <strong>{details.firstname} {details.lastname}</strong></p>
             <p className={localStyle.header}>Username:&nbsp; <strong>{details.username}</strong></p>
+            <div className={`button ${localStyle.greyBtn}`} style={{display: 'inline-block'}} onClick={(e) => {
+                e.preventDefault();
+                showEditing(true);
+            }}>Edit Details</div>
         </div>
     )
 
     const quizDetails = (
         <div>
             <p className={localStyle.header}>Quizzes:</p>
-            {quizzes}
+            <hr/>
+            <QuizList/>
         </div>
     )
 
@@ -108,21 +86,11 @@ export default () => {
         {quizDetails}
     </div>)
 
-    const right = (
-        <div className={localStyle.flexItem}>
-            <div className={localStyle.flexBox}>
-                <div className="button greyBtn" onClick={(e) => {
-                    e.preventDefault();
-                    showEditing(true);
-                }}>Edit Details</div>
+    const right = editing ? (
+            <div style={{padding: '25px'}}>
+                <UpdateAccount userData={details}/>
             </div>
-
-            <div style={{visibility: editing ? 'visible': 'hidden'}}>
-                <UpdateAccount/>
-            </div>
-
-        </div>
-    )
+    ) : null;
 
     return (
         <PageFrame>

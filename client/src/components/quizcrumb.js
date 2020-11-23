@@ -1,6 +1,7 @@
 import moment from "moment";
 import React from "react"
 import { useHistory } from "react-router-dom"
+import { numToRisk } from "../helper/riskranges"
 
 import localStyle from "./modules/quizcrumb.module.css"
 import Menu from "../images/menu.png"
@@ -58,11 +59,11 @@ export default (props) => {
             <div className={localStyle.menu}>
                 <img className={localStyle.menuIcon} src={Menu} />
                 <div className={localStyle.dropdownContent}>
+                    <p className={localStyle.dropItem}>View</p>
                     <p className={localStyle.dropItem} onClick={deleteQuizHandler}>Delete</p>
                 </div>
             </div>
-            <p className={localStyle.risk}>Risk: {data.risk}</p>
-
+            <p className={localStyle.risk}>Risk: {numToRisk(data.risk)}</p>
         </div>
     )
     return (

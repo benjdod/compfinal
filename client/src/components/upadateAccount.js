@@ -8,42 +8,49 @@ import boxStyle from "../components/modules/boxUpdate.module.css";
 // convenience methods
 
 const TextInput = (props) => {
-
     return <input {...props} 
         maxLength = {props.maxLength || "127"} 
         type='text' 
         spellCheck='false'
+        defaultValue={props.defaultValue || ''}
         />
 }
 
-export default () => {
+export default (props) => {
 
     // maintain inputs as an object for submission. Each entry will be updated by 
     // its corresponding input on change.
+
+    const userData = props.userData || {};
+
     let inputs = {
-        username: '',
-        firstname: '',
-        lastname: '',
+        username: userData.username || '',
+        firstname: userData.firstname || '',
+        lastname: userData.lastname || '',
     }
 
     const [error, setError] = useState('');
-
-    const history = useHistory();
 
     const submit = (e) => {
         e.preventDefault();
 
         // lol, a valid password....
-        const validate = Validate.register({...inputs, password: 'password!'});
+        const validate = Validate.update(inputs);
 
         if (validate) {
             setError(validate);
         }
 
-        fetch('/user', {
+        fetch('/user/details', {
             method: 'put',
-            credentials: 'include'
+            credentials: 'include',
+            cache: 'no-cache',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(inputs),
         }).then(res => {
+            console.log(res);
             window.location.reload();
         }).catch(e => {
             console.error(e);

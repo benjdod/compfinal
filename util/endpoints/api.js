@@ -129,7 +129,7 @@ router.get('/querylatlon', async (req,res) => {
         if (out)
             res.json(out);
         else 
-            throw new Error('fcc api did not respond!');
+            res.status(406).send('bad request: provided coordinates are outside the continental U.S.');
     } catch (e) {
         console.error(e);
         res.status(500).send('500: could not fetch data to process request');

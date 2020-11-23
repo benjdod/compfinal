@@ -65,7 +65,9 @@ router.get('/details', async (req,res) => {
 // (e.g. if the request body were {username: 'billy'}, only the username 
 // would be updated)
 router.put('/details', async (req,res) => {
-    updateUser(req.body).then(response => {
+    const inputs = req.body;
+    console.log(inputs);
+    updateUser(req.jwtPayload.u, inputs).then(response => {
         console.log(response);
         res.send('success');
     }).catch(e => {
@@ -133,8 +135,10 @@ router.get('/quizzes/:quizid', async (req,res) => {
 router.delete('/quizzes/:quizid', async (req,res) => {
     deleteQuiz(req.jwtPayload.u, req.params.quizid)
         .then(response => {
-            console.log(response);
-            res.send(`successfully deleted quiz ${req.params.quizid}`);
+            if (response)
+                res.send(`successfully deleted quiz ${req.params.quizid}`);
+            else 
+                throw new Error('database could not remove quiz');
         }).catch(e => {
             console.error(e);
             res.status(500).send(`could not delete quiz ${req.params.quizid}`);
