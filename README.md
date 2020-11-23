@@ -68,10 +68,8 @@ The way it's currently set up, there's a pages folder in `client/src` where each
 > - maskWearing: boolean
 > - maskPercentage: boolean
 > - userMaskWearing: boolean
-> - socialDistancing: boolean
-
-> Possible error code of 500 if any of the fields are wrong or cannot calcluate a
-> risk number. 
+> - socialDistancing: boolean  
+> Possible error code of 500 if any of the fields are wrong or cannot calcluate a risk number. 
 
 - `/statesgeojson-base [GET]`
 > Returns a geojson file of US states.
