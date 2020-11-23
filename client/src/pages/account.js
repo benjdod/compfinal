@@ -111,7 +111,7 @@ export default () => {
     const right = (
         <div className={localStyle.flexItem}>
             <div className={localStyle.flexBox}>
-                <div className="button" className={localStyle.greyBtn} onClick={(e) => {
+                <div className="button greyBtn" onClick={(e) => {
                     e.preventDefault();
                     showEditing(true);
                 }}>Edit Details</div>
