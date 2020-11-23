@@ -34,9 +34,11 @@ export class News extends React.Component{
 
 componentDidMount() {
 
-  navigator.geolocation.getCurrentPosition(this.getLocation, (error=>console.log(error)));
+  navigator.geolocation.getCurrentPosition(this.getLocation, (error=>console.log(error)), 
+  {timeout: 5000});
 
   setTimeout(() => {
+    console.log(this.state);
     if(this.state.useLocation) {
   axios({
     method: 'GET',
@@ -66,7 +68,6 @@ componentDidMount() {
       }) 
   });
 }
-  
   axios({
     method: 'GET',
     url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
@@ -111,9 +112,16 @@ componentDidMount() {
       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
     }
   }).then(response => {
+    if(!this.state.useLocation) {
+    this.setState({
+      worldNews: response.data.value,
+      isLoading: false
+    })
+  } else {
     this.setState({
       worldNews: response.data.value
-    })
+    });
+  }
   }).catch(error => {
     console.log(error);
       this.setState({
@@ -136,7 +144,7 @@ componentDidMount() {
       article.description = descrip + '...';
     })
 
-  }, 700);
+  }, 5000);
 
 }
 
@@ -158,7 +166,7 @@ componentDidMount() {
       <PageFrame>
       <figure>
         <img className = {loadingStyle.loading} src = {loading}></img>
-        <figcaption className={loadingStyle.textLoading}>Loading News...</figcaption>
+        <figcaption className={loadingStyle.textLoading}>Fetching Your News...</figcaption>
         </figure>
         </PageFrame> 
         :
