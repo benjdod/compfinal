@@ -68,7 +68,7 @@ export default (props) => {
                 },
                 title: {
                     display: true,
-                    text: `${stateName} Case Data`
+                    text: `${stateName.replace(/([A-Z])/g, ' $1')} Case Data`
                 }
             }
         });

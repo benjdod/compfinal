@@ -59,12 +59,11 @@ export default () => {
             <NavLink className={`${navStyle.item} ${navStyle.push}`} to="/quiz">QUIZ</NavLink>
             {/* <NavLink className={`${navStyle.item}`} to="/news">NEWS</NavLink> */}
             {/* <NavLink className={`${navStyle.item}`} to="/guidelines">GUIDELINES</NavLink> */}
-
+            <NavLink className={`${navStyle.item}`} to="/explore">EXPLORE</NavLink>
             <li className={`${navStyle.item} ${navStyle.dropdown}`}>
                 <NavLink className={`${navStyle.item} ${navStyle.dropbtn}`} to="#">INFO <img className={navStyle.arrow} src={Arrow} /></NavLink>
                 <div className={navStyle.dropdownContent}>
                     <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="/news">NEWS</NavLink>
-                    <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="/explore">EXPLORE</NavLink>
                     <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="/guidelines">GUIDELINES</NavLink>
                     <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="/about">ABOUT</NavLink>
                 </div>
