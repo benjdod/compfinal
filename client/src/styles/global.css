@@ -196,6 +196,8 @@ a {
     border-color: grey;
     padding: 10px;
     border: none;
+    font-weight: 400;
+    user-select: none;
 }
 .button:hover {
     background-color: rgb(219, 219, 219);

@@ -1,5 +1,5 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React, { useEffect, useState } from "react"
+import { Link, useHistory, useLocation } from "react-router-dom"
 
 // NavLink uses Link from react-router instead of anchor tags becase
 // it performs better in React
@@ -8,6 +8,50 @@ import navStyle from "./modules/navbar.module.css"
 import Arrow from "../images/arrow.png"
 
 export default () => {
+
+    const history = useHistory();
+
+    const location = useLocation();
+
+    const [ loggedIn, setLoggedIn ] = useState(false);
+
+    useEffect(() => {
+        fetch('/user/ping', {method: 'get', credentials: 'include'})
+            .then(res => {
+                if (res.status !== 200)
+                    setLoggedIn(false)
+                else
+                    setLoggedIn(true)
+            }).catch(e => {
+                setLoggedIn(false);
+            })
+    }, [])
+
+    
+    const logoutHandler = () => {
+        fetch('/user', {
+            method: 'delete',
+            credentials: 'include'
+        }).then(() => {
+            history.push('/');
+        }).catch(e => {
+            console.error(e);
+            alert('could not log out!');
+        })
+    }
+
+    const accountButtons = (
+        <li className={`${navStyle.item} ${navStyle.dropdown}`}>
+        <NavLink className={`${navStyle.item} ${navStyle.dropbtn} ${navStyle.account}`} to="/account">ACCOUNT <img className={navStyle.arrow} src={Arrow} /></NavLink>
+        <div className={navStyle.dropdownContent}>
+            <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="#" onClick={logoutHandler}>LOGOUT</NavLink>
+        </div>
+        </li>
+    )
+
+    const loginButtons = (
+        <NavLink className={`${navStyle.item} ${navStyle.account}`} to="/login">LOG IN</NavLink>
+    )
 
     return (
         <nav className={`${navStyle.bar}`}>
@@ -24,15 +68,7 @@ export default () => {
                     <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="/about">ABOUT</NavLink>
                 </div>
             </li>
-            <li className={`${navStyle.item} ${navStyle.dropdown}`}>
-                <NavLink className={`${navStyle.item} ${navStyle.dropbtn} ${navStyle.account}`} to="/account">ACCOUNT <img className={navStyle.arrow} src={Arrow} /></NavLink>
-                <div className={navStyle.dropdownContent}>
-                    <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="#">LOG OUT</NavLink>
-                </div>
-            </li>
-            {/* we probably don't need this in the navbar, we'll reference it enough
-            <NavLink className={`${navStyle.item}`} to="/about">ABOUT</NavLink>*/}
-            {/* <NavLink className={`${navStyle.item}`} to="/account">ACCOUNT</NavLink> */}
+            { loggedIn ? accountButtons : loginButtons }
         </nav>
     )
 }

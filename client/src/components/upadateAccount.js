@@ -29,7 +29,13 @@ export default (props) => {
         lastname: userData.lastname || '',
     }
 
+    const history = useHistory();
+
     const [error, setError] = useState('');
+
+    const [passField, setPassField] = useState(null);
+
+    const [password, setPassword] = useState('');
 
     const submit = (e) => {
         e.preventDefault();
@@ -58,6 +64,31 @@ export default (props) => {
         })
     }
 
+    const deleteAccountHandler = (e) => {
+        if (password === '')
+            setPassField(<input id="delete-password-field" type="password" className={boxStyle.updateInput} style={{marginLeft: '20px'}} placeholder="enter your password" onChange={e => setPassword(e.target.value)}></input>);
+        else {
+            console.log();
+            fetch('/auth/login', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: userData.username,
+                    password: password,
+                })
+            }).then(res => fetch('/user', {
+                method: 'delete',
+            })).then(() => {
+                console.log('successfully deleted account');
+                history.push('/');
+            }).catch(e => {
+                console.error(e);
+            })
+        }
+    }
+
     const errormessage = <p style={{backgroundColor: '#fcc', color: '#f77', display: 'inline-block', padding: '5px', visibility: error ? 'visible' : 'hidden'}}>{error ? error : ''}</p>
 
     // STYLE: this needs to be styled in the same way as the login page
@@ -78,7 +109,8 @@ export default (props) => {
                     <br />
                     <button type='submit' className={boxStyle.formbutton}>Submit</button>
                 </form>
-                <button className={`${boxStyle.formbutton} ${boxStyle.deleteBtn} button `} style={{backgroundColor: '#ee2222', color: 'white', margin: '20px 0 0 0'}}>Delete Account</button>
+                <button className={`${boxStyle.formbutton} ${boxStyle.deleteBtn} button`} style={{backgroundColor: '#ee2222', color: 'white', margin: '20px 0 0 0'}} onClick={deleteAccountHandler}>Delete Account</button>
+                {passField}
                 <div>
                     {errormessage}
                 </div>

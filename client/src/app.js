@@ -18,8 +18,6 @@ import Register from "./pages/register"
 import Explore from "./pages/explore"
 import Update from "./components/upadateAccount"
 
-import QuizView from "./components/quizview"
-
 import Footer from "./pages/tests/footergang"
 import BounceOut from "./pages/tests/bounceout"
 import Spacing from "./pages/tests/spacing"

@@ -16,6 +16,6 @@ export default (props) => {
     });
 
     return (
-        <Link to={props.to} className={props.className + ` ${isActive ? 'text-bold' : null}`} style={props.style}>{props.children}</Link>
+        <Link to={props.to} className={props.className + ` ${isActive ? 'text-bold' : null}`} style={props.style} onClick={props.onClick}>{props.children}</Link>
     )
 }
