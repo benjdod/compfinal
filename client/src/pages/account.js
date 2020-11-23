@@ -92,11 +92,11 @@ export default () => {
         <div className={localStyle.flexItem}>
             <div className={localStyle.flexBox}>
                 <div className="button">Update Account</div>
+                {/* <div className="button"  onClick={showForm}>Update Account</div> */}
                 <div className="button">Delete Account</div>
             </div>
 
             <div>
- 
             </div>
 
         </div>
@@ -120,3 +120,11 @@ export default () => {
         </PageFrame>
     )
 }
+
+// export function showForm() {
+//     return (
+//         <div className={localStyle.updateForm}>
+//             <p>something</p>
+//         </div>
+//     )
+// };

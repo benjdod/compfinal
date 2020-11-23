@@ -65,4 +65,6 @@ underlining text or font weight, or coloring, etc... */
 .flexItem {
     width: 50%;
 }
-
+.updateForm {
+    display: none;
+}
