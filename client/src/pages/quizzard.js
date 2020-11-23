@@ -74,13 +74,13 @@ class Quiz extends React.Component {
             let quizResult = null;
 
             fetch(`/api/querylatlon?lat=${inputs.latitude}&lon=${inputs.longitude}`)
-            .then(() => {fetch('/api/calculaterisk', {
+            .then(() => fetch('/api/calculaterisk', {
                 method: 'post',
                 body: JSON.stringify(inputs),
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            })}).then(res => res.json()).then(res => {
+            })).then(res => res.json()).then(res => {
                 quizResult = res;
                 const addBody = JSON.stringify(quizResult);
                 console.log(addBody);
@@ -92,7 +92,8 @@ class Quiz extends React.Component {
                     }
                 })
                 return out;
-            }).then((res) => {
+            })
+            .then((res) => {
                 console.log(res);
                 console.log('result data: ', quizResult);
                 this.props.history.push({
