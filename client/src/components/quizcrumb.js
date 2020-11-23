@@ -46,6 +46,7 @@ export default (props) => {
             window.location.reload();
         }).catch(e => {
             console.error(e);
+            alert('could not delete quiz!');
         })
     }
 

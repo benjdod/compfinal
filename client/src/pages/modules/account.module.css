@@ -8,3 +8,10 @@
 .noquiz a {
     text-decoration: underline;
 }
+
+.flexBox {
+    display: flex;
+}
+.flexItem {
+    width: 50%;
+}

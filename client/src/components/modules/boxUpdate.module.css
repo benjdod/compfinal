@@ -1,6 +1,8 @@
 .box {
+    
     background-color: inherit; /* Fallback color */
     background-color: inherit;
+    /*
     position: absolute;
     top: 50%;
     left: 50%;
@@ -9,6 +11,7 @@
     width: 40%;
     padding: 20px 20px 40px 20px;
     text-align: center;
+    */
 }
 .intro {
     margin: 0 0 40px 0;
