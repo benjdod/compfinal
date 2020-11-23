@@ -90,6 +90,44 @@ The way it's currently set up, there's a pages folder in `client/src` where each
 
 > Creates a new user given the inpusts in the request body. Adds this new user info into the user database as well. Then logs the user in giving them a token.
 
+- `/ [DELETE]`
+
+> Deletes the current user and all of their associated data.  
+> Possible error code of 500 if the user could not be deleted.
+
+- `/reflectjwt [GET]`
+
+> Reflects the contents of the users decoded authentication token.
+
+- `/details [GET]`
+
+> Returns a users account details (fisrt, last, username).
+
+- `/update [PUT]` 
+
+> Updates a users account information from an input object in the request body. Only the provided fields will
+> be updated ((e.g. if the request body were {username: 'billy'}, only the username would be updated))
+
+- `/quizzes [GET]`
+
+> Returns an array of all quizes that the user has taken.  
+> Possible error code of 500 if the server could not get the quizzes.
+
+- `/quizzes/:quizid [GET]`
+
+> Returns the users quizes which matches the specified id. QuizId is aut-incrementing and global to the database and not local to each user.  
+> Possible error code of 404 if there is no quiz with the quizid in the database. 
+
+- `/quizzes/:quizid [DELETE]`
+
+> Deletes the quiz with the corresponding quizid.  
+> Possible error code of 404 if there is no quiz with the specified quizid in the database. 
+
+- `/quizzes [POST]`
+
+> Adds a quiz that the user has taken to the users account.  
+> Possible error code of 500 if the quiz could not be added. 
+
 
 
 
