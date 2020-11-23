@@ -26,7 +26,7 @@ export class News extends React.Component{
       usaNews: [],
       worldNews: [],
       isLoading: true,
-      location: "",
+      location: "", // default
       error: false
     }
     this.getLocation = this.getLocation.bind(this);
@@ -35,7 +35,9 @@ export class News extends React.Component{
 componentDidMount() {
 
   navigator.geolocation.getCurrentPosition(this.getLocation, (error=>console.log(error)));
+
   setTimeout(() => {
+    if(this.state.location != "") {
   axios({
     method: 'GET',
     url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
@@ -53,7 +55,6 @@ componentDidMount() {
       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
     }
   }).then(response => {
-    console.log(this.state);
     this.setState({
       localNews: response.data.value
     })
@@ -64,7 +65,8 @@ componentDidMount() {
       })
     }
   });
-
+}
+  
   axios({
     method: 'GET',
     url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
@@ -139,7 +141,6 @@ componentDidMount() {
 
   }, 200);
 
-  
 }
 
   render() {
@@ -160,7 +161,7 @@ componentDidMount() {
         </PageFrame> :
       <div>
         <PageFrame>
-      <h1 className={newsPageStyle.title}>Local News</h1>  
+      <h1 className={newsPageStyle.title}>{this.state.location} News</h1>  
       <div className={listStyle.gallery}>
         <div className={listStyle.gallery_scroller}>
           {this.state.localNews.map(article => 
