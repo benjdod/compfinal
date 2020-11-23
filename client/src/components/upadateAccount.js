@@ -95,7 +95,7 @@ export default (props) => {
     return (
 
         <div className={boxStyle.box}>
-            <h1>Update Account Information</h1>
+            <p className={boxStyle.header}>Update Account Information</p>
             <div style={{display: 'inline-block'}}>
                 <form className='children-as-block' onSubmit={submit}>
                     <label htmlFor='input-first-name' className={boxStyle.signUpLabel}>First name</label>
@@ -109,8 +109,7 @@ export default (props) => {
                     <br />
                     <button type='submit' className={boxStyle.formbutton}>Submit</button>
                 </form>
-                <button className={`${boxStyle.formbutton} ${boxStyle.deleteBtn} button`} style={{backgroundColor: '#ee2222', color: 'white', margin: '20px 0 0 0'}} onClick={deleteAccountHandler}>Delete Account</button>
-                {passField}
+                <button className={`${boxStyle.formbutton} button redBtn`} >Delete Account</button>
                 <div>
                     {errormessage}
                 </div>
