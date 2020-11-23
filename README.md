@@ -26,21 +26,72 @@ The way it's currently set up, there's a pages folder in `client/src` where each
 
  ## API Documentation
     
-- /countydata
+- `/countydata [GET]`
 
 > A get request retrieves data from NYT that includes, statistics from todays date about every county in the > US in regards to a counties number of cases, deaths, confirmed cases, confirmed deaths, probable cases and 
 > probable deaths. Also includes the counties corresponding fips code. The return type is a json object.
+> Possible error code of 500 if the source could not be loaded.
 
-- /statedata
+- `/statedata [GET]`
 
 > Uses the same NYT data that /countydata retrieves but instead of statistics by county returns a json object
 > that has statistics by state.
+> Possible error code of 500 if the source could not be loaded.
 
-- /countypops
+- `/countypops [GET]`
 
-> Returns a json objext that gives the population for every US county, data is retrived from the census.
+> Returns a json object that gives the population for every US county, data is retrived from the census.
+> Possible error code of 500 if the source could not be loaded.
 
-- /statepops
+- `/statepops [GET]`
 
 > Returns a json object with the population of each US state, data is retireved from the census.
+> Possible error code of 500 if the source could not be loaded.
+
+- `/querylatlon [GET]`
+
+> Takes two parameters that are url encoded lat and lon both which represent latitude and longitude. 
+> The response is a json object that has information regarding the county, state, country, and fips
+> of that certain latitude and longitude.
+> Possible error code of 400 if the lat and lon fields are not valid in the url. 
+> - ?lat=34.585&lon=-79.012 (good parameters)
+
+- `/calculaterisk [GET]`
+
+> Calculates a risk number given a json object of input data from our quiz.  Possible error code of 500 if any of the fields are wrong or cannot calcluate a risk number.
+> Fields of this input object include,
+> - latitude: float 
+> - longitude:float
+> - eventsize: int 
+> - eventduration: int 
+> - eventOutside: boolean 
+> - maskWearing: boolean
+> - maskPercentage: boolean
+> - userMaskWearing: boolean
+> - socialDistancing: boolean  
+
+
+- `/statesgeojson-base [GET]`
+> Returns a geojson file of US states.
+> Possible error code of 500 if the file could not be retrived.
+
+- `/statesgeojson-loaded [GET]`
+> Returns a geojson file of US states with covid data 
+>fields added under the 'properties' field of each feature.
+
+- `/login`
+> Provides an authorization token to the client if their login info was valid (username and password).
+> ### Error Codes
+> - `404 user not found`
+> - `401 incorrect credentials`
+> - `500 Internal server error`
+
+- `/register`
+
+> Creates a new user given the inpusts in the request body. Adds this new user info into the user database as well. Then logs the user in giving them a token.
+
+
+
+
+
  

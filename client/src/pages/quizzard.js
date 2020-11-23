@@ -3,6 +3,7 @@ import { useHistory, Redirect } from "react-router-dom"
 
 import PageFrame from "../components/pageframe"
 import MapBox from "../components/mapbox"
+import Leaflet from "../components/leaflet"
 
 import localStyle from "./modules/quizzard.module.css"
 
@@ -143,9 +144,16 @@ class Quiz extends React.Component {
         const locationStep = (
             <div>
                 <p>Where are you in the US?</p>
-                <MapBox width="100%" height="50vh" startOnLocation setLatLong={(lat,long) => {
-                    this.state.latitude = lat;
-                    this.state.longitude = long;
+                {/*
+                    <MapBox width="100%" height="50vh" startOnLocation setLatLong={(lat,long) => {
+                        this.state.latitude = lat;
+                        this.state.longitude = long;
+                    }}/>
+                */}
+                
+                <Leaflet width="100%" height="50vh" useMarker useGeocoder startOnLocation setLatLng={(latlng) => {
+                    this.state.latitude = latlng[0];
+                    this.state.longitude = latlng[1];
                 }}/>
                 {buttons}
             </div>
