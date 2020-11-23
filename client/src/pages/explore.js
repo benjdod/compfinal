@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react"
 
 import PageFrame from "../components/pageframe"
 import Leaflet from "../components/leaflet"
+import HistoryChart from "../components/historychart"
+
+import localStyle from "./modules/explore.module.css"
 
 export default () => {
 
@@ -12,6 +15,8 @@ export default () => {
     const [ leaflet, setLeaflet ] = useState(null);
 
     const [ shouldUpdate, setShouldUpdate ] = useState(false);
+
+    const [ chart, setChart ] = useState(null);
 
     const renderDeltaOverlay = (fields, forceUpdate) => {
 
@@ -58,16 +63,13 @@ export default () => {
                 const pop = tooltipData[key] ? tooltipData[key].Population : null
                 let x = 0;
 
-                console.log('shold normalize saw', normalize);
                 if (normalize) {
-                    console.log('making noramlized data');
                     if (pop) {
                         x = res[key][targetDelta][targetCount] / pop;
                         if (x > colorMax) colorMax = x;
                         od[key] = normalize ? x : res[key][targetDelta][targetCount]
                     }
                 } else {
-                    console.log('making non-normalized ata');
                     if (res[key][targetDelta][targetCount] > colorMax)
                         colorMax = res[key][targetDelta][targetCount];
                     od[key] = res[key][targetDelta][targetCount]
@@ -78,10 +80,8 @@ export default () => {
 
             colorMax *= 1;
 
-            console.log('color max: ', colorMax);
-
             //setLeaflet(null);
-            setLeaflet(<Leaflet useOverlay winky overlayData={od} tooltipData={tooltipData} overlayColors={{type: 'uni', min: 0, max: colorMax}} width="100%" height="60vh"/>)
+            setLeaflet(<Leaflet useOverlay stateOnClick={fetchAndSetChart} winky overlayData={od} tooltipData={tooltipData} overlayColors={{type: 'uni', min: 0, max: colorMax}} width="100%" height="60vh"/>)
             //if (forceUpdate)
                 //setShouldUpdate(false);
             console.log(leaflet);
@@ -105,29 +105,68 @@ export default () => {
             normalize: true,
         }, false);
     }, [])
+
+    const fetchAndSetChart = (fips, stateName) => {
+        console.log('statename: ', stateName);
+        fetch(`/api/statehistory/${fips.toString().padStart(2,"0")}`)
+        .then(res => res.json())
+        .then(res => {
+            const labels = res.map(r => r[0]).reverse();
+            const cases = res.map(r => r[1]).reverse();
+            const deaths = res.map(r => r[2]).reverse();
+            setChart(null);
+            setChart(<HistoryChart stateName={stateName} cases={cases} deaths={deaths} labels={labels}/>)
+        })
+    }
+
+    /*
+    useEffect(() => {
+        fetch(`/api/statehistory/05`)
+        .then(res => res.json())
+        .then(res => {
+            const labels = res.map(r => r[0]).reverse();
+            const cases = res.map(r => r[1]).reverse();
+            const deaths = res.map(r => r[2]).reverse();
+            setChart(<HistoryChart cases={cases} deaths={deaths} labels={labels}/>)
+        })
+
+    }, [])*/
+
+    const displayOptions = (
+        <div className={localStyle.optionbox}>
+            <p>Display Options</p>
+            <div>
+                <select onChange={e => {
+                    renderDeltaOverlay({deltaType: e.target.value}, true);
+                }}>
+                    <option value="7d">7 day change</option>
+                    <option value="14d">14 day change</option>
+                    <option value="28d">28 day change</option>
+                </select>
+                {<select onChange={e => {
+                    renderDeltaOverlay({countType: e.target.value}, true);
+                }}>
+                    <option value="cases">Cases</option>
+                    <option value="deaths">Deaths</option>
+                </select>}
+                {<select onChange={e => {
+                    renderDeltaOverlay({normalize: e.target.value === 'true'}, true);
+                }}>
+                    <option value="true">Normalized</option>
+                    <option value="false">Absolute</option>
+                </select>}
+            </div>
+        </div>
+        
+    )
     
     return (
-        <PageFrame gutter="0">
-            {leaflet}
-            <select onChange={e => {
-                renderDeltaOverlay({deltaType: e.target.value}, true);
-            }}>
-                <option value="7d">7 day change</option>
-                <option value="14d">14 day change</option>
-                <option value="28d">28 day change</option>
-            </select>
-            {<select onChange={e => {
-                renderDeltaOverlay({countType: e.target.value}, true);
-            }}>
-                <option value="cases">Cases</option>
-                <option value="deaths">Deaths</option>
-            </select>}
-            {<select onChange={e => {
-                renderDeltaOverlay({normalize: e.target.value === 'true'}, true);
-            }}>
-                <option value="true">Normalized</option>
-                <option value="false">Absolute</option>
-            </select>}
+        <PageFrame gutter={true}>
+            <div className={localStyle.container}>
+                {leaflet}
+                {displayOptions}
+                {chart}
+            </div>
         </PageFrame>
     )
 }

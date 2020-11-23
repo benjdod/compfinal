@@ -105,6 +105,21 @@ router.get('/statepops', (req,res) => {
     })
 }) 
 
+router.get('/statehistory/:fips', async (req,res) => {
+    try {
+        const allHistory = await cache.get('covidstateshistory');
+        const targetHistory = allHistory[req.params.fips.toString().padStart(2,"0")]
+        if (!targetHistory) {
+            res.status(404).send('404: could not find state with provided fips code');
+            return;
+        }
+        res.json(targetHistory)
+    } catch (e) {
+        console.error(e);
+        res.status(500).send('500: failed to get resource');
+    }
+})
+
 router.get('/statecurrent', (req,res) => {
     cache.get('statecurrent')
     .then(data => res.json(data))

@@ -58,7 +58,7 @@ const seedQuizzes = async () => {
 //seedQuizzes();
 
 const a = async () => {
-    const geo = await cache.get('covid_deltas');
+    const geo = await cache.get('covidstateshistory');
     console.log(geo);
 
 }

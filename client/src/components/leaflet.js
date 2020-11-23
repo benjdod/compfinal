@@ -40,6 +40,7 @@ export default (props) => {
     const overlayData = props.overlayData || {};
     const overlayColors = props.overlayColors || {};
     const tooltipData = props.tooltipData || {};
+    const stateOnClick = props.stateOnClick ? props.stateOnClick : () => {};
 
     useEffect(() => {
 
@@ -115,7 +116,7 @@ export default (props) => {
         })
 
         map.on('click', (e) => {
-            setMarker(e.latlng)
+            setMarker(e.latlng);
         })
 
         setMap(map);
@@ -157,7 +158,7 @@ export default (props) => {
                 onEachFeature: (feature, layer) => {
 
                     layer.on('click', e => {
-                        console.log('clicked on state', feature.properties.NAME);
+                        stateOnClick(feature.properties.STATE, feature.properties.NAME);
                     })
 
                     if (true) {
@@ -175,7 +176,10 @@ export default (props) => {
                         
                     let popupItemList = ''
                     for (const key in feature.properties.tooltipDatum) {
-                        popupItemList += `<strong>${key}:</strong> ${feature.properties.tooltipDatum[key]}<br/>`
+                        if (typeof feature.properties.tooltipDatum[key] === 'number')
+                            popupItemList += `<strong>${key}:</strong> ${feature.properties.tooltipDatum[key].toLocaleString()}<br/>`
+                        else
+                            popupItemList += `<strong>${key}:</strong> ${feature.properties.tooltipDatum[key]}<br/>`
                     }
 
                     const popupText = `<div>
