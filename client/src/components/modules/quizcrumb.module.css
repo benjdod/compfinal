@@ -20,8 +20,8 @@
     display: inline;
 }
 
-.risk {
-}
+/* .risk {
+} */
 
 /* STYLE: this is bad for the eyes :( there's gotta be something better, like
 underlining text or font weight, or coloring, etc... */
@@ -60,4 +60,9 @@ underlining text or font weight, or coloring, etc... */
     user-select: none;
 }
 
-
+.flexBox {
+    display: flex;
+}
+.flexItem {
+    width: 50%;
+}
