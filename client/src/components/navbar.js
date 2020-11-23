@@ -29,8 +29,8 @@ export default () => {
 
     
     const logoutHandler = () => {
-        fetch('/user', {
-            method: 'delete',
+        fetch('/auth/logout', {
+            method: 'post',
             credentials: 'include'
         }).then(() => {
             history.push('/');
