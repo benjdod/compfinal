@@ -4,16 +4,14 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import { useLocation, useHistory } from "react-router-dom"
 
 import PageFrame from "../components/pageframe"
-import QuizCrumb from "../components/quizcrumb"
 import UpdateAccount from "../components/upadateAccount"
+import QuizList from "../components/quizlist"
 
 import localStyle from "./modules/account.module.css"
 
 export default () => {
 
     const [details, setDetails] = useState({});
-
-    const [quizzes, setQuizzes] = useState();
 
     const [navMessage, setNavMessage] = useState(null);
 
@@ -42,12 +40,7 @@ export default () => {
             }, 3000);
         }
 
-    // little blurb to show the user if they have 0 quizzes
-    const noQuizzes = (
-        <div className={localStyle.noquiz}>
-            <h3>Looks like you haven't taken any quizzes!</h3>
-        </div>
-    )
+    
     
     // TODO: add indexedDB api for faster load times (when we renavigate here and haven't added a new quiz)
     useEffect(() => {
@@ -64,25 +57,6 @@ export default () => {
             history.push('/login')
         })
 
-        fetch('/user/quizzes', {
-            method: 'get',
-            credentials: 'include'
-        }).then(res => res.json())
-        .then(res => {
-            // FIXME: sort quiz results by time
-            console.log(res);
-
-            if (res.length === 0) {
-                setQuizzes(noQuizzes);
-                return;
-            }
-
-            const quizCrumbs = res.map(quiz => <QuizCrumb data={quiz}/>).reverse();
-            setQuizzes(quizCrumbs);
-        })
-        .catch(err => {
-            console.error(err);
-        })
     }, [])
 
 
@@ -91,13 +65,18 @@ export default () => {
         <div>
             <h2>{details.firstname} {details.lastname}</h2>
             <h4>{details.username}</h4>
+            <div className="button" style={{display: 'inline-block'}} onClick={(e) => {
+                e.preventDefault();
+                showEditing(true);
+            }}>Edit Details</div>
         </div>
     )
 
     const quizDetails = (
         <div>
-            <h3>Quizzes:</h3>
-            {quizzes}
+            <h2>Quizzes</h2>
+            <hr/>
+            <QuizList/>
         </div>
     )
 
@@ -107,21 +86,11 @@ export default () => {
         {quizDetails}
     </div>)
 
-    const right = (
-        <div className={localStyle.flexItem}>
-            <div className={localStyle.flexBox}>
-                <div className="button" onClick={(e) => {
-                    e.preventDefault();
-                    showEditing(true);
-                }}>Edit Details</div>
-            </div>
-
-            <div style={{visibility: editing ? 'visible': 'hidden'}}>
+    const right = editing ? (
+            <div style={{padding: '25px'}}>
                 <UpdateAccount userData={details}/>
             </div>
-
-        </div>
-    )
+    ) : null;
 
     return (
         <PageFrame>

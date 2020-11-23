@@ -46,6 +46,11 @@ router.post('/login', async (req,res) => {
 
 })
 
+// deletes the user's authentication token
+router.post('/logout', (req,res) => {
+    res.clearCookie('auth_token').send('success');
+})
+
 // pretty sure this is unused, I will verify and remove if so
 // it does the same thing as /user/ping.
 router.post('/ping', (req,res) => {
