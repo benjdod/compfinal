@@ -2,13 +2,9 @@ import React, { useEffect, useState } from "react"
 import moment from "moment"
 //import L from "leaflet"
 
-// TODO: we need dedicated methods for how to color 
-// quiz results and general covid risk things...
-// we need a two way gradient (red up for increase, blue down for decrease),
-// probably a logarithmic gradient, and a unidrectional gradient
-const gradient = (number, low, high) => {
+const uniGradient = (number, low, high) => {
     const input = ((number < low ? low : number > high ? high : number) - low) / (high - low);
-    const lowColor = [0.1, 0.8, 0.6];
+    const lowColor = [0.7, 0.7, 0.3];
     const highColor = [0.95, 0.4, 0.25];
 
     const outColor = [
@@ -38,6 +34,14 @@ export default (props) => {
     //const [markerHandler, setMarkerHandler] = useState(() => {});
 
     const setLatLng = props.setLatLng && props.useMarker ? props.setLatLng : () => {};
+
+    const overlayData = props.overlayData || {};
+    const overlayColors = props.overlayColors || {};
+    const tooltipData = props.tooltipData || {};
+
+    useEffect(() => {
+        console.log('dependent changed');
+    }, [props.winky])
 
     useEffect(() => {
 
@@ -120,34 +124,51 @@ export default (props) => {
 
         //fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
         if (props.useOverlay)
-            fetch('/api/statesgeojson-loaded')
+            fetch('/api/statesgeojson-base')
             .then(res => res.json())
             .then(res => {
                 // https://leafletjs.com/reference-1.7.1.html#geojson
-                const geoLayer = L.geoJSON(res, {
+
+                const loadedGeo = res;
+
+                loadedGeo.features.forEach((feature,idx) => {
+                    const overlayDatum = overlayData[feature.properties.STATE];
+
+                    if (overlayDatum)
+                        loadedGeo.features[idx].properties.overlayDatum = overlayDatum;
+
+                    const tooltipDatum = tooltipData[feature.properties.STATE];
+                    if (tooltipDatum)
+                        loadedGeo.features[idx].properties.tooltipDatum = tooltipDatum;
+                })
+
+                const geoLayer = L.geoJSON(loadedGeo, {
                     onEachFeature: (feature, layer) => {
+
                         layer.on('click', e => {
                             console.log('clicked on state', feature.properties.NAME);
                         })
 
-                        layer.on('mouseover', e => {
-                            const layer = e.target;
-                            layer.setStyle({
-                                fillOpacity: 0.5,
+                        if (true) {
+                            layer.on('mouseover', e => {
+                                const layer = e.target;
+                                layer.setStyle({
+                                    fillOpacity: 0.5,
+                                })
                             })
-                        })
 
-                        layer.on('mouseout', e => {
-                            geoLayer.resetStyle(e.target);
-                        })
+                            layer.on('mouseout', e => {
+                                geoLayer.resetStyle(e.target);
+                            })
+                        }
+                        
+                        let popupItemList = ''
+                        for (const key in feature.properties.tooltipDatum) {
+                            popupItemList += `<strong>${key}:</strong> ${feature.properties.tooltipDatum[key]}<br/>`
+                        }
 
-                        console.log(feature);
-
-                        const recentDate = new Date(feature.properties.recent[0]);
                         const popupText = `<div>
-                            <strong>Date:</strong> ${moment(recentDate).format('LL')}<br/>
-                            <strong>Cases:</strong> ${feature.properties.recent[1]}<br/>
-                            <strong>Deaths:</strong> ${feature.properties.recent[2]}
+                            ${popupItemList}
                             </div>
                             `
 
@@ -156,11 +177,11 @@ export default (props) => {
                         })
                     },
                     style: (feature) => {
-                        return {
-                            color: gradient(feature.properties.delta_7d[0], 0, 0.009),
+                        return feature.properties.overlayDatum ? {
+                            color: uniGradient(feature.properties.overlayDatum, overlayColors.min, overlayColors.max),
                             weight: 1,
                             fillOpacity: 0.2,
-                        }
+                        } : {fillOpacity: 0, weight: 1}
                     }
                 }).addTo(map);
             }).catch(e => {

@@ -105,6 +105,15 @@ router.get('/statepops', (req,res) => {
     })
 }) 
 
+router.get('/statecurrent', (req,res) => {
+    cache.get('statecurrent')
+    .then(data => res.json(data))
+    .catch(e => {
+        console.error(e);
+        res.status(500).send('500: could not load resource');
+    })
+})
+
 // query us info (state, county, fips, etc.) of a url-encoded latitude and longitude
 router.get('/querylatlon', async (req,res) => {
 
@@ -187,16 +196,14 @@ router.get('/statesgeojson-base', async (req,res) => {
     .catch(e => res.status(500).send('500: could not get file'))
 })
 
-// returns a geojson file of us states with covid data fields added
-// under the 'properties' field of each feature. (try it out to see
-// what it looks like)
-router.get('/statesgeojson-loaded', async (req,res) => {
-
-    cache.get('statesgeo_detailed')
-    .then(data => {
-        res.json(data);
-    })
-    .catch(e => res.status(500).send('500: could not get file'))
+router.get('/overlay/deltas', async (req,res) => {
+    try {
+        const out = await cache.get('covid_deltas');
+        res.json(out);
+    } catch (e) {
+        console.error(e);
+        res.status(500).send('{"error": "500: could not fetch resource"}');
+    }
 })
 
 // don't document, it's a catchall for bad routes.

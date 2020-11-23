@@ -95,6 +95,16 @@ cache.add('censuspops', 60*60*24, [], async () => {
     }
 })
 
+cache.add('statecurrent', 60*60*8, ['statepops', 'nytcovidstates'], (deps) => {
+    const out = deps.statepops.map(row => {
+        console.log(row);
+        const covidData = deps.nytcovidstates.find(r => r[2] == row[0]);
+        if (!covidData) return null;
+        return [...row, parseInt(covidData[3]), parseInt(covidData[4])];
+    }).filter(r => r !== null);
+    return out;
+})
+
 cache.add('covidstateshistory', 60*60*12, [], async () => {
     try {
         const fipsKeys = {}
@@ -122,16 +132,13 @@ cache.add('covidstateshistory', 60*60*12, [], async () => {
 
 cache.add('covid_deltas', 60*60*24, ['covidstateshistory'], async (deps) => {
 
-    const out = [];
-
-    out.push(['fips', 'delta_7d', 'delta_14d', 'delta_28d']);
+    const out = {};
 
     Object.keys(deps.covidstateshistory).forEach(key => {
         if (key === 'fips') return;
         const slice = deps.covidstateshistory[key].slice(0,29);
         console.log('delta slice ', slice);
-        out.push([
-            key,
+        out[key] = ([
             [
                 slice[0][1] - slice[6][1],  // cases
                 slice[0][2] - slice[6][2]   // deaths
@@ -152,41 +159,6 @@ cache.add('covid_deltas', 60*60*24, ['covidstateshistory'], async (deps) => {
 
 cache.add('statesgeo_base', 60*60*24*7, [], () => {
     const geo = JSON.parse(fs.readFileSync(path.resolve(__dirname, './local/states_5m.json'), 'utf-8'));
-    return geo;
-})
-
-cache.add('statesgeo_detailed', 60*60*24, ['statesgeo_base', 'covid_deltas', 'covidstateshistory', 'statepops'], (deps) => {
-
-    const geo = deps.statesgeo_base;
-    const de = deps.covid_deltas;
-    const history = deps.covidstateshistory;
-    const statepops = deps.statepops;
-
-    geo.features.forEach((state,idx) => {
-        // find deltas and population data by fips 
-        const deltas = de.find(d => d[0] == state.properties.STATE);
-        const populationData = statepops.find(s => s[0] == state.properties.STATE);
-        
-        const p = populationData[1];
-
-        if (deltas && populationData) {
-            geo.features[idx].properties.delta_7d = [deltas[1][0] / p, deltas[1][1] / p]
-            geo.features[idx].properties.delta_14d = [deltas[2][0] / p, deltas[2][1] / p]
-            geo.features[idx].properties.delta_28d = [deltas[3][0] / p, deltas[3][1] / p]
-        } else {
-            geo.features[idx].properties.delta_7d = null;
-            geo.features[idx].properties.delta_14d = null;
-            geo.features[idx].properties.delta_28d = null;
-        }
-
-
-        const mostRecent = history[state.properties.STATE][0];
-            
-        geo.features[idx].properties.recent = 
-            mostRecent ? [mostRecent[0], parseInt(mostRecent[1]), parseInt(mostRecent[2])] : null;
-
-    })
-
     return geo;
 })
 
