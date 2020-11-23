@@ -68,13 +68,13 @@ export default (props) => {
             <div style={{display: 'inline-block'}}>
                 <form className='children-as-block' onSubmit={submit}>
                     <label htmlFor='input-first-name' className={boxStyle.signUpLabel}>First name</label>
-                    <TextInput id='input-first-name' className={boxStyle.updateInput} maxLength="127" onChange={(e) => {inputs.firstname = e.target.value;}}/>
+                    <TextInput id='input-first-name' className={boxStyle.updateInput} maxLength="127" defaultValue={inputs.firstname} onChange={(e) => {inputs.firstname = e.target.value;}}/>
                     <br />
                     <label htmlFor='input-last-name' className={boxStyle.signUpLabel}>Last name</label>
-                    <TextInput id='input-last-name' className={boxStyle.updateInput} maxLength="127" onChange={(e) => {inputs.lastname = e.target.value; }}/>
+                    <TextInput id='input-last-name' className={boxStyle.updateInput} maxLength="127" defaultValue={inputs.lastname} onChange={(e) => {inputs.lastname = e.target.value; }}/>
                     <br />
                     <label htmlFor='input-user-name' className={boxStyle.signUpLabel}>User name</label>
-                    <TextInput id='input-user-name' className={boxStyle.updateInput} maxLength="127" onChange={(e) => {inputs.username = e.target.value; }}/>
+                    <TextInput id='input-user-name' className={boxStyle.updateInput} maxLength="127" defaultValue={inputs.username} onChange={(e) => {inputs.username = e.target.value; }}/>
                     <br />
                     <button type='submit' className={boxStyle.formbutton}>Submit</button>
                 </form>
