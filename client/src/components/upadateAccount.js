@@ -61,17 +61,17 @@ export default () => {
             <div style={{display: 'inline-block'}}>
                 <form className='children-as-block' onSubmit={submit}>
                     <label htmlFor='input-first-name' className={boxStyle.signUpLabel}>First name</label>
-                    <TextInput id='input-first-name' maxLength="127" onChange={(e) => {inputs.firstname = e.target.value;}}/>
+                    <TextInput id='input-first-name' className={boxStyle.updateInput} maxLength="127" onChange={(e) => {inputs.firstname = e.target.value;}}/>
                     <br />
                     <label htmlFor='input-last-name' className={boxStyle.signUpLabel}>Last name</label>
-                    <TextInput id='input-last-name' maxLength="127" onChange={(e) => {inputs.lastname = e.target.value; }}/>
+                    <TextInput id='input-last-name' className={boxStyle.updateInput} maxLength="127" onChange={(e) => {inputs.lastname = e.target.value; }}/>
                     <br />
                     <label htmlFor='input-user-name' className={boxStyle.signUpLabel}>User name</label>
-                    <TextInput id='input-user-name' maxLength="127" onChange={(e) => {inputs.username = e.target.value; }}/>
+                    <TextInput id='input-user-name' className={boxStyle.updateInput} maxLength="127" onChange={(e) => {inputs.username = e.target.value; }}/>
                     <br />
                     <button type='submit' className={boxStyle.formbutton}>Submit</button>
                 </form>
-                <button className={`${boxStyle.formbutton} button`} style={{backgroundColor: '#ee2222', color: 'white'}}>Delete Account</button>
+                <button className={`${boxStyle.formbutton} ${boxStyle.deleteBtn} button `} style={{backgroundColor: '#ee2222', color: 'white', margin: '20px 0 0 0'}}>Delete Account</button>
                 <div>
                     {errormessage}
                 </div>
