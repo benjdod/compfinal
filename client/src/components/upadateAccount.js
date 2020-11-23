@@ -8,33 +8,34 @@ import boxStyle from "../components/modules/boxUpdate.module.css";
 // convenience methods
 
 const TextInput = (props) => {
-
     return <input {...props} 
         maxLength = {props.maxLength || "127"} 
         type='text' 
         spellCheck='false'
+        defaultValue={props.defaultValue || ''}
         />
 }
 
-export default () => {
+export default (props) => {
 
     // maintain inputs as an object for submission. Each entry will be updated by 
     // its corresponding input on change.
+
+    const userData = props.userData || {};
+
     let inputs = {
-        username: '',
-        firstname: '',
-        lastname: '',
+        username: userData.username || '',
+        firstname: userData.firstname || '',
+        lastname: userData.lastname || '',
     }
 
     const [error, setError] = useState('');
-
-    const history = useHistory();
 
     const submit = (e) => {
         e.preventDefault();
 
         // lol, a valid password....
-        const validate = Validate.register({...inputs, password: 'password!'});
+        const validate = Validate.update(inputs);
 
         if (validate) {
             setError(validate);
@@ -50,7 +51,7 @@ export default () => {
             body: JSON.stringify(inputs),
         }).then(res => {
             console.log(res);
-            //window.location.reload();
+            window.location.reload();
         }).catch(e => {
             console.error(e);
             alert('could not update user info!');
@@ -67,13 +68,13 @@ export default () => {
             <div style={{display: 'inline-block'}}>
                 <form className='children-as-block' onSubmit={submit}>
                     <label htmlFor='input-first-name' className={boxStyle.signUpLabel}>First name</label>
-                    <TextInput id='input-first-name' maxLength="127" onChange={(e) => {inputs.firstname = e.target.value;}}/>
+                    <TextInput id='input-first-name' maxLength="127" defaultValue={inputs.firstname} onChange={(e) => {inputs.firstname = e.target.value;}}/>
                     <br />
                     <label htmlFor='input-last-name' className={boxStyle.signUpLabel}>Last name</label>
-                    <TextInput id='input-last-name' maxLength="127" onChange={(e) => {inputs.lastname = e.target.value; }}/>
+                    <TextInput id='input-last-name' maxLength="127" defaultValue={inputs.lastname} onChange={(e) => {inputs.lastname = e.target.value; }}/>
                     <br />
                     <label htmlFor='input-user-name' className={boxStyle.signUpLabel}>User name</label>
-                    <TextInput id='input-user-name' maxLength="127" onChange={(e) => {inputs.username = e.target.value; }}/>
+                    <TextInput id='input-user-name' maxLength="127" defaultValue={inputs.username} onChange={(e) => {inputs.username = e.target.value; }}/>
                     <br />
                     <button type='submit' className={boxStyle.formbutton}>Submit</button>
                 </form>

@@ -22,7 +22,6 @@ export default () => {
     const location = useLocation();
     const history = useHistory();
 
-
     if (location.state)
         if (location.state.message) {
             setNavMessage(
@@ -118,7 +117,7 @@ export default () => {
             </div>
 
             <div style={{visibility: editing ? 'visible': 'hidden'}}>
-                <UpdateAccount/>
+                <UpdateAccount userData={details}/>
             </div>
 
         </div>

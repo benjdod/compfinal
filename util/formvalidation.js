@@ -75,6 +75,35 @@ const login = (inputs) => {
     return username(inputs.username) || password(inputs.password);
 }
 
+const update = (inputs) => {
+
+    // Geez....
+
+    let out = null;
+
+    if (inputs.username)
+        out = username(inputs.username)
+
+    if (out) return out;
+    
+    if (inputs.firstname)
+        out = firstname(inputs.firstname)
+
+        if (out) return out;
+
+
+    if (inputs.lastname)
+        out = lastname(inputs.lastname)
+
+        if (out) return out;
+
+    
+    if (inputs.password)
+        out = password(inputs.password)
+    
+    return out;
+}
+
 module.exports = {
     username: username,
     name: nameChars,
@@ -83,4 +112,5 @@ module.exports = {
     password: password,
     register: register,
     login: login,
+    update: update,
 }
