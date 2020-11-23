@@ -6,6 +6,7 @@ import PageFrame from "../components/pageframe.js";
 import listStyle from "../components/modules/hlist.module.css";
 import loadingStyle from "../components/modules/loading.module.css";
 import loading from "../images/maginfyingGlass.gif"
+import error from "../images/frownyface3.png"
 
 const APIKEY = 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc';
 
@@ -25,7 +26,8 @@ export class News extends React.Component{
       usaNews: [],
       worldNews: [],
       isLoading: true,
-      location: ""
+      location: "",
+      error: false
     }
     this.getLocation = this.getLocation.bind(this);
   }
@@ -55,30 +57,12 @@ componentDidMount() {
     this.setState({
       localNews: response.data.value
     })
-  }).catch(error => console.log(error));
-
-  axios({
-    method: 'GET',
-    url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
-    params: {
-      pageSize: '50',
-      q: 'coronavirus north carolina',
-      autoCorrect: 'true',
-      pageNumber: '1',
-      toPublishedDate: 'null',
-      fromPublishedDate: 'null',
-      withThumbnails: 'true'
-    },
-    headers: {
-      'x-rapidapi-key': 'e1609839b7mshbeec556ba3a5b6dp1d7311jsn10f13f0e49bc',
-      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
-    }
-  }).then(response => {
-    this.setState({
-      localNews: response.data.value
-    })
   }).catch(error => {
-    console.log(error);
+    if (error.response.status === 429) {
+      this.setState({
+        error: true
+      })
+    }
   });
 
   axios({
@@ -101,7 +85,13 @@ componentDidMount() {
     this.setState({
       usaNews: response.data.value
     })
-  }).catch(error => console.log(error));
+  }).catch(error => {
+    if (error.response.status === 429) {
+      this.setState({
+        error: true
+      })
+    }
+  });
 
   axios({
     method: 'GET',
@@ -125,7 +115,11 @@ componentDidMount() {
       isLoading: false
     })
   }).catch(error => {
-    console.log(error);
+    if (error.response.status === 429) {
+      this.setState({
+        error: true
+      })
+    };
   })
 
   // trim descripitons
@@ -150,11 +144,20 @@ componentDidMount() {
 
   render() {
     return (
+      this.state.error ? 
+      <PageFrame>
+        <figure>
+          <img className={loadingStyle.error} src={error}></img>
+          <figcaption className={loadingStyle.textError}>Sorry news is not avaliable right now.</figcaption>
+        </figure>
+      </PageFrame> :
       this.state.isLoading ? 
+      <PageFrame>
       <figure>
         <img className = {loadingStyle.loading} src = {loading}></img>
-        <figcaption className={loadingStyle.text}>Loading News...</figcaption>
-        </figure> :
+        <figcaption className={loadingStyle.textLoading}>Loading News...</figcaption>
+        </figure>
+        </PageFrame> :
       <div>
         <PageFrame>
       <h1 className={newsPageStyle.title}>Local News</h1>  
