@@ -16,10 +16,13 @@
 
 .item {
     font-size: 16px;
-    margin: 20px 10px 00px 10px;
+    margin: 20px 0px 0px 10px;
 }
 .push {
     margin-left: auto;
+}
+.account {
+    margin-right: 25px;
 }
 
 .item:hover, .dropItem:hover {

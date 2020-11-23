@@ -25,7 +25,7 @@ export default () => {
                 </div>
             </li>
             <li className={`${navStyle.item} ${navStyle.dropdown}`}>
-                <NavLink className={`${navStyle.item} ${navStyle.dropbtn}`} to="/account">ACCOUNT <img className={navStyle.arrow} src={Arrow} /></NavLink>
+                <NavLink className={`${navStyle.item} ${navStyle.dropbtn} ${navStyle.account}`} to="/account">ACCOUNT <img className={navStyle.arrow} src={Arrow} /></NavLink>
                 <div className={navStyle.dropdownContent}>
                     <NavLink className={`${navStyle.item} ${navStyle.dropItem}`} to="#">LOG OUT</NavLink>
                 </div>
