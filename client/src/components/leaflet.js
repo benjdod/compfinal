@@ -31,6 +31,8 @@ export default (props) => {
 
     const [globalMap, setMap] = useState(null);
 
+    const [ overlayLayer, setOverlayLayer ] = useState(null);
+
     //const [markerHandler, setMarkerHandler] = useState(() => {});
 
     const setLatLng = props.setLatLng && props.useMarker ? props.setLatLng : () => {};
@@ -38,10 +40,6 @@ export default (props) => {
     const overlayData = props.overlayData || {};
     const overlayColors = props.overlayColors || {};
     const tooltipData = props.tooltipData || {};
-
-    useEffect(() => {
-        console.log('dependent changed');
-    }, [props.winky])
 
     useEffect(() => {
 
@@ -52,8 +50,6 @@ export default (props) => {
             zoomDelta: 1,
             wheelPxPerZoomLevel: 60,   // this is the defeault
         });
-
-        //setMap(map);
 
         const MAPBOX_TOKEN = 'pk.eyJ1IjoicmFjaGVsdzAwIiwiYSI6ImNrZ29hdXJoODBhNGQyc3F5MG1rOTU4aW8ifQ.1v3yLXjR8-vD5RnaKkOJkw'; // Set your mapbox token here
 
@@ -122,74 +118,93 @@ export default (props) => {
             setMarker(e.latlng)
         })
 
+        setMap(map);
+
+        console.log('new map: ', map);
         //fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
-        if (props.useOverlay)
-            fetch('/api/statesgeojson-base')
-            .then(res => res.json())
-            .then(res => {
-                // https://leafletjs.com/reference-1.7.1.html#geojson
-
-                const loadedGeo = res;
-
-                loadedGeo.features.forEach((feature,idx) => {
-                    const overlayDatum = overlayData[feature.properties.STATE];
-
-                    if (overlayDatum)
-                        loadedGeo.features[idx].properties.overlayDatum = overlayDatum;
-
-                    const tooltipDatum = tooltipData[feature.properties.STATE];
-                    if (tooltipDatum)
-                        loadedGeo.features[idx].properties.tooltipDatum = tooltipDatum;
-                })
-
-                const geoLayer = L.geoJSON(loadedGeo, {
-                    onEachFeature: (feature, layer) => {
-
-                        layer.on('click', e => {
-                            console.log('clicked on state', feature.properties.NAME);
-                        })
-
-                        if (true) {
-                            layer.on('mouseover', e => {
-                                const layer = e.target;
-                                layer.setStyle({
-                                    fillOpacity: 0.5,
-                                })
-                            })
-
-                            layer.on('mouseout', e => {
-                                geoLayer.resetStyle(e.target);
-                            })
-                        }
-                        
-                        let popupItemList = ''
-                        for (const key in feature.properties.tooltipDatum) {
-                            popupItemList += `<strong>${key}:</strong> ${feature.properties.tooltipDatum[key]}<br/>`
-                        }
-
-                        const popupText = `<div>
-                            ${popupItemList}
-                            </div>
-                            `
-
-                        layer.bindTooltip(popupText, {
-                            direction: 'left',
-                        })
-                    },
-                    style: (feature) => {
-                        return feature.properties.overlayDatum ? {
-                            color: uniGradient(feature.properties.overlayDatum, overlayColors.min, overlayColors.max),
-                            weight: 1,
-                            fillOpacity: 0.2,
-                        } : {fillOpacity: 0, weight: 1}
-                    }
-                }).addTo(map);
-            }).catch(e => {
-                console.log('error fetching geojson!');
-                console.error(e)
-            })
+        
     }, [])
 
+    useEffect(() => {
+
+        if (!globalMap) return;
+
+        if (overlayLayer) {
+            console.log(globalMap.hasLayer(overlayLayer));
+            globalMap.removeLayer(overlayLayer);
+        }
+
+        if (props.useOverlay)
+        fetch('/api/statesgeojson-base')
+        .then(res => res.json())
+        .then(res => {
+            // https://leafletjs.com/reference-1.7.1.html#geojson
+
+            const loadedGeo = res;
+
+            loadedGeo.features.forEach((feature,idx) => {
+                const overlayDatum = overlayData[feature.properties.STATE];
+
+                if (overlayDatum)
+                    loadedGeo.features[idx].properties.overlayDatum = overlayDatum;
+
+                const tooltipDatum = tooltipData[feature.properties.STATE];
+                if (tooltipDatum)
+                    loadedGeo.features[idx].properties.tooltipDatum = tooltipDatum;
+            })
+
+            const geoLayer = L.geoJSON(loadedGeo, {
+                onEachFeature: (feature, layer) => {
+
+                    layer.on('click', e => {
+                        console.log('clicked on state', feature.properties.NAME);
+                    })
+
+                    if (true) {
+                        layer.on('mouseover', e => {
+                            const layer = e.target;
+                            layer.setStyle({
+                                fillOpacity: 0.5,
+                            })
+                        })
+
+                        layer.on('mouseout', e => {
+                            geoLayer.resetStyle(e.target);
+                        })
+                    }
+                        
+                    let popupItemList = ''
+                    for (const key in feature.properties.tooltipDatum) {
+                        popupItemList += `<strong>${key}:</strong> ${feature.properties.tooltipDatum[key]}<br/>`
+                    }
+
+                    const popupText = `<div>
+                        ${popupItemList}
+                        </div>
+                        `
+
+                    layer.bindTooltip(popupText, {
+                        direction: 'left',
+                    })
+                },
+                style: (feature) => {
+                    return feature.properties.overlayDatum ? {
+                        color: uniGradient(feature.properties.overlayDatum, overlayColors.min, overlayColors.max),
+                        weight: 1,
+                        fillOpacity: 0.2,
+                    } : {fillOpacity: 0, weight: 1}
+                }
+            })//.addTo(globalMap);
+
+            setOverlayLayer(null);
+            setOverlayLayer(geoLayer);
+            geoLayer.addTo(globalMap);
+            console.log('set overlay layer');
+        }).catch(e => {
+            console.log('error fetching geojson!');
+            console.error(e)
+        })
+    }, [props.overlayData])
 
     return (
         <div>

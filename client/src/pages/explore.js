@@ -17,7 +17,7 @@ export default () => {
 
         let deltaType = fields.deltaType || overlayOptions.deltaType;
         let countType = fields.countType || overlayOptions.countType;
-        let normalize = fields.normalize || overlayOptions.normalize;
+        let normalize = fields.normalize !== undefined ? fields.normalize : overlayOptions.normalize;
 
         setOverlayOptions({
             deltaType: deltaType,
@@ -29,9 +29,11 @@ export default () => {
 
         const targetDelta = deltaType === '7d' ? 0 : deltaType === '14d' ? 1 : 2;
 
-        console.log('target data idx: ', targetDelta);
-
         const targetCount = countType === 'cases' ? 0 : 1;  // idx[0] for cases, 1 for deaths
+
+        const shouldNormalize = normalize;
+
+        console.log(shouldNormalize);
 
         fetch('/api/statecurrent')
         .then(res => res.json())
@@ -54,22 +56,34 @@ export default () => {
             let colorMax = 0;
             for (const key in res) {
                 const pop = tooltipData[key] ? tooltipData[key].Population : null
-                let x = 0
-                if (pop) {
-                    x = res[key][targetDelta][targetCount] / pop;
-                    if (x > colorMax) colorMax = x;
-                    od[key] = normalize ? x : res[key][targetDelta][targetCount]
+                let x = 0;
+
+                console.log('shold normalize saw', normalize);
+                if (normalize) {
+                    console.log('making noramlized data');
+                    if (pop) {
+                        x = res[key][targetDelta][targetCount] / pop;
+                        if (x > colorMax) colorMax = x;
+                        od[key] = normalize ? x : res[key][targetDelta][targetCount]
+                    }
+                } else {
+                    console.log('making non-normalized ata');
+                    if (res[key][targetDelta][targetCount] > colorMax)
+                        colorMax = res[key][targetDelta][targetCount];
+                    od[key] = res[key][targetDelta][targetCount]
                 }
             }
 
             console.log(od);
 
-            colorMax *= 0.9;
+            colorMax *= 1;
 
-            setLeaflet(null);
+            console.log('color max: ', colorMax);
+
+            //setLeaflet(null);
             setLeaflet(<Leaflet useOverlay winky overlayData={od} tooltipData={tooltipData} overlayColors={{type: 'uni', min: 0, max: colorMax}} width="100%" height="60vh"/>)
-            if (forceUpdate)
-                setShouldUpdate(true);
+            //if (forceUpdate)
+                //setShouldUpdate(false);
             console.log(leaflet);
         }).catch(e => {
             console.error(e);
@@ -83,18 +97,37 @@ export default () => {
             normalize: true,
         }, false);
     }, [shouldUpdate])
+
+    useEffect(() => {
+        renderDeltaOverlay({
+            deltaType: '7d',
+            countType: 'cases',
+            normalize: true,
+        }, false);
+    }, [])
     
     return (
         <PageFrame gutter="0">
             {leaflet}
             <select onChange={e => {
-                console.log('select onchange!');
                 renderDeltaOverlay({deltaType: e.target.value}, true);
             }}>
                 <option value="7d">7 day change</option>
                 <option value="14d">14 day change</option>
                 <option value="28d">28 day change</option>
             </select>
+            {<select onChange={e => {
+                renderDeltaOverlay({countType: e.target.value}, true);
+            }}>
+                <option value="cases">Cases</option>
+                <option value="deaths">Deaths</option>
+            </select>}
+            {<select onChange={e => {
+                renderDeltaOverlay({normalize: e.target.value === 'true'}, true);
+            }}>
+                <option value="true">Normalized</option>
+                <option value="false">Absolute</option>
+            </select>}
         </PageFrame>
     )
 }
