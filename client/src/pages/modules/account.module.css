@@ -15,3 +15,21 @@
 .flexItem {
     width: 50%;
 }
+
+.header {
+    font-size: 24px;
+    font-weight: 200;
+}
+
+.greyBtn {
+    background-color: #EEEEEE;
+    border-radius: 10%;
+    padding: 10px;
+    border: none;
+    margin-top: 20px;
+}
+.greyBtn:hover {
+    background-color: #d3d3d3;
+    transition: 0.2s ease;
+    cursor: pointer;
+}

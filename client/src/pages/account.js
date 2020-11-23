@@ -90,14 +90,14 @@ export default () => {
 
     const userDetails = (
         <div>
-            <h2>{details.firstname} {details.lastname}</h2>
-            <h4>{details.username}</h4>
+            <p className={localStyle.header}>Name:&nbsp; <strong>{details.firstname} {details.lastname}</strong></p>
+            <p className={localStyle.header}>Username:&nbsp; <strong>{details.username}</strong></p>
         </div>
     )
 
     const quizDetails = (
         <div>
-            <h3>Quizzes:</h3>
+            <p className={localStyle.header}>Quizzes:</p>
             {quizzes}
         </div>
     )
@@ -111,7 +111,7 @@ export default () => {
     const right = (
         <div className={localStyle.flexItem}>
             <div className={localStyle.flexBox}>
-                <div className="button" onClick={(e) => {
+                <div className="button" className={localStyle.greyBtn} onClick={(e) => {
                     e.preventDefault();
                     showEditing(true);
                 }}>Edit Details</div>
@@ -133,11 +133,3 @@ export default () => {
         </PageFrame>
     )
 }
-
-// export function showForm() {
-//     return (
-//         <div className={localStyle.updateForm}>
-//             <p>something</p>
-//         </div>
-//     )
-// };
