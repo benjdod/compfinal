@@ -221,6 +221,14 @@ a {
     transition: 0.2s ease;
     cursor: pointer;
 }
+.redBtn {
+    background-color: #ee2222;
+    color: white;
+    margin: 20px 0 0 0;
+}
+.redBtn:hover {
+    background-color: #c91818 ;
+}
 
 #root {
     height: 100%;

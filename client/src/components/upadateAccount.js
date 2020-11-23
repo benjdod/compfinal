@@ -78,7 +78,7 @@ export default (props) => {
                     <br />
                     <button type='submit' className={boxStyle.formbutton}>Submit</button>
                 </form>
-                <button className={`${boxStyle.formbutton} ${boxStyle.deleteBtn} button `} style={{backgroundColor: '#ee2222', color: 'white', margin: '20px 0 0 0'}}>Delete Account</button>
+                <button className={`${boxStyle.formbutton} button redBtn`} >Delete Account</button>
                 <div>
                     {errormessage}
                 </div>
