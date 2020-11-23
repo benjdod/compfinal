@@ -8,8 +8,20 @@
     padding-top: 150px;
 }
 
-.text {
-    padding-left: 590px;
+.textLoading {
+    padding-left: 450px;
     font-family: 'Open Sans', sans-serif;
 }
 
+.textError{
+    padding-left: 375px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.error{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 100px;
+    background: white;
+}
