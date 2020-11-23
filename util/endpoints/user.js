@@ -131,7 +131,7 @@ router.get('/quizzes/:quizid', async (req,res) => {
 
 // deletes the users' quiz with the specified quiz id. See above!
 router.delete('/quizzes/:quizid', async (req,res) => {
-    deleteQuiz(req.jwtPayload.u, req.params.quizid, res.jwtPayload.k)
+    deleteQuiz(req.jwtPayload.u, req.params.quizid)
         .then(response => {
             console.log(response);
             res.send(`successfully deleted quiz ${req.params.quizid}`);

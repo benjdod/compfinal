@@ -1,0 +1,10 @@
+.noquiz * {
+    color: #999;
+    font-style: italic;
+    font-size: 1.25rem;
+    padding-left: 25px;
+}
+
+.noquiz a {
+    text-decoration: underline;
+}
