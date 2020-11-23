@@ -88,9 +88,9 @@ class Quiz extends React.Component {
                     method: 'post',
                     body: addBody,
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json'  // dummy comment
                     }
-                })
+                }) 
                 return out;
             })
             .then((res) => {
