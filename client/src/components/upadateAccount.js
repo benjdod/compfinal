@@ -40,11 +40,17 @@ export default () => {
             setError(validate);
         }
 
-        fetch('/user', {
+        fetch('/user/details', {
             method: 'put',
-            credentials: 'include'
+            credentials: 'include',
+            cache: 'no-cache',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(inputs),
         }).then(res => {
-            window.location.reload();
+            console.log(res);
+            //window.location.reload();
         }).catch(e => {
             console.error(e);
             alert('could not update user info!');

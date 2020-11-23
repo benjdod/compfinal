@@ -35,17 +35,19 @@ exports.updateUser = async (uid, fields) => {
     const toUpdate = []
 
     if (fields.username)
-        toUpdate.push(`username = ${fields.username}`);
+        toUpdate.push(`username = '${fields.username}'`);
     if (fields.firstname)
-        toUpdate.push(`firstname = ${fields.firstname}`);
+        toUpdate.push(`firstname = '${fields.firstname}'`);
     if (fields.lastname)
-        toUpdate.push(`lastname = ${fields.lastname}`);
+        toUpdate.push(`lastname = '${fields.lastname}'`);
     if (fields.passhash)
-        toUpdate.push(`passhash = ${fields.passhash}`);
+        toUpdate.push(`passhash = '${fields.passhash}'`);
     if (fields.key)
-        toUpdate.push(`key = ${fields.key}`);
+        toUpdate.push(`key = '${fields.key}'`);
 
-    const queryStr = 'update users set ' + toUpdate.join(', ') + `where id = ${uid}`;
+    const queryStr = 'update users set ' + toUpdate.join(', ') + ` where id = ${uid}`;
+
+    console.log('db update users query:', queryStr);
 
     try {
         return await client.query(queryStr);
