@@ -2,6 +2,7 @@
     
     background-color: inherit; /* Fallback color */
     background-color: inherit;
+    
     /*
     position: absolute;
     top: 50%;
@@ -49,14 +50,10 @@
 .updateInput {
     background-color: #f1f1f1;
 }
-/* .deleteBtn {
-    background-color: #ee2222;
-    color: white;
-    margin: 20px 0 0 0;
+.header {
+    font-size: 24px;
+    font-weight: 200;
 }
-.deleteBtn:hover {
-    background-color: #ff4444;
-} */
 
 
 

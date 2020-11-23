@@ -145,9 +145,9 @@ export default (props) => {
 
                         const recentDate = new Date(feature.properties.recent[0]);
                         const popupText = `<div>
-                            date: ${moment(recentDate).format('LL')}<br/>
-                            cases: ${feature.properties.recent[1]}<br/>
-                            deaths: ${feature.properties.recent[2]}
+                            <strong>Date:</strong> ${moment(recentDate).format('LL')}<br/>
+                            <strong>Cases:</strong> ${feature.properties.recent[1]}<br/>
+                            <strong>Deaths:</strong> ${feature.properties.recent[2]}
                             </div>
                             `
 
