@@ -21,13 +21,13 @@ const homebox = (props) => {
     const innerbuttons = loggedIn 
         ? (
             <div className={`${boxStyle.buttonbox}`}>
-                <Link to="/quiz" className="button d-inline-block" >Take a Quiz</Link><br/>
-                <Link to="/account" className="button d-inline-block" >Account</Link>
+                <Link to="/quiz" className="button d-inline-block greenBtn">Take a Quiz</Link><br/>
+                <Link to="/account" className="button d-inline-block">Account</Link>
             </div>
         ) : (
             <div className={`${boxStyle.buttonbox}`}>
-                <Link to="/register" className="button d-inline-block" >Sign Up</Link><br/>
-                <Link to="/login" className="button d-inline-block" >Log In</Link>
+                <Link to="/register" className="button d-inline-block greenBtn">Sign Up</Link><br/>
+                <Link to="/login" className="button d-inline-block">Log In</Link>
             </div>
         )
 

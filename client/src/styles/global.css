@@ -202,7 +202,25 @@ a {
     transition: 0.2s ease;
 }
 
+.greenBtn {
+    background-color: rgb(121, 185, 121);
+}
+.greenBtn:hover {
+    background-color: rgb(170, 235, 170);
+}
 
+.greyBtn {
+    background-color: #EEEEEE;
+    border-radius: 10%;
+    padding: 10px;
+    border: none;
+    margin-top: 20px;
+}
+.greyBtn:hover {
+    background-color: #d3d3d3;
+    transition: 0.2s ease;
+    cursor: pointer;
+}
 
 #root {
     height: 100%;
