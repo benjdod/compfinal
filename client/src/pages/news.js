@@ -30,122 +30,14 @@ export class News extends React.Component{
       error: false
     }
     this.getLocation = this.getLocation.bind(this);
+    this.getGlobalNews = this.getGlobalNews.bind(this);
+    this.getLocalNews = this.getLocalNews.bind(this);
+    this.getNationalNews = this.getNationalNews.bind(this);
+    this.error = this.error.bind(this);
   }
 
 componentDidMount() {
-
-  navigator.geolocation.getCurrentPosition(this.getLocation, (error=>console.log(error)), 
-  {timeout: 5000});
-
-  setTimeout(() => {
-    console.log(this.state);
-    if(this.state.useLocation) {
-  axios({
-    method: 'GET',
-    url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
-    params: {
-      pageSize: '50',
-      q: `coronavirus ${this.state.location}`,
-      autoCorrect: 'true',
-      pageNumber: '1',
-      toPublishedDate: 'null',
-      fromPublishedDate: 'null',
-      withThumbnails: 'true'
-    },
-    headers: {
-      'x-rapidapi-key': APIKEY,
-      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
-    }
-  }).then(response => {
-    this.setState({
-      localNews: response.data.value,
-      isLoading: false
-    })
-  }).catch(error => {
-    console.log(error);
-      this.setState({
-        error: true
-      }) 
-  });
-}
-  axios({
-    method: 'GET',
-    url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
-    params: {
-      pageSize: '50',
-      q: 'coronavirus united states',
-      autoCorrect: 'true',
-      pageNumber: '1',
-      toPublishedDate: 'null',
-      fromPublishedDate: 'null',
-      withThumbnails: 'true'
-    },
-    headers: {
-      'x-rapidapi-key': APIKEY,
-      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
-    }
-  }).then(response => {
-    this.setState({
-      usaNews: response.data.value
-    })
-  }).catch(error => {
-    console.log(error);
-      this.setState({
-        error: true
-      })
-  });
-
-  axios({
-    method: 'GET',
-    url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
-    params: {
-      pageSize: '50',
-      q: 'coronavirus global',
-      autoCorrect: 'true',
-      pageNumber: '1',
-      toPublishedDate: 'null',
-      fromPublishedDate: 'null',
-      withThumbnails: 'true'
-    },
-    headers: {
-      'x-rapidapi-key': APIKEY,
-      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
-    }
-  }).then(response => {
-    if(!this.state.useLocation) {
-    this.setState({
-      worldNews: response.data.value,
-      isLoading: false
-    })
-  } else {
-    this.setState({
-      worldNews: response.data.value
-    });
-  }
-  }).catch(error => {
-    console.log(error);
-      this.setState({
-        error: true
-      });
-  })
-
-  // trim descripitons
-  this.state.localNews.forEach(article =>{
-      let descrip = this.formatDescripiton(article.description, 20);
-      article.description = descrip + '...';
-    }
-      )
-  this.state.usaNews.forEach(article => {
-      let descrip = this.formatDescripiton(article.description, 20);
-      article.description = descrip + '...';
-    })
-  this.state.worldNews.forEach(article => {
-      let descrip = this.formatDescripiton(article.description, 20);
-      article.description = descrip + '...';
-    })
-
-  }, 5000);
-
+  navigator.geolocation.getCurrentPosition(this.getLocation, this.error);
 }
 
   render() {
@@ -283,7 +175,126 @@ componentDidMount() {
       method: 'get',
       credentials: 'include'
   }).then(result => result.json())
-    .then(result => this.setState({location: result.state, useLocation: true}));
+    .then(result => this.setState({location: result.state, useLocation: true}))
+    .then(result => {
+      this.getLocalNews();
+      this.getNationalNews();
+      this.getGlobalNews();
+    })
+  }
+
+  error(error) {
+    this.getNationalNews();
+    this.getGlobalNews();
+  }
+
+  getLocalNews() {
+    axios({
+      method: 'GET',
+      url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
+      params: {
+        pageSize: '50',
+        q: `coronavirus ${this.state.location}`,
+        autoCorrect: 'true',
+        pageNumber: '1',
+        toPublishedDate: 'null',
+        fromPublishedDate: 'null',
+        withThumbnails: 'true'
+      },
+      headers: {
+        'x-rapidapi-key': APIKEY,
+        'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
+      }
+    }).then(response => {
+      this.setState({
+        localNews: response.data.value,
+      });
+      // trim description
+      this.state.localNews.forEach(article =>{
+        let descrip = this.formatDescripiton(article.description, 20);
+        article.description = descrip + '...';
+      });
+    }).catch(error => {
+      console.log(error);
+        this.setState({
+          error: true
+        }) 
+    });
+    }
+
+
+getNationalNews() {
+   axios({
+    method: 'GET',
+    url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
+    params: {
+      pageSize: '50',
+      q: 'coronavirus united states',
+      autoCorrect: 'true',
+      pageNumber: '1',
+      toPublishedDate: 'null',
+      fromPublishedDate: 'null',
+      withThumbnails: 'true'
+    },
+    headers: {
+      'x-rapidapi-key': APIKEY,
+      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
+    }
+  }).then(response => {
+    this.setState({
+      usaNews: response.data.value
+    });
+    // trim description
+    this.state.usaNews.forEach(article => {
+      let descrip = this.formatDescripiton(article.description, 20);
+      article.description = descrip + '...';
+    });
+  }).catch(error => {
+    console.log(error);
+      this.setState({
+        error: true
+      })
+  });
+  // trim descripitons
+  
+  }
+
+
+getGlobalNews() {
+  axios({
+    method: 'GET',
+    url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
+    params: {
+      pageSize: '50',
+      q: 'coronavirus global',
+      autoCorrect: 'true',
+      pageNumber: '1',
+      toPublishedDate: 'null',
+      fromPublishedDate: 'null',
+      withThumbnails: 'true'
+    },
+    headers: {
+      'x-rapidapi-key': APIKEY,
+      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
+    }
+  }).then(response => {
+  this.setState({
+      worldNews: response.data.value,
+      isLoading: false
+    });
+    // trim description
+    this.state.usaNews.forEach(article => {
+      let descrip = this.formatDescripiton(article.description, 20);
+      article.description = descrip + '...';
+    })
+
+  }).catch(error => {
+    console.log(error);
+      this.setState({
+        error: true
+      });
+  })
   }
 }
+
 export default News
