@@ -60,6 +60,9 @@ export default () => {
     }, [])
 
 
+    const editCancelHandler = () => {
+        showEditing(null);
+    }
 
     const userDetails = (
         <div>
@@ -67,7 +70,10 @@ export default () => {
             <p className={localStyle.header}>Username:&nbsp; <strong>{details.username}</strong></p>
             <div className={`button greyBtn`} style={{display: 'inline-block'}} onClick={(e) => {
                 e.preventDefault();
-                showEditing(true);
+                showEditing(
+                <div style={{padding: '25px'}}>
+                    <UpdateAccount userData={details} cancelClick={editCancelHandler}/>
+                </div>);
             }}>Edit Details</div>
         </div>
     )
@@ -86,11 +92,7 @@ export default () => {
         {quizDetails}
     </div>)
 
-    const right = editing ? (
-            <div style={{padding: '25px'}}>
-                <UpdateAccount userData={details}/>
-            </div>
-    ) : null;
+    const right = editing;
 
     return (
         <PageFrame>

@@ -29,6 +29,8 @@ export default (props) => {
         lastname: userData.lastname || '',
     }
 
+    const cancelClick = props.cancelClick ? props.cancelClick : () => {};
+
     const history = useHistory();
 
     const [error, setError] = useState('');
@@ -108,6 +110,14 @@ export default (props) => {
                     <TextInput id='input-user-name' className={boxStyle.updateInput} maxLength="127" defaultValue={inputs.username} onChange={(e) => {inputs.username = e.target.value; }}/>
                     <br />
                     <button type='submit' className={boxStyle.formbutton}>Submit</button>
+                    {
+                        props.cancelClick ? 
+                        <button style={{marginLeft: '15px', backgroundColor: '#ccc'}} className={boxStyle.formbutton} onClick={(e) => {
+                            e.preventDefault();
+                            cancelClick();
+                        }}>Cancel</button> :
+                        null
+                    }
                 </form>
                 <button className={`${boxStyle.formbutton} redBtn button`} onClick={deleteAccountHandler}>Delete Account</button>
                 {passField}
