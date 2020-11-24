@@ -149,7 +149,6 @@ componentDidMount() {
 }
 
   render() {
-    console.log(this.state);
     return (
       this.state.error ? 
      // if error
